@@ -192,4 +192,10 @@ export const handlers = [
     })
     return HttpResponse.json(result)
   }),
+
+  // —— ch42：web-vitals 上报接收（mock）——
+  http.post('*/vitals', () => {
+    // 接收 web-vitals 上报，mock 层仅返回 204
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]
