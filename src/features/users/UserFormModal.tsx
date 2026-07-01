@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import type { User, UserRole, UserStatus, UserCreateInput, UserUpdateInput } from '../../types/user'
+import type { User, UserRole, UserStatus } from '../../types/user'
 
 export interface UserFormValues {
   id?: string

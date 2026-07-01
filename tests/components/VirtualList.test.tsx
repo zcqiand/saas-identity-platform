@@ -15,7 +15,7 @@ const items: Item[] = Array.from({ length: 100 }, (_, i) => ({
 describe('VirtualList', () => {
   it('仅渲染可视行（而非全部 100 行）', () => {
     const { container } = render(
-      <VirtualList
+      <VirtualList<Item>
         items={items}
         height={200}
         itemSize={40}
@@ -32,7 +32,7 @@ describe('VirtualList', () => {
 
   it('renderItem 接收正确 item 与 index', () => {
     const { container } = render(
-      <VirtualList
+      <VirtualList<Item>
         items={items}
         height={200}
         itemSize={40}
@@ -50,7 +50,7 @@ describe('VirtualList', () => {
 
   it('空列表不渲染任何行', () => {
     const { container } = render(
-      <VirtualList
+      <VirtualList<Item>
         items={[]}
         height={200}
         itemSize={40}
@@ -63,7 +63,7 @@ describe('VirtualList', () => {
 
   it('自定义 overscanCount 控制额外渲染行数', () => {
     const { container: c1 } = render(
-      <VirtualList
+      <VirtualList<Item>
         items={items}
         height={200}
         itemSize={40}
@@ -73,7 +73,7 @@ describe('VirtualList', () => {
       />,
     )
     const { container: c3 } = render(
-      <VirtualList
+      <VirtualList<Item>
         items={items}
         height={200}
         itemSize={40}
