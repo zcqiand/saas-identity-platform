@@ -40,16 +40,16 @@ npm run preview          # 预览构建产物
 
 ## 章节映射
 
-> 书稿每个代码块可据此定位到本仓真实文件。ch39-42 状态随进度更新。
+> 书稿每个代码块可据此定位到本仓真实文件。ch39-40 已完成，ch41-42 待后续实现。
 
 | 章 | 主题 | 对应模块 / 源文件 |
 |----|------|------------------|
-| 第39章 | SaaS 多租户架构 | （进行中）`src/types/tenant.ts`、`src/features/tenant/*`、`src/app/router.tsx`、`src/app/layouts/Layout.tsx` |
-| 第40章 | 统一认证与 RBAC | （待实现）`src/features/sso/*`、`src/features/rbac/*`、`src/features/auth/authStore.ts`、`src/api/client.ts` |
+| 第39章 | SaaS 多租户架构 | `src/types/tenant.ts`、`src/features/tenant/TenantContext.tsx`、`src/features/tenant/tenantStore.ts`、`src/features/tenant/TenantLayout.tsx`、`src/features/tenant/TenantSwitcher.tsx`、`src/features/tenant/theme.ts`、`src/app/router.tsx`、`src/app/layouts/Layout.tsx` |
+| 第40章 | 统一认证与 RBAC | `src/features/sso/ssoRedirect.ts`、`src/features/sso/SsoCallback.tsx`、`src/features/rbac/types.ts`、`src/features/rbac/permissionStore.ts`、`src/features/rbac/PermissionGuard.tsx`、`src/features/auth/authStore.ts`、`src/api/client.ts`、`msw/jwt.ts`、`msw/handlers.ts`（/sso/* + /auth/* 部分） |
 | 第41章 | （待后续实现）用户/组织管理 + 虚拟滚动 | — |
 | 第42章 | （待后续实现）测试策略与部署 | — |
 
 ## 版本
 
-- 当前状态：**building**（ch39-40 进行中，ch41-42 待后续实现，未打 tag）
+- 当前状态：**building**（ch39-40 已完成，ch41-42 待后续实现，未打 tag）
 - 仓内开发约定：见 `CLAUDE.md`
