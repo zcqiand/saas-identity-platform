@@ -1,7 +1,20 @@
 import { http, HttpResponse } from 'msw'
-import { listTenants, findTenant, type MockTenant } from './db'
+import {
+  listTenants,
+  findTenant,
+  type MockTenant,
+  insertUser,
+  findUserById,
+  updateUserRecord,
+  deleteUserRecord,
+  queryUsers,
+  getOrgTree,
+  findOrgNode,
+  queryAuditLogs,
+} from './db'
 import { signJwt, verifyJwt } from './jwt'
 import type { Role } from '../src/features/rbac/types'
+import type { UserCreateInput, UserUpdateInput, User } from '../src/types/user'
 
 // MSW handler 注册表。
 // ch39：/tenants GET 列表 + /tenants/:id GET 单个。
@@ -103,5 +116,80 @@ export const handlers = [
         orgId: payload.orgId,
       },
     })
+  }),
+
+  // —— ch41：users CRUD ——
+  http.get('*/users', ({ request }) => {
+    const url = new URL(request.url)
+    const result = queryUsers({
+      page: Number(url.searchParams.get('page') ?? '1'),
+      pageSize: Number(url.searchParams.get('pageSize') ?? '10'),
+      keyword: url.searchParams.get('keyword') ?? undefined,
+      role: url.searchParams.get('role') ?? undefined,
+      status: url.searchParams.get('status') ?? undefined,
+      orgId: url.searchParams.get('orgId') ?? undefined,
+    })
+    return HttpResponse.json(result)
+  }),
+
+  http.post('*/users', async ({ request }) => {
+    const body = (await request.json()) as Partial<UserCreateInput>
+    if (!body.username || !body.displayName || !body.email || !body.orgId || !body.roles) {
+      return HttpResponse.json({ message: 'username/displayName/email/orgId/roles 必填' }, { status: 400 })
+    }
+    const created = insertUser({
+      username: body.username,
+      displayName: body.displayName,
+      email: body.email,
+      orgId: body.orgId,
+      roles: body.roles,
+      status: body.status ?? 'active',
+    })
+    return HttpResponse.json(created as User, { status: 201 })
+  }),
+
+  http.get('*/users/:id', ({ params }) => {
+    const found = findUserById(String(params.id))
+    if (!found) return HttpResponse.json({ message: '用户不存在' }, { status: 404 })
+    return HttpResponse.json(found)
+  }),
+
+  http.put('*/users/:id', async ({ params, request }) => {
+    const id = String(params.id)
+    const body = (await request.json()) as UserUpdateInput
+    const updated = updateUserRecord(id, body)
+    if (!updated) return HttpResponse.json({ message: '用户不存在' }, { status: 404 })
+    return HttpResponse.json(updated)
+  }),
+
+  http.delete('*/users/:id', ({ params }) => {
+    const ok = deleteUserRecord(String(params.id))
+    if (!ok) return HttpResponse.json({ message: '用户不存在' }, { status: 404 })
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // —— ch41：orgs 组织树 ——
+  http.get('*/orgs', ({ request }) => {
+    const url = new URL(request.url)
+    const orgId = url.searchParams.get('orgId')
+    if (orgId) {
+      const sub = findOrgNode(orgId)
+      if (!sub) return HttpResponse.json({ message: '组织不存在' }, { status: 404 })
+      return HttpResponse.json(sub)
+    }
+    return HttpResponse.json(getOrgTree())
+  }),
+
+  // —— ch41：audit-logs 审计日志 ——
+  http.get('*/audit-logs', ({ request }) => {
+    const url = new URL(request.url)
+    const result = queryAuditLogs({
+      page: Number(url.searchParams.get('page') ?? '1'),
+      pageSize: Number(url.searchParams.get('pageSize') ?? '20'),
+      action: url.searchParams.get('action') ?? undefined,
+      operator: url.searchParams.get('operator') ?? undefined,
+      ip: url.searchParams.get('ip') ?? undefined,
+    })
+    return HttpResponse.json(result)
   }),
 ]
