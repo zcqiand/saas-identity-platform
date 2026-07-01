@@ -1,0 +1,89 @@
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { UserFormModal } from '../../../src/features/users/UserFormModal'
+import type { User } from '../../../src/types/user'
+
+const editUser: User = {
+  id: 'u-edit',
+  username: 'edit@acme',
+  displayName: '原用户',
+  email: 'edit@acme.com',
+  orgId: 'org-acme',
+  roles: ['member'],
+  status: 'active',
+  createdAt: '2026-01-01T00:00:00Z',
+  updatedAt: '2026-01-01T00:00:00Z',
+}
+
+describe('UserFormModal', () => {
+  it('create 模式: 标题"新建用户"，表单空', () => {
+    render(<UserFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
+    expect(screen.getByText('新建用户')).toBeInTheDocument()
+    expect((screen.getByLabelText(/用户名/) as HTMLInputElement).value).toBe('')
+  })
+
+  it('edit 模式: 填充 initialValues', () => {
+    render(<UserFormModal open mode="edit" initialValues={editUser} onSubmit={() => {}} onCancel={() => {}} />)
+    expect(screen.getByText('编辑用户')).toBeInTheDocument()
+    expect((screen.getByLabelText(/用户名/) as HTMLInputElement).value).toBe('edit@acme')
+    expect((screen.getByLabelText(/显示名/) as HTMLInputElement).value).toBe('原用户')
+  })
+
+  it('create 提交触发 onSubmit', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
+    await user.type(screen.getByLabelText(/用户名/), 'new@acme')
+    await user.type(screen.getByLabelText(/显示名/), '新建用户')
+    await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
+    await user.type(screen.getByLabelText(/组织ID/), 'org-acme')
+    await user.click(screen.getByRole('button', { name: '保存' }))
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        username: 'new@acme',
+        displayName: '新建用户',
+        email: 'new@acme.com',
+        orgId: 'org-acme',
+        roles: ['member'],
+      }),
+    )
+  })
+
+  it('edit 提交含 id', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    render(<UserFormModal open mode="edit" initialValues={editUser} onSubmit={onSubmit} onCancel={() => {}} />)
+    const nameInput = screen.getByLabelText(/显示名/) as HTMLInputElement
+    await user.clear(nameInput)
+    await user.type(nameInput, '已改名')
+    await user.click(screen.getByRole('button', { name: '保存' }))
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'u-edit', displayName: '已改名' }),
+    )
+  })
+
+  it('必填校验', async () => {
+    const user = userEvent.setup()
+    const onSubmit = vi.fn()
+    render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
+    await user.click(screen.getByRole('button', { name: '保存' }))
+    await waitFor(() => {
+      expect(screen.getByText(/请输入用户名/)).toBeInTheDocument()
+    })
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('点取消触发 onCancel', async () => {
+    const user = userEvent.setup()
+    const onCancel = vi.fn()
+    render(<UserFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
+    await user.click(screen.getByRole('button', { name: '取消' }))
+    expect(onCancel).toHaveBeenCalledTimes(1)
+  })
+
+  it('loading 禁用保存', () => {
+    render(<UserFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
+    expect(screen.getByRole('button', { name: /保存中/ })).toBeDisabled()
+  })
+})
