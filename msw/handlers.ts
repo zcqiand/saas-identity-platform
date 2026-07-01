@@ -41,7 +41,7 @@ export const handlers = [
   // —— ch40：OAuth 回调换 token ——
   http.post('*/auth/oauth/callback', async ({ request }) => {
     const body = (await request.json()) as { code: string; provider?: string }
-    if (!body.code) {
+    if (!body.code || body.code === 'bad-code') {
       return HttpResponse.json({ message: '无效授权码' }, { status: 401 })
     }
     // mock 用户：固定返回 admin@acme
