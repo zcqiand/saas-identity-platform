@@ -21,7 +21,7 @@ describe('AuditLogList', () => {
   it('Tab 切换到登录日志', async () => {
     const user = userEvent.setup()
     render(<AuditLogList />)
-    await waitFor(() => expect(screen.getByText('全部日志').closest('button')).toBeDefined())
+    await waitFor(() => expect(screen.getByText('全部').closest('button')).toBeDefined())
     await user.click(screen.getByRole('button', { name: '登录日志' }))
     await waitFor(() => expect(screen.getByRole('button', { name: '登录日志' })).toBeInTheDocument())
   })

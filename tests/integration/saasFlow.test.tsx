@@ -138,12 +138,10 @@ describe('SaaS 全链路集成测试', () => {
     setToken('mock-token')
     renderAt('/acme/audit')
     await waitFor(() => expect(screen.getByText(/共\s*\d+\s*条/)).toBeInTheDocument())
-    // action 筛选
-    await user.selectOptions(screen.getByLabelText(/操作类型/), 'login')
+    // 筛选：通过 Tab 切换到登录日志
+    await user.click(screen.getByRole('button', { name: '登录日志' }))
     await waitFor(() => {
-      expect(
-        usePermissionStore.getState(), // 借用 store 检查不影响
-      ).toBeDefined()
+      expect(screen.getByRole('button', { name: '登录日志' })).toBeInTheDocument()
     })
   })
 })
