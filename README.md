@@ -119,16 +119,16 @@ npx lighthouse http://localhost:3000 --output html --output-path ./lighthouse-re
 
 ## 章节映射
 
-> 书稿每个代码块可据此定位到本仓真实文件。ch39-42 全部完成。
+> 书稿每个代码块可据此定位到本仓真实文件。v1.2-001 tag（ch39-42 全部完成）。
 
 | 章 | 主题 | 对应模块 / 源文件 |
 |----|------|------------------|
-| 第39章 | SaaS 多租户架构 | `src/types/tenant.ts`、`src/features/tenant/TenantContext.tsx`、`src/features/tenant/tenantStore.ts`、`src/features/tenant/TenantLayout.tsx`、`src/features/tenant/TenantSwitcher.tsx`、`src/features/tenant/theme.ts`、`src/app/router.tsx`、`src/app/layouts/Layout.tsx` |
-| 第40章 | 统一认证与 RBAC | `src/features/sso/ssoRedirect.ts`、`src/features/sso/SsoCallback.tsx`、`src/features/rbac/types.ts`、`src/features/rbac/permissionStore.ts`、`src/features/rbac/PermissionGuard.tsx`、`src/features/auth/authStore.ts`、`src/api/client.ts`、`msw/jwt.ts`、`msw/handlers.ts`（/sso/* + /auth/* 部分） |
-| 第41章 | 用户管理与审计 | `src/types/user.ts`、`src/features/users/userStore.ts`、`src/features/users/UserList.tsx`、`src/features/users/UserFormModal.tsx`、`src/features/orgs/OrgTree.tsx`、`src/features/audit/auditStore.ts`、`src/features/audit/AuditLogList.tsx`、`src/components/VirtualList.tsx`、`src/components/ConfirmModal.tsx`、`msw/db.ts`（userTable/orgTree/auditLogTable）、`msw/handlers.ts`（/users + /orgs + /audit-logs 部分） |
-| 第42章 | 全栈部署与监控 | `src/monitoring/sentry.ts`、`src/monitoring/web-vitals.ts`、`src/monitoring/index.ts`、`src/test/e2e-smoke.test.tsx`、`tests/integration/saasFlow.test.tsx`、`deploy/nginx.conf`、`Dockerfile`、`.github/workflows/ci.yml`、`src/main.tsx`（initMonitoring） |
+| ch39 | SaaS 多租户架构 | `src/types/tenant.ts`、`src/features/tenant/TenantContext.tsx`、`src/features/tenant/tenantStore.ts`、`src/features/tenant/TenantLayout.tsx`、`src/features/tenant/TenantSwitcher.tsx`、`src/features/tenant/theme.ts`、`src/app/router.tsx`、`src/app/layouts/Layout.tsx`、`src/app/layouts/PlatformLayout.tsx` |
+| ch40 | 统一认证与 RBAC | `src/features/sso/ssoRedirect.ts`、`src/features/sso/SsoCallback.tsx`、`src/features/rbac/types.ts`、`src/features/rbac/roleStore.ts`、`src/features/rbac/RoleList.tsx`、`src/features/rbac/RoleFormModal.tsx`、`src/features/rbac/MenuPermissions.tsx`、`src/features/permissionGroups/PermissionGroupList.tsx`、`src/features/permissionGroups/permissionGroupStore.ts`、`src/features/positions/PositionList.tsx`、`src/features/positions/positionStore.ts`、`src/features/userGroups/UserGroupList.tsx`、`src/features/userGroups/userGroupStore.ts`、`src/features/apiKeys/ApiKeyList.tsx`、`src/features/apiKeys/apiKeyStore.ts`、`src/features/apps/AppList.tsx`、`src/features/apps/MenuList.tsx`、`src/features/apps/appStore.ts`、`src/features/auth/authStore.ts`、`msw/jwt.ts`、`msw/handlers.ts` |
+| ch41 | 用户管理与审计 | `src/types/user.ts`、`src/features/users/userStore.ts`、`src/features/users/UserList.tsx`、`src/features/users/UserFormModal.tsx`、`src/features/orgs/OrgNodeFormModal.tsx`、`src/features/orgs/OrgTree.tsx`、`src/features/orgs/orgStore.ts`、`src/features/audit/auditStore.ts`、`src/features/audit/AuditLogList.tsx`、`src/components/VirtualList.tsx`、`src/components/ConfirmModal.tsx`、`msw/db.ts`、`msw/handlers.ts` |
+| ch42 | 全栈部署与监控 | `src/monitoring/sentry.ts`、`src/monitoring/web-vitals.ts`、`src/monitoring/index.ts`、`src/pages/LoginMethods.tsx`、`src/pages/LoginSecurity.tsx`、`src/pages/NotificationConfig.tsx`、`src/pages/OpenPlatform.tsx`、`src/pages/PasswordPolicy.tsx`、`src/pages/PlatformConfig.tsx`、`src/pages/PlatformTenants.tsx`、`src/pages/RiskControl.tsx`、`src/pages/TokenConfig.tsx`、`src/test/e2e-smoke.test.tsx`、`tests/integration/saasFlow.test.tsx`、`deploy/nginx.conf`、`Dockerfile`、`.github/workflows/ci.yml`、`src/main.tsx` |
 
 ## 版本
 
-- 当前状态：**tagged**（ch39-42 全部完成，tag `v1.0-001`）
+- 当前状态：**v1.2-001 tagged**（ch39-42 + v2.0 全部完成）
 - 仓内开发约定：见 `CLAUDE.md`
