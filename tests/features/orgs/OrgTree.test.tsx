@@ -1,11 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { OrgTree } from '../../../src/features/orgs/OrgTree'
+import { useOrgStore } from '../../../src/features/orgs/orgStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
 
 beforeEach(() => {
   localStorage.clear()
+  useOrgStore.setState({ tree: null, loading: false, error: null })
   resetApiClient()
   setToken('mock-token')
 })
@@ -62,5 +64,71 @@ describe('OrgTree', () => {
     await waitFor(() => expect(screen.getByText('技术部')).toBeInTheDocument())
     await user.click(screen.getByText('技术部'))
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: 'org-tech', name: '技术部' }))
+  })
+
+  // —— ch43：组织架构维护（只增不改）——
+  it('新增根部门按钮存在', async () => {
+    render(<OrgTree />)
+    await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
+    expect(screen.getByRole('button', { name: '新增根部门' })).toBeInTheDocument()
+  })
+
+  it('hover 节点显示操作按钮', async () => {
+    const user = userEvent.setup()
+    render(<OrgTree />)
+    await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
+    const rootRow = screen.getByText('ACME 集团').closest('[data-org-node]') as HTMLElement
+    await user.hover(within(rootRow).getByText('ACME 集团'))
+    // 根节点行内渲染了"添加子部门"按钮（在 DOM 中存在，非 visibility）
+    expect(within(rootRow).getAllByText('+子部门').length).toBeGreaterThan(0)
+  })
+
+  it('新增子部门流程', async () => {
+    const user = userEvent.setup()
+    render(<OrgTree />)
+    await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
+
+    const rootRow = screen.getByText('ACME 集团').closest('[data-org-node]') as HTMLElement
+    await user.hover(within(rootRow).getByText('ACME 集团'))
+    await user.click(within(rootRow).getAllByText('+子部门')[0])
+
+    expect(screen.getByText('新增子部门')).toBeInTheDocument()
+    await user.type(screen.getByRole('textbox'), '新部门XYZ')
+    await user.click(screen.getByRole('button', { name: '保存' }))
+
+    await waitFor(() => expect(screen.getByText('新部门XYZ')).toBeInTheDocument())
+  })
+
+  it('编辑节点流程', async () => {
+    const user = userEvent.setup()
+    render(<OrgTree />)
+    await waitFor(() => expect(screen.getByText('技术部')).toBeInTheDocument())
+
+    const techRow = screen.getByText('技术部').closest('[data-org-node]') as HTMLElement
+    await user.hover(within(techRow).getByText('技术部'))
+    await user.click(within(techRow).getByText('编辑'))
+
+    expect(screen.getByText('编辑部门')).toBeInTheDocument()
+    const nameInput = screen.getByRole('textbox') as HTMLInputElement
+    await user.clear(nameInput)
+    await user.type(nameInput, '技术研发部')
+    await user.click(screen.getByRole('button', { name: '保存' }))
+
+    await waitFor(() => expect(screen.getByText('技术研发部')).toBeInTheDocument())
+  })
+
+  it('删除节点流程', async () => {
+    const user = userEvent.setup()
+    render(<OrgTree />)
+    await waitFor(() => expect(screen.getByText('销售部')).toBeInTheDocument())
+
+    const salesRow = screen.getByText('销售部').closest('[data-org-node]') as HTMLElement
+    await user.hover(within(salesRow).getByText('销售部'))
+    await user.click(within(salesRow).getByText('删除'))
+
+    expect(screen.getByText('删除确认')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: '确认' }))
+
+    await waitFor(() => expect(screen.queryByText('销售部')).not.toBeInTheDocument())
   })
 })

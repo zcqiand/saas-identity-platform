@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import type { User, UserRole, UserStatus } from '../../types/user'
+import type { User, UserRole, UserStatus, OrgNode } from '../../types/user'
 
 export interface UserFormValues {
   id?: string
@@ -15,16 +15,30 @@ interface UserFormModalProps {
   open: boolean
   mode: 'create' | 'edit'
   initialValues?: Partial<User>
+  /** 组织树数据，用于渲染 orgId 下拉选项；不提供时降级为文本框 */
+  orgTree?: OrgNode
   onSubmit: (values: UserFormValues) => void
   onCancel: () => void
   loading?: boolean
 }
 
-/** 用户表单弹窗：create/edit 复用 */
+/** 将组织树扁平化为 {id, name, depth} 列表 */
+function flattenTree(node: OrgNode, depth = 0): Array<{ id: string; name: string; depth: number }> {
+  const result = [{ id: node.id, name: node.name, depth }]
+  if (node.children) {
+    for (const child of node.children) {
+      result.push(...flattenTree(child, depth + 1))
+    }
+  }
+  return result
+}
+
+/** 用户表单弹窗：create/edit 复用，orgId 有下拉（orgTree）和文本（fallback）两种模式 */
 export function UserFormModal({
   open,
   mode,
   initialValues,
+  orgTree,
   onSubmit,
   onCancel,
   loading = false,
@@ -61,7 +75,7 @@ export function UserFormModal({
     if (!username.trim()) next.username = '请输入用户名'
     if (!displayName.trim()) next.displayName = '请输入显示名'
     if (!email.trim()) next.email = '请输入邮箱'
-    if (!orgId.trim()) next.orgId = '请输入组织ID'
+    if (!orgId.trim()) next.orgId = '请选择组织'
     setErrors(next)
     return Object.keys(next).length === 0
   }
@@ -85,6 +99,8 @@ export function UserFormModal({
       prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role],
     )
   }
+
+  const orgOptions = orgTree ? flattenTree(orgTree) : null
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -125,13 +141,33 @@ export function UserFormModal({
             {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
           </div>
           <div>
-            <label htmlFor="user-org-id" className="block text-sm mb-1 font-medium">组织ID</label>
-            <input
-              id="user-org-id"
-              value={orgId}
-              onChange={(e) => setOrgId(e.target.value)}
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <label htmlFor="user-org-id" className="block text-sm mb-1 font-medium">组织</label>
+            {orgOptions ? (
+              <select
+                id="user-org-id"
+                value={orgId}
+                onChange={(e) => {
+                  setOrgId(e.target.value)
+                  if (errors.orgId) setErrors((prev) => ({ ...prev, orgId: '' }))
+                }}
+                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">请选择组织</option>
+                {orgOptions.map((opt) => (
+                  <option key={opt.id} value={opt.id}>
+                    {'　'.repeat(opt.depth)}{opt.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                id="user-org-id"
+                value={orgId}
+                onChange={(e) => setOrgId(e.target.value)}
+                placeholder="输入组织 ID"
+                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
             {errors.orgId && <p className="text-red-600 text-xs mt-1">{errors.orgId}</p>}
           </div>
           <div>

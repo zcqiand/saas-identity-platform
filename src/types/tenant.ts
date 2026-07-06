@@ -33,3 +33,10 @@ export interface TenantState {
   loading: boolean
   error: string | null
 }
+
+/** 租户创建/更新输入 */
+export interface TenantCreateInput {
+  name: string
+  theme: ThemeConfig
+  config?: { features?: string[]; maxUsers?: number }
+}

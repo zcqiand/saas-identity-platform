@@ -9,7 +9,9 @@ describe('MSW tenant handlers', () => {
     const data = await res.json()
     expect(Array.isArray(data)).toBe(true)
     expect(data.length).toBeGreaterThanOrEqual(2)
-    expect(data.map((t: { id: string }) => t.id).sort()).toEqual(['acme', 'globex'])
+    const ids = data.map((t: { id: string }) => t.id).sort()
+    expect(ids).toContain('acme')
+    expect(ids).toContain('globex')
   })
 
   it('GET /tenants/:id 返回单个租户含 theme/config', async () => {

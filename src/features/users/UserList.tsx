@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useUserStore } from './userStore'
+import { useOrgStore } from '../orgs/orgStore'
 import { UserFormModal, type UserFormValues } from './UserFormModal'
 import { ConfirmModal } from '../../components/ConfirmModal'
 import { PermissionGuard } from '../rbac/PermissionGuard'
@@ -10,6 +11,7 @@ const PAGE_SIZE = 10
 export function UserList() {
   const { list, total, loading, error, fetchUsers, createUser, updateUser, deleteUser } =
     useUserStore()
+  const { tree: orgTree, fetchOrgTree } = useOrgStore()
 
   const [page, setPage] = useState(1)
   const [keyword, setKeyword] = useState('')
@@ -30,8 +32,9 @@ export function UserList() {
 
   useEffect(() => {
     fetchUsers(buildQuery(page))
+    fetchOrgTree()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
+  }, [])
 
   const handleSearch = () => {
     setPage(1)
@@ -41,8 +44,7 @@ export function UserList() {
   const handleRoleChange = (value: UserRole | '') => {
     setRole(value)
     setPage(1)
-    const q: UserQuery = { page: 1, pageSize: PAGE_SIZE, keyword: keyword || undefined, role: value || undefined }
-    fetchUsers(q)
+    fetchUsers({ page: 1, pageSize: PAGE_SIZE, keyword: keyword || undefined, role: value || undefined })
   }
 
   const openCreate = () => {
@@ -236,6 +238,7 @@ export function UserList() {
         open={formOpen}
         mode={formMode}
         initialValues={editing ?? undefined}
+        orgTree={orgTree ?? undefined}
         onSubmit={handleSubmit}
         onCancel={() => setFormOpen(false)}
         loading={submitting}

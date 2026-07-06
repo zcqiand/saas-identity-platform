@@ -67,7 +67,7 @@ describe('UserList', () => {
     await user.type(screen.getByLabelText(/用户名/), 'new@acme')
     await user.type(screen.getByLabelText(/显示名/), '新用户XYZ')
     await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
-    await user.type(screen.getByLabelText(/组织ID/), 'org-acme')
+    await user.selectOptions(screen.getByLabelText(/组织/), 'org-acme')
     await user.click(screen.getByRole('button', { name: '保存' }))
     await waitFor(() => expect(screen.getByText('新用户XYZ')).toBeInTheDocument())
   })

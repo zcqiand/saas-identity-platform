@@ -9,6 +9,7 @@ import { useUserStore } from '../../src/features/users/userStore'
 import { resetApiClient, setToken } from '../../src/api/client'
 import { clearTheme } from '../../src/features/tenant/theme'
 import { useTenantStore } from '../../src/features/tenant/tenantStore'
+import { useOrgStore } from '../../src/features/orgs/orgStore'
 
 const API_BASE = 'http://localhost/api'
 
@@ -37,6 +38,7 @@ beforeEach(() => {
   usePermissionStore.setState({ roles: [], permissions: [], loading: false, error: null })
   useUserStore.setState({ list: [], total: 0, loading: false, error: null })
   useTenantStore.setState({ current: null, list: [], loading: false, error: null })
+  useOrgStore.setState({ tree: null, loading: false, error: null })
   resetApiClient()
   clearTheme()
 })
@@ -71,7 +73,7 @@ describe('SaaS 全链路集成测试', () => {
     })
     setToken('mock-token')
     usePermissionStore.setState({
-      roles: [{ id: 'r1', name: 'admin', permissions: ['user:read', 'user:create', 'user:delete'] }],
+      roles: [{ id: 'r1', name: 'admin', permissions: ['user:read', 'user:create', 'user:delete'], menuPermissions: [] }],
       permissions: ['user:read', 'user:create', 'user:delete'],
       loading: false,
       error: null,
@@ -86,7 +88,7 @@ describe('SaaS 全链路集成测试', () => {
     await user.type(screen.getByLabelText(/用户名/), 'new@acme')
     await user.type(screen.getByLabelText(/显示名/), '新用户集成')
     await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
-    await user.type(screen.getByLabelText(/组织ID/), 'org-acme')
+    await user.selectOptions(screen.getByLabelText(/组织/), 'org-acme')
     await user.click(screen.getByRole('button', { name: '保存' }))
     await waitFor(() => expect(screen.getByText('新用户集成')).toBeInTheDocument())
   })
@@ -101,7 +103,7 @@ describe('SaaS 全链路集成测试', () => {
     })
     setToken('mock-token')
     usePermissionStore.setState({
-      roles: [{ id: 'r2', name: 'viewer', permissions: ['user:read'] }],
+      roles: [{ id: 'r2', name: 'viewer', permissions: ['user:read'], menuPermissions: [] }],
       permissions: ['user:read'],
       loading: false,
       error: null,
