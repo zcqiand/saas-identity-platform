@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router'
 import { TenantLayout } from '../../../src/features/tenant/TenantLayout'
 import { TenantSwitcher } from '../../../src/features/tenant/TenantSwitcher'
 import { useTenantStore } from '../../../src/features/tenant/tenantStore'

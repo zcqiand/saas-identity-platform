@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router'
 import { useAppStore } from './appStore'
 import { ConfirmModal } from '../../components/ConfirmModal'
 import type { MenuItem } from '../../types/app'

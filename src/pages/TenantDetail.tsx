@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router'
 import { useTenantStore } from '../features/tenant/tenantStore'
 
 const FEATURE_OPTIONS = ['sso', 'audit', 'rbac']

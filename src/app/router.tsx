@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, type RouteObject } from 'react-router-dom'
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 import { TenantLayout } from '../features/tenant/TenantLayout'
 import { PlatformLayout } from './layouts/PlatformLayout'
 import Dashboard from '../pages/Dashboard'

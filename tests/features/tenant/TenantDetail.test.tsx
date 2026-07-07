@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router'
 import { useTenantStore } from '../../../src/features/tenant/tenantStore'
 import { resetApiClient } from '../../../src/api/client'
 import TenantDetail from '../../../src/pages/TenantDetail'

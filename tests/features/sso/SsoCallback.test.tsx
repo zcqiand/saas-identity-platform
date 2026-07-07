@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { MemoryRouter, Routes, Route } from 'react-router'
 import { SsoCallback } from '../../../src/features/sso/SsoCallback'
 import { useAuthStore } from '../../../src/features/auth/authStore'
 import { resetApiClient } from '../../../src/api/client'

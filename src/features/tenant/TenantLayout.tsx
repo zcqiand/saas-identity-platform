@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react'
-import { useParams, Outlet } from 'react-router-dom'
+import { useParams, Outlet } from 'react-router'
 import { TenantProvider } from './TenantContext'
 import { useTenantStore } from './tenantStore'
 import { applyTheme, clearTheme } from './theme'

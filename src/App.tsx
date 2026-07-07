@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider } from 'react-router'
 import { router } from './app/router'
 import { setToken } from './api/client'
 import { usePermissionStore } from './features/rbac/permissionStore'
