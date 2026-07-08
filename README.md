@@ -50,6 +50,8 @@ npm run build   # 生产构建
 
 ## 配套书籍及章节映射
 
+电子书籍：[《React从入门到项目实践》](https://www.amazon.com/dp/B0H5DGZM5B)
+
 | 章 | 主题 | 对应源文件 |
 | :--- | :--- | :--- |
 | ch39 | SaaS 多租户架构 | `src/types/tenant.ts`、`src/features/tenant/TenantContext.tsx`、`src/features/tenant/tenantStore.ts` |
