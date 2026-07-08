@@ -1,134 +1,63 @@
-# saas-identity-platform
+# SaaS 多租户身份平台
 
-《React从入门到项目实践》案例二：**SaaS 多租户身份平台**配套可运行工程。`git clone` 后即可跑：
+《React从入门到项目实践》案例二：SaaS 多租户身份平台配套可运行工程。
+
+## 快速开始
 
 ```bash
 npm install
-npm test
+npm test        # 全量测试（无 Key/无 Docker/无网可跑）
+npm run dev     # 本地开发
+npm run build   # 生产构建
 ```
 
-默认 MSW mock 后端 + 前端模拟 JWT + 模拟 OAuth2 授权服务器，无需任何 Key/Docker/网络。
+### Mock 用户
 
-## 技术栈（钉死于项目 `version-lock.json`）
+| 用户名 | 密码 | 角色 | 权限 |
+| :--- | :--- | :--- | :--- |
+| `admin` | `admin123` | admin | 全部权限 |
+| `operator` | `op123` | operator | 受限权限 |
 
-- React 19 + TypeScript 5.6
-- Vite 6 + Tailwind CSS 4
-- React Router 7
-- 状态管理：Zustand 5
-- 测试：Vitest 2 + React Testing Library + jsdom + @vitest/coverage-v8
-- mock：MSW 2（拦截所有 HTTP + OAuth2 授权端点）
-- HTTP：axios 1.x
-- 虚拟滚动：react-window 1.8（ch41）
-- 监控：@sentry/react 8 + web-vitals 4（ch42）
-- Node 20 LTS，npm
+## 功能特性
 
-## 运行
+- **多租户架构**：TenantContext + tenantStore，租户切换器 + 独立主题色配置
+- **统一认证（SSO/OAuth2）**：MSW 模拟 OAuth 授权服务器，多 Provider 支持
+- **RBAC 权限管理**：角色 CRUD + 权限矩阵 MenuPermissions + 权限组/岗位/用户组
+- **用户与组织管理**：用户 CRUD + 递归组织树 + 审计日志分页
+- **虚拟滚动**：react-window 定高虚拟窗口，审计日志超 100 项仅渲染可视区域
+- **API Keys 与应用**：ApiKey 管理 + 应用菜单配置
+- **监控与可观测性**：Sentry（DSN 留空 no-op）+ Web Vitals 采集上报
+- **平台级配置**：登录方式/登录安全/通知配置/开放平台/密码策略/平台配置/风控等
 
-```bash
-npm install              # 安装依赖
-npm test                 # 全量测试（无 Key/无 Docker/无网可跑）
-npm run test:coverage    # 测试 + 覆盖率报告
-npm run dev              # 本地开发（http://localhost:5173）
-npm run build            # 生产构建（tsc -b + vite build）
-npm run preview          # 预览构建产物
-```
+## 技术栈
 
-## mock-friendly 验收
+| 技术 | 版本 |
+| :--- | :--- |
+| React | 19 |
+| TypeScript | 5.6 |
+| Vite | 6 |
+| Tailwind CSS | 4 |
+| React Router | 7 |
+| Zustand | 5 |
+| Vitest | 2 |
+| MSW | 2 |
+| axios | 1.x |
+| react-window | 1.8 |
+| @sentry/react | 8 |
+| Node | 20 LTS |
 
-- `npm install && npm test` 在无 Key、无 Docker、无网下全绿。
-- 所有后端 API（`/tenants/*`、`/auth/*`、`/sso/*`、`/users/*`、`/orgs`、`/audit-logs`）由 MSW handler 拦截。
-- OAuth2 授权服务器（`/sso/authorize`、`/sso/oauth/callback`）由 MSW 模拟。
-- JWT 在 mock 层签发/校验，密钥写死，非生产凭证。
-- Sentry DSN 留空时 init no-op，不引入真实 Key。
-- web-vitals 上报到 `/api/vitals`，由 MSW 拦截。
+> 依赖版本与 `version-lock.json` 的 `version_lock` 一致，不引入 lock 外的库。
 
-## 测试策略与覆盖率
+## 配套书籍及章节映射
 
-### 测试分层
+| 章 | 主题 | 对应源文件 |
+| :--- | :--- | :--- |
+| ch39 | SaaS 多租户架构 | `src/types/tenant.ts`、`src/features/tenant/TenantContext.tsx`、`src/features/tenant/tenantStore.ts` |
+| ch40 | 统一认证与 RBAC | `src/features/sso/ssoRedirect.ts`、`src/features/rbac/roleStore.ts`、`src/features/auth/authStore.ts`、`msw/handlers.ts`、`msw/jwt.ts` |
+| ch41 | 用户管理与审计 | `src/features/users/userStore.ts`、`src/features/orgs/OrgTree.tsx`、`src/components/VirtualList.tsx`、`msw/db.ts` |
+| ch42 | 全栈部署与监控 | `src/monitoring/sentry.ts`、`src/monitoring/web-vitals.ts`、`deploy/nginx.conf`、`Dockerfile`、`.github/workflows/ci.yml` |
 
-| 层级 | 目录 | 说明 |
-|------|------|------|
-| 单元测试 | `tests/types/`、`tests/msw/`、`tests/components/`、`tests/features/*/` | 类型契约、MSW handler、组件、store 隔离测试 |
-| 集成测试 | `tests/integration/` | SaaS 全链路：多租户切换 + SSO 登录 + 权限守卫 + 用户管理 |
-| E2E 冒烟 | `src/test/` | 登录→业务页面→权限验证→租户切换 端到端 |
-| 监控测试 | `tests/monitoring/` | Sentry DSN 空 no-op + web-vitals 采集 |
+## 快速链接
 
-### 覆盖率
-
-```bash
-npm run test:coverage
-```
-
-阈值（`vitest.config.ts`）：Lines/Statements/Functions 80%，Branches 75%。
-
-## 构建与部署
-
-### 本地构建
-
-```bash
-npm run build       # tsc -b + vite build，产物在 dist/
-npm run preview     # 本地预览生产包
-```
-
-### Docker 部署
-
-```bash
-docker build -t saas-identity-platform .
-docker run -p 8080:80 saas-identity-platform
-# 访问 http://localhost:8080
-```
-
-- 多阶段构建：Stage 1 `node:20-alpine` 构建，Stage 2 `nginx:alpine` 托管
-- `deploy/nginx.conf`：SPA `try_files` fallback + `/api/` 反向代理 `backend:8080` + 静态资源缓存 + gzip
-
-### CI（GitHub Actions）
-
-- `.github/workflows/ci.yml`：
-  - `test` job：`npm ci` → `npm test` → `npm run test:coverage` → `npm run build`
-  - `docker-build` job：构建 Docker 镜像验证部署配置
-
-## 监控接入
-
-### Sentry 错误监控
-
-```typescript
-// src/monitoring/sentry.ts
-// DSN 从 import.meta.env.VITE_SENTRY_DSN 读取
-// 留空时 no-op，不引入真实 Key
-initSentry()
-captureError(new Error('something went wrong'))
-```
-
-### Web Vitals 性能采集
-
-```typescript
-// src/monitoring/web-vitals.ts
-// 采集 LCP/CLS/INP/FCP/TTFB，sendBeacon 上报到 /api/vitals
-reportWebVitals()
-```
-
-`main.tsx` 调用 `initMonitoring()` 集成两者。
-
-### Lighthouse 审计
-
-```bash
-npx lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html
-```
-
-目标分：Performance > 90，Accessibility > 90，Best Practices > 90，SEO > 90。
-
-## 章节映射
-
-> 书稿每个代码块可据此定位到本仓真实文件。v1.2-001 tag（ch39-42 全部完成）。
-
-| 章 | 主题 | 对应模块 / 源文件 |
-|----|------|------------------|
-| ch39 | SaaS 多租户架构 | `src/types/tenant.ts`、`src/features/tenant/TenantContext.tsx`、`src/features/tenant/tenantStore.ts`、`src/features/tenant/TenantLayout.tsx`、`src/features/tenant/TenantSwitcher.tsx`、`src/features/tenant/theme.ts`、`src/app/router.tsx`、`src/app/layouts/Layout.tsx`、`src/app/layouts/PlatformLayout.tsx` |
-| ch40 | 统一认证与 RBAC | `src/features/sso/ssoRedirect.ts`、`src/features/sso/SsoCallback.tsx`、`src/features/rbac/types.ts`、`src/features/rbac/roleStore.ts`、`src/features/rbac/RoleList.tsx`、`src/features/rbac/RoleFormModal.tsx`、`src/features/rbac/MenuPermissions.tsx`、`src/features/permissionGroups/PermissionGroupList.tsx`、`src/features/permissionGroups/permissionGroupStore.ts`、`src/features/positions/PositionList.tsx`、`src/features/positions/positionStore.ts`、`src/features/userGroups/UserGroupList.tsx`、`src/features/userGroups/userGroupStore.ts`、`src/features/apiKeys/ApiKeyList.tsx`、`src/features/apiKeys/apiKeyStore.ts`、`src/features/apps/AppList.tsx`、`src/features/apps/MenuList.tsx`、`src/features/apps/appStore.ts`、`src/features/auth/authStore.ts`、`msw/jwt.ts`、`msw/handlers.ts` |
-| ch41 | 用户管理与审计 | `src/types/user.ts`、`src/features/users/userStore.ts`、`src/features/users/UserList.tsx`、`src/features/users/UserFormModal.tsx`、`src/features/orgs/OrgNodeFormModal.tsx`、`src/features/orgs/OrgTree.tsx`、`src/features/orgs/orgStore.ts`、`src/features/audit/auditStore.ts`、`src/features/audit/AuditLogList.tsx`、`src/components/VirtualList.tsx`、`src/components/ConfirmModal.tsx`、`msw/db.ts`、`msw/handlers.ts` |
-| ch42 | 全栈部署与监控 | `src/monitoring/sentry.ts`、`src/monitoring/web-vitals.ts`、`src/monitoring/index.ts`、`src/pages/LoginMethods.tsx`、`src/pages/LoginSecurity.tsx`、`src/pages/NotificationConfig.tsx`、`src/pages/OpenPlatform.tsx`、`src/pages/PasswordPolicy.tsx`、`src/pages/PlatformConfig.tsx`、`src/pages/PlatformTenants.tsx`、`src/pages/RiskControl.tsx`、`src/pages/TokenConfig.tsx`、`src/test/e2e-smoke.test.tsx`、`tests/integration/saasFlow.test.tsx`、`deploy/nginx.conf`、`Dockerfile`、`.github/workflows/ci.yml`、`src/main.tsx` |
-
-## 版本
-
-- 当前状态：**v1.2-001 tagged**（ch39-42 + v2.0 全部完成）
-- 仓内开发约定：见 `CLAUDE.md`
+- [功能规格文档.md](功能规格文档.md) — 功能名称、描述与验收标准
+- [CLAUDE.md](CLAUDE.md) — 开发约定与编码规范
