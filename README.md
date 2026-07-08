@@ -1,6 +1,6 @@
 # SaaS 多租户身份平台
 
-《React从入门到项目实践》案例二：SaaS 多租户身份平台配套可运行工程。
+[《React从入门到项目实践》](https://www.amazon.com/dp/B0H5DGZM5B) 案例二：SaaS 多租户身份平台配套可运行工程。
 
 ## 快速开始
 
@@ -50,7 +50,7 @@ npm run build   # 生产构建
 
 ## 配套书籍及章节映射
 
-电子书籍：[《React从入门到项目实践》](https://www.amazon.com/dp/B0H5DGZM5B)
+购买电子书籍：[《React从入门到项目实践》](https://www.amazon.com/dp/B0H5DGZM5B)
 
 | 章 | 主题 | 对应源文件 |
 | :--- | :--- | :--- |
