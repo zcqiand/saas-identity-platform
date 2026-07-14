@@ -41,7 +41,7 @@ export function MenuPermissions() {
         return next
       })
     }
-  }, [roles]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [roles])  
 
   // When app changes, clear permMap entries for current role so stale menuIds don't persist
   useEffect(() => {
@@ -58,7 +58,7 @@ export function MenuPermissions() {
         return { ...prev, [selectedRoleId]: rolePerms }
       })
     }
-  }, [selectedAppId, selectedRoleId, currentAppMenus]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedAppId, selectedRoleId, currentAppMenus])  
 
   // Helper: get child menu IDs for a given parent
   const getChildren = useCallback(

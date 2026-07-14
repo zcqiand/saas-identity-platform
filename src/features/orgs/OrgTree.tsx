@@ -118,7 +118,10 @@ function OrgFormModal({ open, title, initialName = '', onSubmit, onCancel, loadi
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <form
-        onSubmit={(e) => { e.preventDefault(); name.trim() && onSubmit({ name: name.trim() }) }}
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (name.trim()) onSubmit({ name: name.trim() })
+        }}
         className="bg-white rounded-lg shadow-xl w-[400px]"
       >
         <div className="px-6 py-4 border-b">

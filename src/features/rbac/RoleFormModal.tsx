@@ -63,7 +63,7 @@ export function RoleFormModal({
       }
       setCheckedMenus(checked)
     }
-  }, [open, mode, initialValues]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open, mode, initialValues])  
 
   if (!open) return null
 

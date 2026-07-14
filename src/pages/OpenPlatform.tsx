@@ -2,6 +2,26 @@ import { useEffect, useState } from 'react'
 import { apiClient } from '../api/client'
 import type { OpenPlatformConfig } from '../types/security'
 
+interface ToggleProps {
+  checked: boolean
+  onChange: (v: boolean) => void
+}
+
+/** iOS 风格开关。提到模块顶层以满足 react/no-unstable-nested-components。 */
+function Toggle({ checked, onChange }: ToggleProps) {
+  return (
+    <label className="relative inline-flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="sr-only peer"
+      />
+      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
+    </label>
+  )
+}
+
 export default function OpenPlatformPage() {
   const [config, setConfig] = useState<OpenPlatformConfig | null>(null)
   const [, setSaving] = useState(false)
@@ -21,13 +41,6 @@ export default function OpenPlatformPage() {
   }
 
   if (!config) return <div className="p-8 text-gray-400">加载中...</div>
-
-  const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (
-    <label className="relative inline-flex items-center cursor-pointer">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="sr-only peer" />
-      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-    </label>
-  )
 
   return (
     <div className="space-y-6">

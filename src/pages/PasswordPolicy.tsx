@@ -1,6 +1,26 @@
 import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import { apiClient } from '../api/client'
 import type { PasswordPolicy } from '../types/security'
+
+interface FieldProps {
+  label: string
+  desc?: string
+  children: ReactNode
+}
+
+/** 策略项布局：左 label+desc，右 children。提到模块顶层以满足 react/no-unstable-nested-components。 */
+function Field({ label, desc, children }: FieldProps) {
+  return (
+    <div className="flex items-center justify-between p-3 border rounded">
+      <div>
+        <p className="font-medium text-sm">{label}</p>
+        {desc && <p className="text-xs text-gray-400">{desc}</p>}
+      </div>
+      {children}
+    </div>
+  )
+}
 
 export default function PasswordPolicyPage() {
   const [config, setConfig] = useState<PasswordPolicy | null>(null)
@@ -15,13 +35,6 @@ export default function PasswordPolicyPage() {
   }
 
   if (!config) return <div className="p-8 text-gray-400">加载中...</div>
-
-  const Field = ({ label, desc, children }: { label: string; desc?: string; children: React.ReactNode }) => (
-    <div className="flex items-center justify-between p-3 border rounded">
-      <div><p className="font-medium text-sm">{label}</p>{desc && <p className="text-xs text-gray-400">{desc}</p>}</div>
-      {children}
-    </div>
-  )
 
   return (
     <div className="space-y-6">

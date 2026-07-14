@@ -28,7 +28,7 @@ export function OrgNodeFormModal({
       setName(initialName)
       setError('')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open, initialName])
 
   if (!open) return null

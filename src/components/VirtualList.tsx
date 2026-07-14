@@ -1,4 +1,5 @@
 import { type ReactNode, useMemo } from 'react'
+import type { CSSProperties } from 'react'
 import { FixedSizeList as BaseFixedSizeList } from 'react-window'
 
 interface VirtualListProps<T> {
@@ -10,6 +11,26 @@ interface VirtualListProps<T> {
   overscanCount?: number
   renderItem: (props: { item: T; index: number }) => ReactNode
   className?: string
+}
+
+interface VirtualRowProps<T> {
+  index: number
+  style: CSSProperties
+  data: T[]
+  className?: string
+  renderItem: (props: { item: T; index: number }) => ReactNode
+}
+
+/**
+ * 单行渲染器。提到模块顶层以避免 react/no-unstable-nested-components
+ * （每次 render 重建 component type 会卸载整棵子树）。
+ */
+function VirtualRow<T>({ index, style, data, className, renderItem }: VirtualRowProps<T>) {
+  return (
+    <div style={style} data-virtual-item="true" className={className}>
+      {renderItem({ item: data[index], index })}
+    </div>
+  )
 }
 
 /**
@@ -27,12 +48,6 @@ export function VirtualList<T>({
 }: VirtualListProps<T>) {
   const itemData = useMemo(() => items, [items])
 
-  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => (
-    <div style={style} data-virtual-item="true" className={className}>
-      {renderItem({ item: itemData[index], index })}
-    </div>
-  )
-
   if (items.length === 0) return <div style={{ height, width }} />
 
   return (
@@ -44,7 +59,15 @@ export function VirtualList<T>({
       itemData={itemData}
       overscanCount={overscanCount}
     >
-      {Row}
+      {({ index, style }) => (
+        <VirtualRow
+          index={index}
+          style={style}
+          data={itemData}
+          className={className}
+          renderItem={renderItem}
+        />
+      )}
     </BaseFixedSizeList>
   )
 }
