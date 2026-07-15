@@ -1,0 +1,3302 @@
+{
+  "schema": 1,
+  "tests": [
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/smoke.test.ts::MSW server 实例可创建且 handlers 数组可读",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/smoke.test.ts::mock 租户库默认含 acme 与 globex 两个租户（以及更多）",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/smoke.test.ts::findTenant 按 id 查找租户",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/smoke.test.ts::findTenant 不存在返回 undefined",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/src/test/e2e-smoke.test.tsx::未登录访问 /acme/dashboard 仍渲染租户布局（无权限守卫层）",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/src/test/e2e-smoke.test.tsx::登录后访问各业务页面不报错",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/src/test/e2e-smoke.test.tsx::权限验证：viewer 角色无 user:create 权限",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/src/test/e2e-smoke.test.tsx::租户切换：acme → globex 路径均可达",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/ConfirmModal.test.tsx::open=false 时不渲染",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/ConfirmModal.test.tsx::open=true 渲染 title 与 message",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/ConfirmModal.test.tsx::点击确认触发 onConfirm",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/ConfirmModal.test.tsx::点击取消触发 onCancel",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/ConfirmModal.test.tsx::loading 时确认按钮禁用且文本变化",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/VirtualList.test.tsx::仅渲染可视行（而非全部 100 行）",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/VirtualList.test.tsx::renderItem 接收正确 item 与 index",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/VirtualList.test.tsx::空列表不渲染任何行",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/VirtualList.test.tsx::自定义 overscanCount 控制额外渲染行数",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/sentry.test.ts::DSN 为空时 initSentry no-op，isSentryEnabled 返回 false",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/sentry.test.ts::DSN 非空时 initSentry 不抛错（jsdom 环境下降级处理）",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/sentry.test.ts::captureError 在 Sentry 未启用时不抛错",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/sentry.test.ts::captureError 在 Sentry 启用时不抛错",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/web-vitals.test.ts::reportWebVitals 调用 onLCP/onFID/onCLS（web-vitals 库）",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/web-vitals.test.ts::reportWebVitals 接收自定义 callback",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::多租户切换：acme → globex 主题变量更新",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::SSO 登录 → 权限加载 → 用户管理操作",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::权限守卫：无 user:create 权限时不渲染新增按钮",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::组织架构树渲染与展开",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::审计日志列表渲染 + 筛选",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/jwt.test.ts::signJwt 生成三段式 token",
+      "fns": [
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/jwt.test.ts::verifyJwt 校验有效 token 返回 payload",
+      "fns": [
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/jwt.test.ts::verifyJwt 拒绝篡改 token",
+      "fns": [
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/jwt.test.ts::verifyJwt 拒绝过期 token",
+      "fns": [
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::GET /sso/authorize 返回 302 重定向到 callback 含 code",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::GET /sso/authorize 缺 client_id 返回 400",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::POST /sso/oauth/callback 返回 token + user",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::POST /sso/oauth/callback 无效 code 返回 401",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::GET /auth/permissions?orgId=org-acme 返回该组织的权限集",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::GET /auth/permissions 不同 orgId 返回不同权限",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::GET /auth/me 携带有效 token 返回 user",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/ssoHandlers.test.ts::GET /auth/me 无 token 返回 401",
+      "fns": [
+        "M01.F04.I03",
+        "M01.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/tenantHandlers.test.ts::GET /tenants 返回租户列表",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/tenantHandlers.test.ts::GET /tenants/:id 返回单个租户含 theme/config",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/tenantHandlers.test.ts::GET /tenants/:id 不存在返回 404",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /users 返回分页结构",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::POST /users 创建成功返回 201",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::POST /users 缺必填返回 400",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /users/:id 返回单个用户",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::PUT /users/:id 更新成功",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::DELETE /users/:id 删除成功 204",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /users 支持 keyword 搜索",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /users 支持 role 筛选",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /users 支持 orgId 筛选",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /orgs 返回组织树",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /orgs?orgId=org-acme 返回指定组织子树",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /audit-logs 返回分页日志",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /audit-logs 支持 action 筛选",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /audit-logs 支持 operator 筛选",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/msw/usersHandlers.test.ts::GET /audit-logs 按 timestamp 倒序",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginMethods.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F02.I01",
+        "M06.F02.I02",
+        "M06.F02.I03",
+        "M06.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginMethods.test.tsx::mount 后拉取登录方式数据并渲染",
+      "fns": [
+        "M06.F02.I01",
+        "M06.F02.I02",
+        "M06.F02.I03",
+        "M06.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginMethods.test.tsx::渲染 SSO 提供商",
+      "fns": [
+        "M06.F02.I01",
+        "M06.F02.I02",
+        "M06.F02.I03",
+        "M06.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginMethods.test.tsx::渲染 OAuth2 提供商",
+      "fns": [
+        "M06.F02.I01",
+        "M06.F02.I02",
+        "M06.F02.I03",
+        "M06.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::渲染登录安全相关配置项",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::显示加载状态",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::IP 白名单输入框存在 + onBlur 触发 update",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::IP 黑名单输入框存在 + onBlur 触发 update",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::锁定阈值输入框存在 + onBlur 触发 update",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginSecurity.test.tsx::锁定时长输入框存在 + onBlur 触发 update",
+      "fns": [
+        "M06.F01.I01",
+        "M06.F01.I02",
+        "M06.F01.I03",
+        "M06.F01.I04",
+        "M06.F01.I05",
+        "M06.F01.I06",
+        "M06.F01.I07",
+        "M06.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/NotificationConfig.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F05.I01",
+        "M06.F05.I02",
+        "M06.F05.I03",
+        "M06.F05.I04",
+        "M06.F05.I05",
+        "M06.F05.I06",
+        "M06.F05.I07",
+        "M06.F05.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/NotificationConfig.test.tsx::mount 后拉取配置数据并渲染通知渠道",
+      "fns": [
+        "M06.F05.I01",
+        "M06.F05.I02",
+        "M06.F05.I03",
+        "M06.F05.I04",
+        "M06.F05.I05",
+        "M06.F05.I06",
+        "M06.F05.I07",
+        "M06.F05.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/NotificationConfig.test.tsx::渲染通知触发条件",
+      "fns": [
+        "M06.F05.I01",
+        "M06.F05.I02",
+        "M06.F05.I03",
+        "M06.F05.I04",
+        "M06.F05.I05",
+        "M06.F05.I06",
+        "M06.F05.I07",
+        "M06.F05.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/OpenPlatform.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F07.I01",
+        "M06.F07.I02",
+        "M06.F07.I03",
+        "M06.F07.I04",
+        "M06.F07.I05",
+        "M06.F07.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/OpenPlatform.test.tsx::mount 后拉取配置数据并渲染能力开关",
+      "fns": [
+        "M06.F07.I01",
+        "M06.F07.I02",
+        "M06.F07.I03",
+        "M06.F07.I04",
+        "M06.F07.I05",
+        "M06.F07.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/OpenPlatform.test.tsx::渲染开放范围",
+      "fns": [
+        "M06.F07.I01",
+        "M06.F07.I02",
+        "M06.F07.I03",
+        "M06.F07.I04",
+        "M06.F07.I05",
+        "M06.F07.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/OpenPlatform.test.tsx::渲染回调地址白名单",
+      "fns": [
+        "M06.F07.I01",
+        "M06.F07.I02",
+        "M06.F07.I03",
+        "M06.F07.I04",
+        "M06.F07.I05",
+        "M06.F07.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/PasswordPolicy.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F03.I01",
+        "M06.F03.I02",
+        "M06.F03.I03",
+        "M06.F03.I04",
+        "M06.F03.I05",
+        "M06.F03.I06",
+        "M06.F03.I07",
+        "M06.F03.I08",
+        "M06.F03.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/PasswordPolicy.test.tsx::mount 后拉取配置数据并渲染密码策略项",
+      "fns": [
+        "M06.F03.I01",
+        "M06.F03.I02",
+        "M06.F03.I03",
+        "M06.F03.I04",
+        "M06.F03.I05",
+        "M06.F03.I06",
+        "M06.F03.I07",
+        "M06.F03.I08",
+        "M06.F03.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/PasswordPolicy.test.tsx::渲染当前配置值",
+      "fns": [
+        "M06.F03.I01",
+        "M06.F03.I02",
+        "M06.F03.I03",
+        "M06.F03.I04",
+        "M06.F03.I05",
+        "M06.F03.I06",
+        "M06.F03.I07",
+        "M06.F03.I08",
+        "M06.F03.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/PlatformConfig.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F08.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/PlatformConfig.test.tsx::渲染平台信息",
+      "fns": [
+        "M06.F08.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/PlatformConfig.test.tsx::渲染功能模块列表",
+      "fns": [
+        "M06.F08.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/RiskControl.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F06.I01",
+        "M06.F06.I02",
+        "M06.F06.I03",
+        "M06.F06.I04",
+        "M06.F06.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/RiskControl.test.tsx::mount 后拉取配置数据并渲染风控项",
+      "fns": [
+        "M06.F06.I01",
+        "M06.F06.I02",
+        "M06.F06.I03",
+        "M06.F06.I04",
+        "M06.F06.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/RiskControl.test.tsx::渲染风险评分阈值数值",
+      "fns": [
+        "M06.F06.I01",
+        "M06.F06.I02",
+        "M06.F06.I03",
+        "M06.F06.I04",
+        "M06.F06.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/RiskControl.test.tsx::配置加载前显示加载中",
+      "fns": [
+        "M06.F06.I01",
+        "M06.F06.I02",
+        "M06.F06.I03",
+        "M06.F06.I04",
+        "M06.F06.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/TokenConfig.test.tsx::mount 后渲染页面标题",
+      "fns": [
+        "M06.F04.I01",
+        "M06.F04.I02",
+        "M06.F04.I03",
+        "M06.F04.I04",
+        "M06.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/TokenConfig.test.tsx::mount 后拉取配置数据并渲染 Token 配置项",
+      "fns": [
+        "M06.F04.I01",
+        "M06.F04.I02",
+        "M06.F04.I03",
+        "M06.F04.I04",
+        "M06.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/TokenConfig.test.tsx::渲染当前配置值",
+      "fns": [
+        "M06.F04.I01",
+        "M06.F04.I02",
+        "M06.F04.I03",
+        "M06.F04.I04",
+        "M06.F04.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/tenant.test.ts::ThemeConfig 可构造",
+      "fns": [
+        "M01.F01.I11"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/tenant.test.ts::TenantConfig 可构造",
+      "fns": [
+        "M01.F01.I11"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/tenant.test.ts::TenantState 可构造",
+      "fns": [
+        "M01.F01.I11"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::UserUserRole/UserStatus 联合类型",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::User 类型可构造",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::OrgNode 树形结构可构造",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::AuditAction 联合类型",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::AuditLog 类型可构造",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::UserQuery 含搜索/角色/状态/分页",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/types/user.test.ts::AuditQuery 含操作类型/操作人/IP/分页",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::renders API key list on mount",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::renders key prefix",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::renders enabled/disabled status",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::renders scope tags",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::renders action buttons",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::toggles key enabled/disabled",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::opens delete confirmation dialog",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::deletes key from list",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::opens create API key modal",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::shows empty state",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::shows error alert on network failure",
+      "fns": [
+        "M04.F02.I01",
+        "M04.F02.I02",
+        "M04.F02.I03",
+        "M04.F02.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::mount 后拉取并渲染应用列表",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::渲染应用编码和描述",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::渲染主题色",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::渲染启用/禁用状态",
+      "fns": [],
+      "inert": true
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::渲染操作按钮",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::点击新建应用打开表单",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::搜索流程: 输入关键词 + 点击搜索",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::搜索流程: Enter 键触发搜索",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::删除应用流程: 点击删除 → 确认 → 列表移除",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::列表为空时渲染暂无数据",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/AppList.test.tsx::网络错误时渲染错误提示",
+      "fns": [
+        "M04.F01.I01",
+        "M04.F01.I02",
+        "M04.F01.I03",
+        "M04.F01.I04",
+        "M04.F01.I05",
+        "M04.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::初始状态",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::fetchApps 成功后 apps 填充",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::fetchApps 带 keyword 走参数",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::fetchApps 网络错误后 error 填充",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::fetchApp(id) 成功后 currentApp 填充",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::createApp 成功后 apps 头部追加",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::updateApp 成功后对应项更新",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::deleteApp 成功后对应项移除",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::fetchMenus(appId) 成功后 currentAppMenus 填充",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::createMenu 成功后 currentAppMenus 头部追加",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/appStore.test.ts::clearError 清除 error",
+      "fns": [
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::mount 后拉取并渲染菜单列表",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::渲染菜单名称和路由路径",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::渲染启用/禁用状态",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::渲染操作按钮（子菜单、编辑、删除）",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::渲染子菜单（带 └ 前缀）",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::点击新建菜单打开表单",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::新建菜单流程",
+      "fns": [],
+      "inert": true
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::点击子菜单按钮设置 parentId",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::无 appId 时渲染提示",
+      "fns": [],
+      "inert": true
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::列表为空时渲染\"暂无菜单\"",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apps/MenuList.test.tsx::删除菜单流程: 点击删除 → 确认 → 列表移除",
+      "fns": [
+        "M04.F01.I07",
+        "M04.F01.I08",
+        "M04.F01.I09",
+        "M04.F01.I10",
+        "M04.F01.I11",
+        "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::mount 后渲染日志列表",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::Tab 切换到登录日志",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::操作人筛选",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::IP 筛选",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::重置按钮存在",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::导出 CSV 按钮存在",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::切换到操作日志 Tab 触发重新拉取",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::切换到安全日志 Tab 触发重新拉取",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::初始状态",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 成功填充 list/total",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 按 timestamp 倒序",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs action 筛选",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs operator 筛选",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs ip 筛选",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 网络错误后 error",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::clearError",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::初始状态: user=null, token=null, currentOrgId=null, status=idle",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::handleOAuthCallback 成功后设置 user/token/currentOrgId",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::handleOAuthCallback 失败后 status=error",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::switchOrg 切换组织后 currentOrgId 更新",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::logout 清空所有状态",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::handleOAuthCallback 成功后 token 同步到 apiClient",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::persist: token/user 持久化到 localStorage",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/auth/authStore.test.ts::clearError 清除 error",
+      "fns": [
+        "M01.F03.I01"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::create 模式: 标题\"新增组织节点\"",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::edit 模式: 填充 initialName",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::create 提交触发 onSubmit(name, parentId)",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::edit 提交触发 onSubmit(name)",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::空名称校验",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::点取消触发 onCancel",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgNodeFormModal.test.tsx::loading 禁用保存",
+      "fns": [
+        "M02.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::初始状态",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::fetchOrgTree 成功后 tree 填充",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::fetchOrgTree 网络错误后 error 填充",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::createOrgNode 成功后重新拉取树",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::createOrgNode 父节点不存在时 error 填充",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::updateOrgNode 成功后树更新",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::updateOrgNode 节点不存在时 error 填充",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::deleteOrgNode 成功后树更新",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::deleteOrgNode 节点不存在时 error 填充",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/orgStore.test.ts::clearError 清除 error",
+      "fns": [
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06",
+        "M02.F01.I07",
+        "M02.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::拉取并渲染根节点",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::默认展开根节点，显示一级子节点",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::点击节点切换展开/折叠",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::递归渲染深层节点",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::叶子节点（无 children）不显示展开图标",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::支持 onSelect 回调",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::新增根部门按钮存在",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::hover 节点显示操作按钮",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::新增子部门流程",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::编辑节点流程",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/orgs/OrgTree.test.tsx::删除节点流程",
+      "fns": [
+        "M02.F01.I01",
+        "M02.F01.I02",
+        "M02.F01.I03",
+        "M02.F01.I04",
+        "M02.F01.I05",
+        "M02.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::mount 后拉取并渲染权限组列表",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::渲染权限组描述",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::渲染权限数",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::渲染启用状态",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::渲染编辑和删除按钮",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::点击新建权限组打开表单",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::列表为空时渲染\"暂无数据\"",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::网络错误时渲染错误提示",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::编辑权限组流程: 点击编辑 → 表单回填 → 提交",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/PermissionGroupList.test.tsx::删除权限组流程: 点击删除 → 确认 → 列表移除",
+      "fns": [
+        "M03.F02.I01",
+        "M03.F02.I02",
+        "M03.F02.I03",
+        "M03.F02.I04",
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/permissionGroupStore.test.ts::初始状态",
+      "fns": [
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/permissionGroupStore.test.ts::fetchPermissionGroups 成功后 list 填充",
+      "fns": [
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/permissionGroupStore.test.ts::fetchPermissionGroups 网络错误后 error 填充",
+      "fns": [
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/permissionGroupStore.test.ts::createPermissionGroup 成功后 list 头部追加",
+      "fns": [
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/permissionGroupStore.test.ts::updatePermissionGroup 成功后对应项更新",
+      "fns": [
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/permissionGroups/permissionGroupStore.test.ts::deletePermissionGroup 成功后对应项移除",
+      "fns": [
+        "M03.F02.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::mount 后拉取并渲染岗位列表",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::渲染岗位编码",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::渲染岗位描述",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::渲染排序号",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::渲染启用/禁用状态",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::渲染编辑和删除按钮",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::点击新建岗位打开表单",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::列表为空时渲染\"暂无数据\"",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/PositionList.test.tsx::网络错误时渲染错误提示",
+      "fns": [
+        "M02.F03.I01",
+        "M02.F03.I02",
+        "M02.F03.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::初始状态",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::fetchPositions 成功后 list 填充",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::fetchPositions 网络错误后 error 填充",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::createPosition 成功后 list 头部追加",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::createPosition 网络错误后 error 填充",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::updatePosition 成功后对应项更新",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/positions/positionStore.test.ts::deletePosition 成功后对应项移除",
+      "fns": [
+        "M02.F03.I03",
+        "M02.F03.I04",
+        "M02.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/MenuPermissions.test.tsx::mount 后渲染菜单权限页",
+      "fns": [
+        "M03.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/MenuPermissions.test.tsx::渲染应用和角色下拉框",
+      "fns": [
+        "M03.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/PermissionGuard.test.tsx::有权限时渲染 children",
+      "fns": [
+        "M03.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/PermissionGuard.test.tsx::无权限时不渲染 children",
+      "fns": [
+        "M03.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/PermissionGuard.test.tsx::无权限时渲染 fallback",
+      "fns": [
+        "M03.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/PermissionGuard.test.tsx::无权限且无 fallback 时渲染为空",
+      "fns": [
+        "M03.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/PermissionGuard.test.tsx::权限列表中任一匹配即渲染（anyOf 模式）",
+      "fns": [
+        "M03.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::初始状态: roles=[], permissions=[]",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::fetchPermissions(orgId) 拉取权限集",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::fetchPermissions 不同 orgId 返回不同权限",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::fetchPermissions 网络错误后 error 填充",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::checkPermission 检查权限码",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::clearPermissions 清空权限",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/permissionStore.test.ts::clearError 清除 error",
+      "fns": [
+        "M03.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::create 模式: 标题\"新建角色\"，表单空",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::edit 模式: 填充 initialValues",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::create 提交触发 onSubmit",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::edit 提交含完整 permissions",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::必填校验: name 为空",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::必填校验: 未选权限",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::点取消触发 onCancel",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleFormModal.test.tsx::loading 禁用保存",
+      "fns": [
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleList.test.tsx::mount 后渲染\"角色管理\"标题",
+      "fns": [
+        "M03.F01.I01",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleList.test.tsx::mount 后拉取角色列表",
+      "fns": [
+        "M03.F01.I01",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleList.test.tsx::新建角色流程",
+      "fns": [
+        "M03.F01.I01",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleList.test.tsx::编辑角色流程",
+      "fns": [
+        "M03.F01.I01",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleList.test.tsx::删除角色流程",
+      "fns": [
+        "M03.F01.I01",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/RoleList.test.tsx::列表为空时渲染\"暂无数据\"",
+      "fns": [
+        "M03.F01.I01",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::初始状态",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::fetchRoles 成功后 list 填充",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::fetchRoles 网络错误后 error 填充",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::createRole 成功后新角色添加到 list 头部",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::createRole 网络错误后 error 填充",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::updateRole 成功后对应项更新",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::updateRole 网络错误后 error 填充",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::deleteRole 成功后对应项移除",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::deleteRole 网络错误后 error 填充",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/roleStore.test.ts::clearError 清除 error",
+      "fns": [
+        "M03.F01.I02",
+        "M03.F01.I03",
+        "M03.F01.I04",
+        "M03.F01.I05",
+        "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::从 URLSearchParams 取 code 并调 handleOAuthCallback",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::成功后跳转到 dashboard",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::URL 无 code 时跳登录页",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::回调失败时跳登录页",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::处理中显示加载文案",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 用默认 env 变量",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::redirectToSso 设置 window.location.href",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantContext.test.tsx::TenantProvider 提供 tenant 给子组件",
+      "fns": [
+        "M01.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantContext.test.tsx::TenantProvider tenant=null 时子组件收到 null",
+      "fns": [
+        "M01.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantContext.test.tsx::useTenant 在 Provider 外抛错",
+      "fns": [
+        "M01.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantDetail.test.tsx::路由加载后渲染租户配置标题",
+      "fns": [
+        "M01.F01.I06",
+        "M01.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantDetail.test.tsx::渲染表单字段并可编辑",
+      "fns": [
+        "M01.F01.I06",
+        "M01.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantDetail.test.tsx::返回按钮存在",
+      "fns": [
+        "M01.F01.I06",
+        "M01.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantDetail.test.tsx::保存配置后显示保存成功",
+      "fns": [
+        "M01.F01.I06",
+        "M01.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantDetail.test.tsx::加载中状态显示加载提示",
+      "fns": [
+        "M01.F01.I06",
+        "M01.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantDetail.test.tsx::功能模块 checkbox 可切换",
+      "fns": [
+        "M01.F01.I06",
+        "M01.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::create 模式: 标题\"新建租户\"，表单空",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::edit 模式: 填充 initialValues",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::create 提交触发 onSubmit",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::edit 提交含完整 theme 和 config",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::必填校验: name 为空提示错误",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::点取消触发 onCancel",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::loading 禁用保存",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantFormModal.test.tsx::功能模块 checkbox 可切换",
+      "fns": [
+        "M01.F01.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantLayout.test.tsx::从 useParams 取 tenantId 并拉取租户配置",
+      "fns": [
+        "M01.F01.I08",
+        "M01.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantLayout.test.tsx::渲染租户标识（logoText）+ 侧边栏 + Outlet",
+      "fns": [
+        "M01.F01.I08",
+        "M01.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantLayout.test.tsx::应用租户主题 CSS 变量",
+      "fns": [
+        "M01.F01.I08",
+        "M01.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantLayout.test.tsx::切换租户路径时主题变量更新",
+      "fns": [
+        "M01.F01.I08",
+        "M01.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantLayout.test.tsx::租户不存在时显示错误",
+      "fns": [
+        "M01.F01.I08",
+        "M01.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantLayout.test.tsx::点击切换租户跳转到新租户的 dashboard",
+      "fns": [],
+      "inert": true
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::mount 后渲染\"平台租户管理\"标题",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::mount 后拉取租户列表",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::新建租户流程",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::详情配置按钮包含正确的导航目标",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::删除租户流程",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::搜索流程",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/TenantList.test.tsx::列表为空时渲染\"暂无数据\"",
+      "fns": [
+        "M01.F01.I01",
+        "M01.F01.I02",
+        "M01.F01.I03",
+        "M01.F01.I04",
+        "M01.F01.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::初始状态: current=null, list=[], loading=false",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::fetchTenants 成功后 list 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::fetchTenants 网络错误后 error 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::fetchTenant(id) 成功后 current 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::fetchTenant(id) 不存在时 error 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::clearError 清除 error",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::createTenant 成功后新租户添加到 list 头部",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::createTenant 网络错误后 error 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::updateTenant 成功后 list 中对应项更新",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::updateTenant 网络错误后 error 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::deleteTenant 成功后 list 中对应项移除",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/tenantStore.test.ts::deleteTenant 网络错误后 error 填充",
+      "fns": [
+        "M01.F01.I03",
+        "M01.F01.I05",
+        "M01.F01.I10"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/theme.test.ts::applyTheme 将主题色写入 document.documentElement CSS 变量",
+      "fns": [
+        "M01.F02.I01",
+        "M01.F02.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/theme.test.ts::clearTheme 清除所有租户 CSS 变量",
+      "fns": [
+        "M01.F02.I01",
+        "M01.F02.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/tenant/theme.test.ts::applyTheme 覆盖旧主题（切换租户）",
+      "fns": [
+        "M01.F02.I01",
+        "M01.F02.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::mount 后拉取并渲染用户组列表",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::渲染用户组描述",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::渲染成员数",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::渲染启用/禁用状态",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::点击新建用户组打开表单",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::列表为空时渲染\"暂无数据\"",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::网络错误时渲染错误提示",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::编辑用户组流程: 点击编辑 → 表单回填 → 提交",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/UserGroupList.test.tsx::删除用户组流程: 点击删除 → 确认 → 列表移除",
+      "fns": [
+        "M03.F03.I01",
+        "M03.F03.I02",
+        "M03.F03.I03",
+        "M03.F03.I04",
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/userGroupStore.test.ts::初始状态",
+      "fns": [
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/userGroupStore.test.ts::fetchUserGroups 成功后 list 填充",
+      "fns": [
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/userGroupStore.test.ts::fetchUserGroups 网络错误后 error 填充",
+      "fns": [
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/userGroupStore.test.ts::createUserGroup 成功后 list 头部追加",
+      "fns": [
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/userGroupStore.test.ts::updateUserGroup 成功后对应项更新",
+      "fns": [
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/userGroups/userGroupStore.test.ts::deleteUserGroup 成功后对应项移除",
+      "fns": [
+        "M03.F03.I05"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::create 模式: 标题\"新建用户\"，表单空",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::edit 模式: 填充 initialValues",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::create 提交触发 onSubmit（无 orgTree 时 orgId 为文本框）",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::create 提交触发 onSubmit（有 orgTree 时 orgId 为下拉）",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::edit 提交含 id",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::必填校验",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::点取消触发 onCancel",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserFormModal.test.tsx::loading 禁用保存",
+      "fns": [
+        "M02.F02.I05",
+        "M02.F02.I06"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::mount 后拉取并渲染列表",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::有 user:create 权限时渲染\"新增用户\"按钮",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::无 user:create 权限时不渲染\"新增用户\"按钮",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::新增用户流程",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::编辑用户流程",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::删除用户流程",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::无 user:delete 权限时不渲染删除按钮",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::搜索流程",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/UserList.test.tsx::角色筛选流程",
+      "fns": [
+        "M02.F02.I01",
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::初始状态",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::fetchUsers 成功填充 list/total",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::fetchUsers keyword 搜索",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::fetchUsers role 筛选",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::fetchUsers orgId 筛选",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::fetchUsers 网络错误后 error 填充",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::createUser 成功追加 list",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::createUser 失败后 error",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::updateUser 成功同步 list",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::deleteUser 成功移除",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/users/userStore.test.ts::clearError",
+      "fns": [
+        "M02.F02.I02",
+        "M02.F02.I03",
+        "M02.F02.I04",
+        "M02.F02.I05",
+        "M02.F02.I06",
+        "M02.F02.I07",
+        "M02.F02.I08",
+        "M02.F02.I09"
+      ],
+      "inert": false
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "suite_version": "0.5.0",
+  "project": "saas-identity-platform",
+  "stack": "react-ts",
+  "trace_cmd": [
+    "npx",
+    "--no",
+    "vitest",
+    "run"
+  ],
+  "trace_env": {
+    "TRACE_MAP": "1"
+  },
+  "source_dirs": [
+    "src"
+  ],
+  "test_dirs": [
+    "tests"
+  ],
+  "_trace_status": "fnReporter 暂未接入项目侧 vitest.config.ts（保留原 reporters 配置不动业务代码）。trace_cmd 显式置空，等 vitest 适配器在业务测试接入 fnTest 后再启用。详见 docs/conventions/saas-book-conventions.md。",
+  "gates": {
+    "L1": {
+      "name": "格式",
+      "cmd": [
+        "npx",
+        "--no",
+        "prettier",
+        "--check",
+        "src",
+        "tests"
+      ],
+      "fix": "先确认 `npm install` 跑过。然后 `npx prettier --write src tests`。"
+    },
+    "L2": {
+      "name": "静态检查",
+      "cmd": [
+        "npx",
+        "--no",
+        "eslint",
+        "src",
+        "tests"
+      ],
+      "fix": "逐条修复 eslint。禁止用 eslint-disable 掩盖，除非同行注释给出理由。"
+    },
+    "L3": {
+      "name": "类型",
+      "cmd": [
+        "npx",
+        "--no",
+        "tsc",
+        "--noEmit"
+      ],
+      "fix": "补全类型。禁止 any / @ts-ignore 绕过，除非附 ADR 说明。"
+    },
+    "L4": {
+      "name": "测试",
+      "cmd": [
+        "npx",
+        "--no",
+        "vitest",
+        "run"
+      ],
+      "fix": "先让测试变绿，再谈重构。若测试本身有误，改测试前必须先说明理由。"
+    }
+  }
+}

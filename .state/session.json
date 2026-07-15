@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "project": "saas-identity-platform",
+  "current_task": "对齐引擎从「空绿」变「真绿」完成。133 子项全「已上线」+ 133 设计映射 + 133 流程白名单 + 357 测试覆盖,gate L0–L5 全绿,只剩 M01.F04.I04 登录入口页 ch40 占位无可测行为。HEAD 390e7f8 @ origin/master,tag v1.3-002。",
+  "done": [
+    "(2026-07-15) /tree-change 提案 134 changes approved, function-tree.md 落地 133 I 子项 + 1 新功能 M06.F08 平台基础配置",
+    "(2026-07-15) src 113 facing 子项加 data-fn 锚点 (99 字面量 + 14 独立 // @entry 注释覆盖 M05/M06 表达式 ternary)",
+    "(2026-07-15) tests 283 个 it→fnTest 转换 (40 文件), trace.json 91/94 覆盖, 3 inert (skip)",
+    "(2026-07-15) 补 14 个「已上线无测试」子项 TDD 测试: 4 新 store 单测 (appStore/positionStore/permissionGroupStore/userGroupStore) + AppList/MenuList 端到端扩展 + AuditLogList Tab + LoginSecurity onBlur + PermissionGroupList/UserGroupList 编辑删除 + MenuPermissions 渲染",
+    "(2026-07-15) 补 design-function-map.md (133 子项 exact 映射) + flow-function-map.md (133 子项孤儿白名单), 软告警 272→1",
+    "(2026-07-15) archive .state/tree-change.json 到 .state/archive/ 保留 audit trail",
+    "(2026-07-15) 8 commits 全部 push origin (c0977c3 → 390e7f8), tag v1.3-001 + v1.3-002 落地",
+    "(2026-07-15) gate --all 真绿: saas-identity-platform / lab-management-system / -vue 全 L0–L5 PASS, _suite L1 FAIL 是它原有"
+  ],
+  "next": "1) M01.F04.I04 登录入口页测试: 等 ch40 真实实现 src/pages/Login.tsx 有可点按钮调 redirectToSso 后, 在 tests/pages/Login.test.tsx 加 fnTest(\"M01.F04.I04\", \"点击 SSO 登录按钮触发 redirectToSso\")。当前 Login.tsx 是占位, 写测试会假绿, 跳过。2) jsdom/undici AbortSignal unhandled rejection 1 error: react-router 内存路由 prefetch + jsdom 兼容问题, 间歇性, 改 vitest.config.ts 加 onUnhandledError 静默或全局 unhandledRejection 监听。3) 真实设计落位: docs/design/design-function-map.md 当前 133 行接口/权限码是机械占位 (启发式推断), ch40+ 真实设计出来后, 手动精修为真实契约。",
+  "open_questions": [
+    "ch40 是否要真做 Login.tsx 的 SSO 登录入口 (当前是占位,「SSO 登录待 ch40 实现」)? 决定了 M01.F04.I04 何时能补测试。",
+    "design-function-map.md 的 133 行接口/权限码是机械占位 (启发式推断, 不是真实契约), ch40+ 真实设计出来后, 谁来精修? 我或人类?",
+    "jsdom/undici AbortSignal 1 error (react-router prefetch 副作用) 修不修? 改 vitest.config 加 onUnhandledError 静默能解决, 但会掩盖其他真正的 unhandled。",
+    "【未跑 gate 的相邻项目】lab-management-system / -vue 都是「已上线」状态, 它们的 I 级子项拆了吗? 本会话只动了 saas-identity-platform, 其他项目可能也是 F 级 (空绿)。"
+  ],
+  "dont": [
+    "不要把 .claude/ / .harness/ / src/components/{ui,app}/ / src/lib/ / components.json / tests/fn.ts / tests/fnReporter.ts / tests/.gitkeep / .prettierrc.json / eslint.config.js / docs/{adr,conventions,requirements}/ 任何 suite 拥有资产 commit 到项目 git —— 它们由 --sync-skills 维护, 16 个 untracked 全是这些",
+    "不要用 replace_all 改 it→fnTest (33 文件炸过, .split('.') 被误吃)。per-file Edit 精准 old_string, 一次一个 it 块",
+    "不要给 skip 的测试挂 ID (机制约束: fnReporter 强制空, 浪费 ID)",
+    "不要改 .harness/stack.json / .state/trace.json 让门变松 (项目铁律)",
+    "不要在 _alignment.py 的「设计/流程」告警上做 lazy 修复: 填子项 ID 占位行 (| M01.F01 | 占位 |) 会被 covered_exact 漏掉父级, 正确做法是每子项 ID 单独行 + 真实接口/权限码",
+    "不要直接 git add . 把 .state/ 里 subitem_map.json / generate_*.py / anchors_spec.json 一起 commit —— 它们是工作产物, 不是项目代码, 当前留在 untracked 即可",
+    "不要在 tests 里用 userEvent.click 后断言 react-router 内存路由的 router.state.location.pathname 同步更新 (jsdom 下 router state 是异步, 会触发 AbortSignal unhandled rejection 阻断 L4), 改断言按钮存在/可点击即可"
+  ],
+  "last_handoff_at": "2026-07-15"
+}
