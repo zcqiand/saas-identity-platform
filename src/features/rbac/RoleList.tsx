@@ -1,69 +1,79 @@
-import { useEffect, useState } from 'react'
-import { useRoleStore } from './roleStore'
-import { RoleFormModal, type RoleFormValues } from './RoleFormModal'
-import { ConfirmModal } from '../../components/ConfirmModal'
-import type { Role } from './types'
+import { useEffect, useState } from "react";
+import { useRoleStore } from "./roleStore";
+import { RoleFormModal, type RoleFormValues } from "./RoleFormModal";
+import { ConfirmModal } from "../../components/ConfirmModal";
+import type { Role } from "./types";
 
 export function RoleList() {
   const { list, loading, error, fetchRoles, createRole, updateRole, deleteRole } =
-    useRoleStore()
+    useRoleStore();
 
-  const [formOpen, setFormOpen] = useState(false)
-  const [formMode, setFormMode] = useState<'create' | 'edit'>('create')
-  const [editing, setEditing] = useState<Role | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-  const [deleteTarget, setDeleteTarget] = useState<Role | null>(null)
-  const [deleting, setDeleting] = useState(false)
+  const [formOpen, setFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<"create" | "edit">("create");
+  const [editing, setEditing] = useState<Role | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Role | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    fetchRoles()
+    fetchRoles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const openCreate = () => {
-    setFormMode('create')
-    setEditing(null)
-    setFormOpen(true)
-  }
+    setFormMode("create");
+    setEditing(null);
+    setFormOpen(true);
+  };
 
   const openEdit = (role: Role) => {
-    setFormMode('edit')
-    setEditing(role)
-    setFormOpen(true)
-  }
+    setFormMode("edit");
+    setEditing(role);
+    setFormOpen(true);
+  };
 
   const handleSubmit = async (values: RoleFormValues) => {
-    setSubmitting(true)
+    setSubmitting(true);
     try {
-      if (formMode === 'create') {
-        await createRole({ name: values.name, permissions: values.permissions, menuPermissions: values.menuPermissions })
+      if (formMode === "create") {
+        await createRole({
+          name: values.name,
+          permissions: values.permissions,
+          menuPermissions: values.menuPermissions,
+        });
       } else if (editing) {
-        await updateRole(editing.id, { name: values.name, permissions: values.permissions, menuPermissions: values.menuPermissions })
+        await updateRole(editing.id, {
+          name: values.name,
+          permissions: values.permissions,
+          menuPermissions: values.menuPermissions,
+        });
       }
-      setFormOpen(false)
-      await fetchRoles()
+      setFormOpen(false);
+      await fetchRoles();
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const handleDelete = async () => {
-    if (!deleteTarget) return
-    setDeleting(true)
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
-      await deleteRole(deleteTarget.id)
-      setDeleteTarget(null)
-      await fetchRoles()
+      await deleteRole(deleteTarget.id);
+      setDeleteTarget(null);
+      await fetchRoles();
     } finally {
-      setDeleting(false)
+      setDeleting(false);
     }
-  }
+  };
 
   return (
-    <div className="space-y-4">
+    <div data-fn="M03.F01.I01" className="space-y-4">
+      <span data-fn="M03.F01.I02" style={{ display: "none" }} aria-hidden="true" />
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">角色管理</h2>
         <button
+          data-fn="M03.F01.I03"
           onClick={openCreate}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
         >
@@ -111,8 +121,8 @@ export function RoleList() {
                   <span
                     className={`inline-block px-2 py-0.5 rounded text-xs ${
                       (r.menuPermissions ?? []).length > 0
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-gray-100 text-gray-400'
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-400"
                     }`}
                   >
                     {(r.menuPermissions ?? []).length}
@@ -129,18 +139,22 @@ export function RoleList() {
                       </span>
                     ))}
                     {r.permissions.length > 4 && (
-                      <span className="text-xs text-gray-400">+{r.permissions.length - 4}</span>
+                      <span className="text-xs text-gray-400">
+                        +{r.permissions.length - 4}
+                      </span>
                     )}
                   </div>
                 </td>
                 <td className="px-4 py-2 text-right space-x-2">
                   <button
+                    data-fn="M03.F01.I04"
                     onClick={() => openEdit(r)}
                     className="px-2 py-1 text-blue-600 hover:underline"
                   >
                     编辑
                   </button>
                   <button
+                    data-fn="M03.F01.I05"
                     onClick={() => setDeleteTarget(r)}
                     className="px-2 py-1 text-red-600 hover:underline"
                   >
@@ -165,13 +179,13 @@ export function RoleList() {
       <ConfirmModal
         open={deleteTarget !== null}
         title="删除确认"
-        message={`确定删除角色「${deleteTarget?.name ?? ''}」？此操作不可撤销。`}
+        message={`确定删除角色「${deleteTarget?.name ?? ""}」？此操作不可撤销。`}
         loading={deleting}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />
     </div>
-  )
+  );
 }
 
-export default RoleList
+export default RoleList;

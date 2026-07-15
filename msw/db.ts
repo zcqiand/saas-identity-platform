@@ -1,7 +1,5 @@
 // Mock 内存数据库：仅 mock 层使用，测试间隔离由 tests/setup.ts 的 resetMockDb 保证。
 // ch39：租户数据；ch40 追加用户/组织/权限数据；ch41 追加 userTable/orgTree/auditLogTable（只增）。
-// ch43：追加平台租户管理、角色管理数据（只增不改）。
-
 import type { User, OrgNode, AuditLog } from '../src/types/user'
 import type { Role } from '../src/features/rbac/types'
 
@@ -602,7 +600,7 @@ export function queryAuditLogs(opts: {
   }
 }
 
-// —— ch43：平台租户管理（只增不改）——
+// —— ch43：平台租户管理——
 export interface TenantCreateInput {
   name: string
   theme: { primary: string; sidebar: string; logoText: string }
@@ -832,7 +830,7 @@ export function deleteRoleRecord(id: string): boolean {
   return true
 }
 
-// —— ch44：应用管理与菜单管理（只增不改）——
+// —— ch44：应用管理与菜单管理——
 
 export interface MockApp {
   id: string
@@ -1225,7 +1223,7 @@ export function queryMenus(appId: string): MockMenu[] {
 }
 
 // ============================================================
-// ch45：新模块 mock 数据（只增不改）
+// ch45：新模块 mock 数据
 // ============================================================
 
 // —— 岗位管理（7）——

@@ -6,5 +6,5 @@ export default function SsoCallback() {
         <p className="text-gray-600">SSO 回调处理中...</p>
       </div>
     </div>
-  )
+  );
 }

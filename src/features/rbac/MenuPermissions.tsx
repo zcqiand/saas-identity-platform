@@ -1,162 +1,169 @@
-import { useEffect, useState, useCallback } from 'react'
-import { useRoleStore } from './roleStore'
-import { useAppStore } from '../apps/appStore'
-import type { MenuPermission } from './types'
+import { useEffect, useState, useCallback } from "react";
+import { useRoleStore } from "./roleStore";
+import { useAppStore } from "../apps/appStore";
+import type { MenuPermission } from "./types";
 
 export function MenuPermissions() {
-  const { list: roles, error, fetchRoles, updateRole } = useRoleStore()
-  const { apps, currentAppMenus, fetchApps, fetchMenus } = useAppStore()
+  const { list: roles, error, fetchRoles, updateRole } = useRoleStore();
+  const { apps, currentAppMenus, fetchApps, fetchMenus } = useAppStore();
 
-  const [selectedAppId, setSelectedAppId] = useState<string>('')
-  const [selectedRoleId, setSelectedRoleId] = useState<string>('')
-  const [saving, setSaving] = useState(false)
+  const [selectedAppId, setSelectedAppId] = useState<string>("");
+  const [selectedRoleId, setSelectedRoleId] = useState<string>("");
+  const [saving, setSaving] = useState(false);
 
   // Local permission state: roleId -> menuId -> actions[]
-  const [permMap, setPermMap] = useState<Record<string, Record<string, string[]>>>({})
+  const [permMap, setPermMap] = useState<Record<string, Record<string, string[]>>>({});
 
   useEffect(() => {
-    fetchRoles()
-    fetchApps()
-  }, [fetchRoles, fetchApps])
+    fetchRoles();
+    fetchApps();
+  }, [fetchRoles, fetchApps]);
 
   useEffect(() => {
     if (selectedAppId) {
-      fetchMenus(selectedAppId)
+      fetchMenus(selectedAppId);
     }
-  }, [selectedAppId, fetchMenus])
+  }, [selectedAppId, fetchMenus]);
 
   // Initialize permMap from roles when roles first load
   useEffect(() => {
     if (roles.length > 0) {
       setPermMap((prev) => {
-        const next = { ...prev }
+        const next = { ...prev };
         for (const role of roles) {
           if (!next[role.id]) {
-            next[role.id] = {}
+            next[role.id] = {};
             for (const mp of role.menuPermissions ?? []) {
-              next[role.id][mp.menuId] = [...mp.actions]
+              next[role.id][mp.menuId] = [...mp.actions];
             }
           }
         }
-        return next
-      })
+        return next;
+      });
     }
-  }, [roles])  
+  }, [roles]);
 
   // When app changes, clear permMap entries for current role so stale menuIds don't persist
   useEffect(() => {
     if (selectedAppId && selectedRoleId) {
       setPermMap((prev) => {
-        const rolePerms = { ...(prev[selectedRoleId] ?? {}) }
+        const rolePerms = { ...(prev[selectedRoleId] ?? {}) };
         // Keep only menuIds that exist in the new app
-        const appMenuIds = new Set(currentAppMenus.map((m) => m.id))
+        const appMenuIds = new Set(currentAppMenus.map((m) => m.id));
         for (const menuId of Object.keys(rolePerms)) {
           if (!appMenuIds.has(menuId)) {
-            delete rolePerms[menuId]
+            delete rolePerms[menuId];
           }
         }
-        return { ...prev, [selectedRoleId]: rolePerms }
-      })
+        return { ...prev, [selectedRoleId]: rolePerms };
+      });
     }
-  }, [selectedAppId, selectedRoleId, currentAppMenus])  
+  }, [selectedAppId, selectedRoleId, currentAppMenus]);
 
   // Helper: get child menu IDs for a given parent
   const getChildren = useCallback(
     (parentId: string) => currentAppMenus.filter((m) => m.parentId === parentId),
     [currentAppMenus],
-  )
+  );
 
   // Helper: collect all descendant menu IDs (recursive)
   const getAllDescendants = useCallback(
     (parentId: string): string[] => {
-      const children = getChildren(parentId)
-      return children.flatMap((c) => [c.id, ...getAllDescendants(c.id)])
+      const children = getChildren(parentId);
+      return children.flatMap((c) => [c.id, ...getAllDescendants(c.id)]);
     },
     [getChildren],
-  )
+  );
 
-  const topMenus = currentAppMenus.filter((m) => m.parentId === null)
+  const topMenus = currentAppMenus.filter((m) => m.parentId === null);
 
   const toggleAction = (roleId: string, menuId: string, action: string) => {
     setPermMap((prev) => {
-      const rolePerms = { ...(prev[roleId] ?? {}), [menuId]: [...(prev[roleId]?.[menuId] ?? [])] }
-      const menuPerms = rolePerms[menuId]
+      const rolePerms = {
+        ...(prev[roleId] ?? {}),
+        [menuId]: [...(prev[roleId]?.[menuId] ?? [])],
+      };
+      const menuPerms = rolePerms[menuId];
       rolePerms[menuId] = menuPerms.includes(action)
         ? menuPerms.filter((a) => a !== action)
-        : [...menuPerms, action]
-      return { ...prev, [roleId]: rolePerms }
-    })
-  }
+        : [...menuPerms, action];
+      return { ...prev, [roleId]: rolePerms };
+    });
+  };
 
   const isActionChecked = (roleId: string, menuId: string, action: string) => {
-    return permMap[roleId]?.[menuId]?.includes(action) ?? false
-  }
+    return permMap[roleId]?.[menuId]?.includes(action) ?? false;
+  };
 
   const isMenuIndeterminate = (roleId: string, menuId: string) => {
-    const actions = permMap[roleId]?.[menuId] ?? []
-    return actions.length > 0 && actions.length < 4
-  }
+    const actions = permMap[roleId]?.[menuId] ?? [];
+    return actions.length > 0 && actions.length < 4;
+  };
 
   const isMenuAllChecked = (roleId: string, menuId: string) => {
-    const actions = permMap[roleId]?.[menuId] ?? []
-    return actions.length === 4
-  }
+    const actions = permMap[roleId]?.[menuId] ?? [];
+    return actions.length === 4;
+  };
 
   const toggleMenuAll = (roleId: string, menuId: string) => {
-    const allActions = ['view', 'create', 'update', 'delete'] as const
-    const current = permMap[roleId]?.[menuId] ?? []
-    const willCheck = current.length !== 4 // if not all checked, we will check all
+    const allActions = ["view", "create", "update", "delete"] as const;
+    const current = permMap[roleId]?.[menuId] ?? [];
+    const willCheck = current.length !== 4; // if not all checked, we will check all
 
     setPermMap((prev) => {
-      const rolePerms = { ...(prev[roleId] ?? {}) }
+      const rolePerms = { ...(prev[roleId] ?? {}) };
       if (willCheck) {
         // Check this menu + all descendants
-        const descendants = getAllDescendants(menuId)
+        const descendants = getAllDescendants(menuId);
         for (const mid of [menuId, ...descendants]) {
-          rolePerms[mid] = [...allActions]
+          rolePerms[mid] = [...allActions];
         }
       } else {
         // Uncheck this menu + all descendants
-        const descendants = getAllDescendants(menuId)
+        const descendants = getAllDescendants(menuId);
         for (const mid of [menuId, ...descendants]) {
-          rolePerms[mid] = []
+          rolePerms[mid] = [];
         }
       }
-      return { ...prev, [roleId]: rolePerms }
-    })
-  }
+      return { ...prev, [roleId]: rolePerms };
+    });
+  };
 
   const handleSave = async () => {
-    if (!selectedRoleId) return
-    setSaving(true)
+    if (!selectedRoleId) return;
+    setSaving(true);
     try {
-      const menuPermissions: MenuPermission[] = []
+      const menuPermissions: MenuPermission[] = [];
       for (const menu of currentAppMenus) {
-        const actions = permMap[selectedRoleId]?.[menu.id]
+        const actions = permMap[selectedRoleId]?.[menu.id];
         if (actions && actions.length > 0) {
-          menuPermissions.push({ menuId: menu.id, actions: actions as MenuPermission['actions'] })
+          menuPermissions.push({
+            menuId: menu.id,
+            actions: actions as MenuPermission["actions"],
+          });
         }
       }
-      await updateRole(selectedRoleId, { menuPermissions })
-      await fetchRoles()
+      await updateRole(selectedRoleId, { menuPermissions });
+      await fetchRoles();
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
-  const hasChanges = selectedRoleId && currentAppMenus.length > 0
+  const hasChanges = selectedRoleId && currentAppMenus.length > 0;
 
   return (
-    <div className="space-y-4">
+    <div data-fn="M03.F01.I07" className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">菜单权限</h2>
         {hasChanges && (
           <button
+            data-fn="M03.F01.I07"
             onClick={handleSave}
             disabled={saving}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm disabled:opacity-50"
           >
-            {saving ? '保存中...' : '保存修改'}
+            {saving ? "保存中..." : "保存修改"}
           </button>
         )}
       </div>
@@ -219,7 +226,11 @@ export function MenuPermissions() {
                 {roles
                   .filter((r) => r.id === selectedRoleId)
                   .map((r) => (
-                    <th key={r.id} colSpan={5} className="px-2 py-2 text-center border-l border-gray-200">
+                    <th
+                      key={r.id}
+                      colSpan={5}
+                      className="px-2 py-2 text-center border-l border-gray-200"
+                    >
                       {r.name}
                     </th>
                   ))}
@@ -230,7 +241,7 @@ export function MenuPermissions() {
                 {roles
                   .filter((r) => r.id === selectedRoleId)
                   .map((r) =>
-                    ['查', '建', '改', '删'].map((l, i) => (
+                    ["查", "建", "改", "删"].map((l, i) => (
                       <th key={`${r.id}-${i}`} className="px-2 py-1 text-center w-10">
                         {l}
                       </th>
@@ -257,18 +268,20 @@ export function MenuPermissions() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 interface MenuPermRowProps {
-  menu: { id: string; name: string; path: string; parentId: string | null }
-  getChildren: (parentId: string) => { id: string; name: string; path: string; parentId: string | null }[]
-  selectedRoleId: string
-  isActionChecked: (roleId: string, menuId: string, action: string) => boolean
-  isMenuAllChecked: (roleId: string, menuId: string) => boolean
-  isMenuIndeterminate: (roleId: string, menuId: string) => boolean
-  toggleMenuAll: (roleId: string, menuId: string) => void
-  toggleAction: (roleId: string, menuId: string, action: string) => void
+  menu: { id: string; name: string; path: string; parentId: string | null };
+  getChildren: (
+    parentId: string,
+  ) => { id: string; name: string; path: string; parentId: string | null }[];
+  selectedRoleId: string;
+  isActionChecked: (roleId: string, menuId: string, action: string) => boolean;
+  isMenuAllChecked: (roleId: string, menuId: string) => boolean;
+  isMenuIndeterminate: (roleId: string, menuId: string) => boolean;
+  toggleMenuAll: (roleId: string, menuId: string) => void;
+  toggleAction: (roleId: string, menuId: string, action: string) => void;
 }
 
 function MenuPermRow({
@@ -281,19 +294,17 @@ function MenuPermRow({
   toggleMenuAll,
   toggleAction,
 }: MenuPermRowProps) {
-  const children = getChildren(menu.id)
-  const actions: string[] = ['view', 'create', 'update', 'delete']
-  const allChecked = isMenuAllChecked(selectedRoleId, menu.id)
-  const indeterminate = isMenuIndeterminate(selectedRoleId, menu.id)
+  const children = getChildren(menu.id);
+  const actions: string[] = ["view", "create", "update", "delete"];
+  const allChecked = isMenuAllChecked(selectedRoleId, menu.id);
+  const indeterminate = isMenuIndeterminate(selectedRoleId, menu.id);
 
   return (
     <>
       <tr className="border-t bg-white hover:bg-gray-50">
         <td className="px-4 py-2 font-medium">
           <div className="flex items-center gap-1">
-            {children.length > 0 && (
-              <span className="text-gray-400 mr-1">▶</span>
-            )}
+            {children.length > 0 && <span className="text-gray-400 mr-1">▶</span>}
             {menu.name}
           </div>
         </td>
@@ -302,7 +313,7 @@ function MenuPermRow({
             type="checkbox"
             checked={allChecked}
             ref={(el) => {
-              if (el) el.indeterminate = indeterminate
+              if (el) el.indeterminate = indeterminate;
             }}
             onChange={() => toggleMenuAll(selectedRoleId, menu.id)}
             className="rounded"
@@ -332,7 +343,7 @@ function MenuPermRow({
               type="checkbox"
               checked={isMenuAllChecked(selectedRoleId, child.id)}
               ref={(el) => {
-                if (el) el.indeterminate = isMenuIndeterminate(selectedRoleId, child.id)
+                if (el) el.indeterminate = isMenuIndeterminate(selectedRoleId, child.id);
               }}
               onChange={() => toggleMenuAll(selectedRoleId, child.id)}
               className="rounded"
@@ -351,7 +362,7 @@ function MenuPermRow({
         </tr>
       ))}
     </>
-  )
+  );
 }
 
-export default MenuPermissions
+export default MenuPermissions;

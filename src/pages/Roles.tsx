@@ -1,5 +1,5 @@
-import RoleList from '../features/rbac/RoleList'
+import RoleList from "../features/rbac/RoleList";
 
 export default function Roles() {
-  return <RoleList />
+  return <RoleList />;
 }

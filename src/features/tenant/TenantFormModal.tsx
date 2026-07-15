@@ -1,22 +1,22 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import type { TenantCreateInput, ThemeConfig } from '../../types/tenant'
+import { useEffect, useState, type FormEvent } from "react";
+import type { TenantCreateInput, ThemeConfig } from "../../types/tenant";
 
 export interface TenantFormValues {
-  name: string
-  theme: ThemeConfig
-  config?: { features?: string[]; maxUsers?: number }
+  name: string;
+  theme: ThemeConfig;
+  config?: { features?: string[]; maxUsers?: number };
 }
 
 interface TenantFormModalProps {
-  open: boolean
-  mode: 'create' | 'edit'
-  initialValues?: Partial<TenantCreateInput & { id: string }>
-  onSubmit: (values: TenantFormValues) => void
-  onCancel: () => void
-  loading?: boolean
+  open: boolean;
+  mode: "create" | "edit";
+  initialValues?: Partial<TenantCreateInput & { id: string }>;
+  onSubmit: (values: TenantFormValues) => void;
+  onCancel: () => void;
+  loading?: boolean;
 }
 
-const FEATURE_OPTIONS = ['sso', 'audit', 'rbac']
+const FEATURE_OPTIONS = ["sso", "audit", "rbac"];
 
 export function TenantFormModal({
   open,
@@ -26,55 +26,63 @@ export function TenantFormModal({
   onCancel,
   loading = false,
 }: TenantFormModalProps) {
-  const [name, setName] = useState('')
-  const [primary, setPrimary] = useState('#2563eb')
-  const [sidebar, setSidebar] = useState('#1e293b')
-  const [logoText, setLogoText] = useState('')
-  const [features, setFeatures] = useState<string[]>([])
-  const [maxUsers, setMaxUsers] = useState(100)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [name, setName] = useState("");
+  const [primary, setPrimary] = useState("#2563eb");
+  const [sidebar, setSidebar] = useState("#1e293b");
+  const [logoText, setLogoText] = useState("");
+  const [features, setFeatures] = useState<string[]>([]);
+  const [maxUsers, setMaxUsers] = useState(100);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (open) {
-      setName(initialValues?.name ?? '')
-      setPrimary(initialValues?.theme?.primary ?? '#2563eb')
-      setSidebar(initialValues?.theme?.sidebar ?? '#1e293b')
-      setLogoText(initialValues?.theme?.logoText ?? '')
-      setFeatures(initialValues?.config?.features ?? [])
-      setMaxUsers(initialValues?.config?.maxUsers ?? 100)
-      setErrors({})
+      setName(initialValues?.name ?? "");
+      setPrimary(initialValues?.theme?.primary ?? "#2563eb");
+      setSidebar(initialValues?.theme?.sidebar ?? "#1e293b");
+      setLogoText(initialValues?.theme?.logoText ?? "");
+      setFeatures(initialValues?.config?.features ?? []);
+      setMaxUsers(initialValues?.config?.maxUsers ?? 100);
+      setErrors({});
     }
-     
-  }, [open, initialValues])
+  }, [open, initialValues]);
 
-  if (!open) return null
+  if (!open) return null;
 
-  const title = mode === 'create' ? '新建租户' : '编辑租户'
+  const title = mode === "create" ? "新建租户" : "编辑租户";
 
   const validate = (): boolean => {
-    const next: Record<string, string> = {}
-    if (!name.trim()) next.name = '请输入租户名称'
-    if (!logoText.trim()) next.logoText = '请输入 Logo 文本'
-    setErrors(next)
-    return Object.keys(next).length === 0
-  }
+    const next: Record<string, string> = {};
+    if (!name.trim()) next.name = "请输入租户名称";
+    if (!logoText.trim()) next.logoText = "请输入 Logo 文本";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
 
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    if (!validate()) return
+    e.preventDefault();
+    if (!validate()) return;
     onSubmit({
       name: name.trim(),
-      theme: { primary: primary.trim(), sidebar: sidebar.trim(), logoText: logoText.trim() },
+      theme: {
+        primary: primary.trim(),
+        sidebar: sidebar.trim(),
+        logoText: logoText.trim(),
+      },
       config: { features, maxUsers },
-    })
-  }
+    });
+  };
 
   const toggleFeature = (f: string) => {
-    setFeatures((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]))
-  }
+    setFeatures((prev) =>
+      prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f],
+    );
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div
+      data-fn="M01.F01.I03"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+    >
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-lg shadow-xl w-[520px] max-w-[90vw]"
@@ -192,12 +200,12 @@ export function TenantFormModal({
             disabled={loading}
             className="px-4 py-2 text-sm rounded text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? '保存中...' : '保存'}
+            {loading ? "保存中..." : "保存"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default TenantFormModal
+export default TenantFormModal;

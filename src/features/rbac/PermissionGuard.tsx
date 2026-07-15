@@ -1,13 +1,13 @@
-import { type ReactNode } from 'react'
-import { usePermissionStore } from './permissionStore'
+import { type ReactNode } from "react";
+import { usePermissionStore } from "./permissionStore";
 
 interface PermissionGuardProps {
   /** 权限码或权限码数组（数组为 anyOf 模式，任一匹配即放行） */
-  permission: string | string[]
+  permission: string | string[];
   /** 有权限时渲染 */
-  children: ReactNode
+  children: ReactNode;
   /** 无权限时渲染的降级内容，默认 null */
-  fallback?: ReactNode
+  fallback?: ReactNode;
 }
 
 /**
@@ -27,9 +27,9 @@ export function PermissionGuard({
   children,
   fallback = null,
 }: PermissionGuardProps) {
-  const permissions = usePermissionStore((s) => s.permissions)
+  const permissions = usePermissionStore((s) => s.permissions);
   const has = Array.isArray(permission)
     ? permission.some((p) => permissions.includes(p))
-    : permissions.includes(permission)
-  return <>{has ? children : fallback}</>
+    : permissions.includes(permission);
+  return <>{has ? children : fallback}</>;
 }

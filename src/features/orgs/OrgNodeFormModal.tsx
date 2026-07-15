@@ -1,51 +1,53 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from "react";
 
 interface OrgNodeFormModalProps {
-  open: boolean
-  mode: 'create' | 'edit'
+  open: boolean;
+  mode: "create" | "edit";
   /** mode=create 时：新建节点的父节点 id；mode=edit 时：当前节点 id */
-  nodeId?: string
-  initialName?: string
-  onSubmit: (name: string, nodeId?: string) => void
-  onCancel: () => void
-  loading?: boolean
+  nodeId?: string;
+  initialName?: string;
+  onSubmit: (name: string, nodeId?: string) => void;
+  onCancel: () => void;
+  loading?: boolean;
 }
 
 export function OrgNodeFormModal({
   open,
   mode,
   nodeId,
-  initialName = '',
+  initialName = "",
   onSubmit,
   onCancel,
   loading = false,
 }: OrgNodeFormModalProps) {
-  const [name, setName] = useState(initialName)
-  const [error, setError] = useState('')
+  const [name, setName] = useState(initialName);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (open) {
-      setName(initialName)
-      setError('')
+      setName(initialName);
+      setError("");
     }
-     
-  }, [open, initialName])
+  }, [open, initialName]);
 
-  if (!open) return null
+  if (!open) return null;
 
-  const title = mode === 'create' ? '新增组织节点' : '编辑组织节点'
+  const title = mode === "create" ? "新增组织节点" : "编辑组织节点";
 
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!name.trim()) {
-      setError('请输入节点名称')
-      return
+      setError("请输入节点名称");
+      return;
     }
-    onSubmit(name.trim(), nodeId)
-  }
+    onSubmit(name.trim(), nodeId);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div
+      data-fn="M02.F01.I08"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+    >
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-lg shadow-xl w-[400px] max-w-[90vw]"
@@ -61,8 +63,8 @@ export function OrgNodeFormModal({
             id="org-node-name"
             value={name}
             onChange={(e) => {
-              setName(e.target.value)
-              if (error) setError('')
+              setName(e.target.value);
+              if (error) setError("");
             }}
             autoFocus
             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,12 +85,12 @@ export function OrgNodeFormModal({
             disabled={loading}
             className="px-4 py-2 text-sm rounded text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? '保存中...' : '保存'}
+            {loading ? "保存中..." : "保存"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default OrgNodeFormModal
+export default OrgNodeFormModal;

@@ -1,6 +1,6 @@
 export default function PlatformConfig() {
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div data-fn="M06.F08.I01" className="space-y-6 max-w-2xl">
       <h2 className="text-2xl font-bold">平台配置</h2>
 
       {/* 平台信息只读展示 */}
@@ -16,5 +16,5 @@ export default function PlatformConfig() {
         </dl>
       </section>
     </div>
-  )
+  );
 }

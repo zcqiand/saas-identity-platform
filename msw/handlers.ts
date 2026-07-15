@@ -71,7 +71,7 @@ import type { UserCreateInput, UserUpdateInput, User } from '../src/types/user'
 
 // MSW handler 注册表。
 // ch39：/tenants GET 列表 + /tenants/:id GET 单个。
-// ch40：追加 SSO 授权服务器 + auth/permissions + auth/me（只增不改）。
+// ch40：追加 SSO 授权服务器 + auth/permissions + auth/me。
 export const handlers = [
   // —— ch39：租户 ——
   http.get('*/tenants/:id', ({ params }) => {
@@ -277,7 +277,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 })
   }),
 
-  // —— ch43：平台租户管理（只增不改）——
+  // —— ch43：平台租户管理——
   http.get('*/tenants', ({ request }) => {
     const url = new URL(request.url)
     const keyword = url.searchParams.get('keyword') ?? undefined
@@ -343,7 +343,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 })
   }),
 
-  // —— ch43：组织架构维护（只增不改）——
+  // —— ch43：组织架构维护——
   http.post('*/orgs', async ({ request }) => {
     const body = (await request.json()) as { name: string; parentId?: string }
     if (!body.name) {

@@ -1,27 +1,36 @@
-import { useEffect, useState } from 'react'
-import { useOrgStore } from './orgStore'
-import { ConfirmModal } from '../../components/ConfirmModal'
-import type { OrgNode } from '../../types/user'
+import { useEffect, useState } from "react";
+import { useOrgStore } from "./orgStore";
+import { ConfirmModal } from "../../components/ConfirmModal";
+import type { OrgNode } from "../../types/user";
 
 interface TreeNodeProps {
-  node: OrgNode
-  depth: number
-  expandedSet: Set<string>
-  onToggle: (id: string) => void
-  onAddChild: (parentId: string) => void
-  onEdit: (node: OrgNode) => void
-  onDelete: (node: OrgNode) => void
-  onSelect?: (node: OrgNode) => void
+  node: OrgNode;
+  depth: number;
+  expandedSet: Set<string>;
+  onToggle: (id: string) => void;
+  onAddChild: (parentId: string) => void;
+  onEdit: (node: OrgNode) => void;
+  onDelete: (node: OrgNode) => void;
+  onSelect?: (node: OrgNode) => void;
 }
 
-function TreeNode({ node, depth, expandedSet, onToggle, onAddChild, onEdit, onDelete, onSelect }: TreeNodeProps) {
-  const hasChildren = !!node.children?.length
-  const isExpanded = expandedSet.has(node.id)
+function TreeNode({
+  node,
+  depth,
+  expandedSet,
+  onToggle,
+  onAddChild,
+  onEdit,
+  onDelete,
+  onSelect,
+}: TreeNodeProps) {
+  const hasChildren = !!node.children?.length;
+  const isExpanded = expandedSet.has(node.id);
 
   const handleClick = () => {
-    if (hasChildren) onToggle(node.id)
-    onSelect?.(node)
-  }
+    if (hasChildren) onToggle(node.id);
+    onSelect?.(node);
+  };
 
   return (
     <li data-org-node={node.id} className="select-none">
@@ -33,37 +42,49 @@ function TreeNode({ node, depth, expandedSet, onToggle, onAddChild, onEdit, onDe
           <span
             data-expand-icon
             className="text-gray-400 text-xs w-3 cursor-pointer"
-            onClick={(e) => { e.stopPropagation(); onToggle(node.id) }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle(node.id);
+            }}
           >
-            {isExpanded ? '▼' : '▶'}
+            {isExpanded ? "▼" : "▶"}
           </span>
         ) : (
           <span className="w-3" />
         )}
-        <span
-          className="flex-1 text-sm cursor-pointer"
-          onClick={handleClick}
-        >
+        <span className="flex-1 text-sm cursor-pointer" onClick={handleClick}>
           {node.name}
         </span>
         <span className="hidden group-hover:inline-flex gap-1 text-xs">
           <button
-            onClick={(e) => { e.stopPropagation(); onAddChild(node.id) }}
+            data-fn="M02.F01.I04"
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddChild(node.id);
+            }}
             className="px-1 text-green-600 hover:underline"
             title="添加子部门"
           >
             +子部门
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); onEdit(node) }}
+            data-fn="M02.F01.I05"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(node);
+            }}
             className="px-1 text-blue-600 hover:underline"
             title="编辑"
           >
             编辑
           </button>
-          {node.id !== 'org-root' && (
+          {node.id !== "org-root" && (
             <button
-              onClick={(e) => { e.stopPropagation(); onDelete(node) }}
+              data-fn="M02.F01.I06"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(node);
+              }}
               className="px-1 text-red-600 hover:underline"
               title="删除"
             >
@@ -90,37 +111,44 @@ function TreeNode({ node, depth, expandedSet, onToggle, onAddChild, onEdit, onDe
         </ul>
       )}
     </li>
-  )
+  );
 }
 
 interface OrgFormValues {
-  name: string
+  name: string;
 }
 
 interface OrgFormModalProps {
-  open: boolean
-  title: string
-  initialName?: string
-  onSubmit: (values: OrgFormValues) => void
-  onCancel: () => void
-  loading?: boolean
+  open: boolean;
+  title: string;
+  initialName?: string;
+  onSubmit: (values: OrgFormValues) => void;
+  onCancel: () => void;
+  loading?: boolean;
 }
 
-function OrgFormModal({ open, title, initialName = '', onSubmit, onCancel, loading }: OrgFormModalProps) {
-  const [name, setName] = useState(initialName)
+function OrgFormModal({
+  open,
+  title,
+  initialName = "",
+  onSubmit,
+  onCancel,
+  loading,
+}: OrgFormModalProps) {
+  const [name, setName] = useState(initialName);
 
   useEffect(() => {
-    if (open) setName(initialName)
-  }, [open, initialName])
+    if (open) setName(initialName);
+  }, [open, initialName]);
 
-  if (!open) return null
+  if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <form
         onSubmit={(e) => {
-          e.preventDefault()
-          if (name.trim()) onSubmit({ name: name.trim() })
+          e.preventDefault();
+          if (name.trim()) onSubmit({ name: name.trim() });
         }}
         className="bg-white rounded-lg shadow-xl w-[400px]"
       >
@@ -137,108 +165,128 @@ function OrgFormModal({ open, title, initialName = '', onSubmit, onCancel, loadi
           />
         </div>
         <div className="px-6 py-3 flex justify-end gap-2 border-t">
-          <button type="button" onClick={onCancel} className="px-4 py-2 text-sm rounded border border-gray-300">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-2 text-sm rounded border border-gray-300"
+          >
             取消
           </button>
-          <button type="submit" disabled={loading || !name.trim()} className="px-4 py-2 text-sm rounded bg-blue-600 text-white disabled:opacity-50">
-            {loading ? '保存中...' : '保存'}
+          <button
+            type="submit"
+            disabled={loading || !name.trim()}
+            className="px-4 py-2 text-sm rounded bg-blue-600 text-white disabled:opacity-50"
+          >
+            {loading ? "保存中..." : "保存"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
 interface OrgTreeProps {
-  onSelect?: (node: OrgNode) => void
+  onSelect?: (node: OrgNode) => void;
 }
 
 export function OrgTree({ onSelect }: OrgTreeProps = {}) {
-  const { tree, loading, error, fetchOrgTree, createOrgNode, updateOrgNode, deleteOrgNode } = useOrgStore()
+  const {
+    tree,
+    loading,
+    error,
+    fetchOrgTree,
+    createOrgNode,
+    updateOrgNode,
+    deleteOrgNode,
+  } = useOrgStore();
 
-  const [expandedSet, setExpandedSet] = useState<Set<string>>(new Set(['org-root']))
-  const [formOpen, setFormOpen] = useState(false)
-  const [formTitle, setFormTitle] = useState('新增部门')
-  const [formMode, setFormMode] = useState<'create' | 'edit'>('create')
-  const [formParentId, setFormParentId] = useState<string | null>(null)
-  const [formNodeId, setFormNodeId] = useState<string | null>(null)
-  const [formName, setFormName] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-  const [deleteTarget, setDeleteTarget] = useState<OrgNode | null>(null)
-  const [deleting, setDeleting] = useState(false)
+  const [expandedSet, setExpandedSet] = useState<Set<string>>(new Set(["org-root"]));
+  const [formOpen, setFormOpen] = useState(false);
+  const [formTitle, setFormTitle] = useState("新增部门");
+  const [formMode, setFormMode] = useState<"create" | "edit">("create");
+  const [formParentId, setFormParentId] = useState<string | null>(null);
+  const [formNodeId, setFormNodeId] = useState<string | null>(null);
+  const [formName, setFormName] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<OrgNode | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
-  useEffect(() => { fetchOrgTree() }, [fetchOrgTree])
+  useEffect(() => {
+    fetchOrgTree();
+  }, [fetchOrgTree]);
 
   // 初始化展开状态（根 + 一级）
   useEffect(() => {
-    if (!tree) return
-    const initial = new Set<string>(['org-root'])
-    tree.children?.forEach((c) => initial.add(c.id))
-    setExpandedSet(initial)
-  }, [tree])
+    if (!tree) return;
+    const initial = new Set<string>(["org-root"]);
+    tree.children?.forEach((c) => initial.add(c.id));
+    setExpandedSet(initial);
+  }, [tree]);
 
   const toggleExpand = (id: string) => {
     setExpandedSet((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
-  }
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const openCreate = (parentId: string) => {
-    setFormMode('create')
-    setFormParentId(parentId)
-    setFormNodeId(null)
-    setFormName('')
-    setFormTitle('新增子部门')
-    setFormOpen(true)
-  }
+    setFormMode("create");
+    setFormParentId(parentId);
+    setFormNodeId(null);
+    setFormName("");
+    setFormTitle("新增子部门");
+    setFormOpen(true);
+  };
 
   const openEdit = (node: OrgNode) => {
-    setFormMode('edit')
-    setFormNodeId(node.id)
-    setFormParentId(null)
-    setFormName(node.name)
-    setFormTitle('编辑部门')
-    setFormOpen(true)
-  }
+    setFormMode("edit");
+    setFormNodeId(node.id);
+    setFormParentId(null);
+    setFormName(node.name);
+    setFormTitle("编辑部门");
+    setFormOpen(true);
+  };
 
   const handleFormSubmit = async (values: OrgFormValues) => {
-    setSubmitting(true)
+    setSubmitting(true);
     try {
-      if (formMode === 'create' && formParentId) {
-        await createOrgNode(values.name, formParentId)
-      } else if (formMode === 'edit' && formNodeId) {
-        await updateOrgNode(formNodeId, values.name)
+      if (formMode === "create" && formParentId) {
+        await createOrgNode(values.name, formParentId);
+      } else if (formMode === "edit" && formNodeId) {
+        await updateOrgNode(formNodeId, values.name);
       }
-      setFormOpen(false)
+      setFormOpen(false);
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const handleDelete = async () => {
-    if (!deleteTarget) return
-    setDeleting(true)
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
-      await deleteOrgNode(deleteTarget.id)
-      setDeleteTarget(null)
+      await deleteOrgNode(deleteTarget.id);
+      setDeleteTarget(null);
     } finally {
-      setDeleting(false)
+      setDeleting(false);
     }
-  }
+  };
 
   if (loading && !tree) {
-    return <div className="text-gray-400 text-sm p-4">加载组织架构...</div>
+    return <div className="text-gray-400 text-sm p-4">加载组织架构...</div>;
   }
 
   return (
-    <div className="space-y-4">
+    <div data-fn="M02.F01.I01" className="space-y-4">
+      <span data-fn="M02.F01.I02" style={{ display: "none" }} aria-hidden="true" />
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">组织管理</h2>
         <button
-          onClick={() => openCreate('org-root')}
+          data-fn="M02.F01.I03"
+          onClick={() => openCreate("org-root")}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
         >
           新增根部门
@@ -287,15 +335,15 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
         title="删除确认"
         message={
           deleteTarget
-            ? `确定删除部门「${deleteTarget.name}」？${deleteTarget.children?.length ? '该部门有子部门，将一并删除。' : ''}此操作不可撤销。`
-            : ''
+            ? `确定删除部门「${deleteTarget.name}」？${deleteTarget.children?.length ? "该部门有子部门，将一并删除。" : ""}此操作不可撤销。`
+            : ""
         }
         loading={deleting}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />
     </div>
-  )
+  );
 }
 
-export default OrgTree
+export default OrgTree;
