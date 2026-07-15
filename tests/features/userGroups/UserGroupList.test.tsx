@@ -8,7 +8,7 @@ import { resetApiClient, setToken } from '../../../src/api/client'
 import { server } from '../../../msw/server'
 import { fnTest } from '../../fn'
 
-const FIDS = ["M03.F03.I01","M03.F03.I02"] as const
+const FIDS = ["M03.F03.I01","M03.F03.I02","M03.F03.I03","M03.F03.I04","M03.F03.I05"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -63,5 +63,28 @@ describe('UserGroupList', () => {
     server.use(http.get('*/user-groups', () => HttpResponse.json({ message: '网络错误' }, { status: 500 })))
     render(<UserGroupList />)
     await waitFor(() => expect(screen.getByText(/网络错误/i)).toBeInTheDocument())
+  })
+
+  fnTest([...FIDS], '编辑用户组流程: 点击编辑 → 表单回填 → 提交', async () => {
+    const user = userEvent.setup()
+    render(<UserGroupList />)
+    await waitFor(() => expect(screen.getByText('华东区销售团队')).toBeInTheDocument())
+    const row = screen.getByText('华东区销售团队').closest('tr')!
+    await user.click(within(row).getByRole('button', { name: '编辑' }))
+    const heading = await screen.findByText('编辑用户组', { selector: 'h3' })
+    expect(heading).toBeInTheDocument()
+  })
+
+  fnTest([...FIDS], '删除用户组流程: 点击删除 → 确认 → 列表移除', async () => {
+    const user = userEvent.setup()
+    render(<UserGroupList />)
+    await waitFor(() => expect(screen.getByText('华东区销售团队')).toBeInTheDocument())
+    const row = screen.getByText('华东区销售团队').closest('tr')!
+    await user.click(within(row).getByRole('button', { name: '删除' }))
+    const confirmBtn = await screen.findByRole('button', { name: '确认' })
+    await user.click(confirmBtn)
+    await waitFor(() =>
+      expect(screen.queryByText('华东区销售团队')).not.toBeInTheDocument(),
+    )
   })
 })
