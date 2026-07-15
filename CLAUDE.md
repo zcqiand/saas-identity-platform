@@ -1,81 +1,34 @@
-# saas-identity-platform — 仓库工作约定（供 Claude Code）
+# CLAUDE.md — saas-identity-platform
 
-本仓为《React从入门到项目实践》案例二（SaaS 多租户身份平台）的可运行配套工程，是书稿代码块的 **source of truth**。
+> 入口，不是手册。L0 门强制上限 60 行。细节进 `docs/conventions/saas-book-conventions.md`。
 
-## 项目定位
+## 1. 是什么
 
-SaaS 多租户身份平台的 React 可运行案例仓，配套 ch39-42，MSW mock 全覆盖（含 OAuth2 授权服务器模拟），无 Key/Docker/网络依赖。
+本仓是《React从入门到项目实践》案例二（SaaS 多租户身份平台）的可运行配套工程，覆盖 ch39-42。MSW mock 全覆盖（含 OAuth2 授权服务器模拟），无 Key / Docker / 网络依赖。**书稿代码块的 source of truth**——书与仓不一致以仓为准。
 
-## 铁律
+## 2. 禁止事项（项目铁律）
 
-- **TDD**：每个模块先写失败测试 → 跑确认失败 → 实现 → 跑确认绿 → commit。
-- **版本钉死**：依赖与 `version-lock.json` 的 `version_lock` 一致；不引入 lock 外的库。
-- **tag 即放行**：全量回归绿后打 `v<MAJOR>.<MINOR>-<NNN>`（NNN=项目号）。
-- **只增不改**：扩充时不动现有模块签名/行为；新模块独立测试，CI 双跑（旧测试 + 新测试都绿）。
-- **mock-friendly**：`npm install && npm test` 必须在无 Key、无 Docker、无网下全绿。
+- **TDD**：先写失败测试 → 跑确认失败 → 实现 → 跑确认绿 → commit
+- **版本钉死**：依赖必须落在 `version-lock.json` 的 `version_lock` 范围内；不引入 lock 外的库
+- **tag 即放行**：全量回归绿后打 `v<MAJOR>.<MINOR>-<NNN>`（NNN=项目号）
+- **mock-friendly**：`npm install && npm test` 在无 Key / Docker / 网络下全绿
+- 不直接改 `docs/functions/function-tree.md`；走 `/tree-change` 提案由人批准
+- 不先改代码后补功能清单；改功能与改功能清单必须同一个 commit
+- 不删功能清单里的行来消除告警；废弃改状态，编号永不复用
+- 不在本文件里堆细则
 
-## 技术栈与版本（钉死于 version-lock.json）
+技术栈与版本钉死于 `version-lock.json` 的 `version_lock` + `package.json`。
 
-- React 19.x
-- TypeScript 5.6
-- Vite 6.x
-- React Router 7.x
-- Zustand 5.x
-- Tailwind CSS 4.x
-- Vitest 2.x
-- MSW 2.x
-- axios 1.x
-- react-window 1.8
-- @sentry/react 8
-- Node 20 LTS，npm
+## 3. 指向别处
 
-## 验收
+- 编码约定 / 目录结构 / MSW handler 规则 → [docs/conventions/saas-book-conventions.md](docs/conventions/saas-book-conventions.md)
+- shadcn/ui 底座使用 → `src/components/ui/`（shadcn 原语）+ `src/components/app/`（app 级复合）
+- 通用 React 性能/UI 惯例 → [docs/conventions/react-perf.md](docs/conventions/react-perf.md) 与 [docs/conventions/app-ui.md](docs/conventions/app-ui.md)
+- 门禁命令 → `.harness/stack.json`
 
-```bash
-npm install      # 离线可用（首次需联网，之后 node_modules 已就绪）
-npm test         # 必须全绿，无需 Key/Docker/网络
-npm run build    # tsc -b && vite build，无错
-```
+## 4. 工作循环
 
-## 目录结构
-
-```
-src/
-├── types/            # 业务实体类型（tenant.ts / user.ts / rbac.ts）
-├── app/              # 应用骨架（router.tsx / layouts/）
-├── pages/            # 路由页面
-├── api/              # HTTP 客户端封装
-├── features/
-│   ├── tenant/       # 多租户（TenantContext / tenantStore / TenantLayout / TenantSwitcher / theme）
-│   ├── sso/          # SSO 跳转与回调
-│   ├── rbac/         # RBAC（roleStore / RoleList / RoleFormModal / MenuPermissions）
-│   ├── permissionGroups/  # 权限组
-│   ├── positions/    # 岗位
-│   ├── userGroups/   # 用户组
-│   ├── apiKeys/      # API Key
-│   ├── apps/         # 应用
-│   ├── auth/         # 认证 store
-│   ├── users/        # 用户管理
-│   ├── orgs/         # 组织管理
-│   └── audit/        # 审计日志
-├── monitoring/       # Sentry + Web Vitals
-└── main.tsx / App.tsx
-msw/
-├── handlers.ts       # MSW handler 注册表（只增不改）
-├── jwt.ts            # mock JWT 签发/校验
-├── db.ts             # mock 内存数据库
-└── server.ts         # Node 端 server 实例
-tests/
-├── setup.ts          # vitest 全局 setup
-└── *.test.ts(x)      # 与 src/ 一一对应的测试
-Dockerfile            # 多阶段构建
-deploy/nginx.conf     # SPA fallback + /api/ 反向代理
-```
-
-## 编码约定
-
-- 所有业务类型放在 `src/types/`
-- 所有 HTTP 客户端封装在 `src/api/`
-- 特性按 `src/features/` 组织
-- MSW handler 只增不改，注册表在 `msw/handlers.ts`
-- JWT 在 mock 层签发/校验，非生产凭证
+1. `npm test` —— 「tag 即放行」的最低标准
+2. `npm run build` —— tsc -b && vite build
+3. `python ../../scripts/gate.py -p saas-identity-platform` —— suite 门禁（L0/L1/L2/L3/L4/L5）
+4. exit 0 = 完成；非 0 回到第 1 步；exit 2 停下问人，不要自行改 `.harness/stack.json` 让门变松

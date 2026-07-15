@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import FnReporter from './tests/fnReporter'
 
 // 测试配置。与 vite.config.ts 分离以避免 vite/vitest 类型冲突。
 export default defineConfig({
@@ -15,6 +16,9 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./tests/setup.ts'],
     css: true,
+    // suite 契约二：把 fnTest 标记落成 .state/trace.json。
+    // 仅当 TRACE_MAP=1 时生效，由 stack.json 的 trace_env 控制。
+    reporters: ['default', new FnReporter()],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'text-summary', 'html'],

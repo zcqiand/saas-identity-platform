@@ -61,5 +61,5 @@ npm run build   # 生产构建
 
 ## 快速链接
 
-- [功能规格文档.md](功能规格文档.md) — 功能名称、描述与验收标准
+- [功能清单.md](docs/functions/function-tree.md) — 功能名称、描述与验收标准
 - [CLAUDE.md](CLAUDE.md) — 开发约定与编码规范

@@ -3,40 +3,40 @@
 /** 主题配置：通过 CSS 变量注入 document.documentElement */
 export interface ThemeConfig {
   /** 主色（按钮/链接/高亮） */
-  primary: string
+  primary: string;
   /** 侧边栏背景色 */
-  sidebar: string
+  sidebar: string;
   /** Logo 文本 */
-  logoText: string
+  logoText: string;
 }
 
 /** 租户配置 */
 export interface TenantConfig {
-  id: string
-  name: string
-  theme: ThemeConfig
+  id: string;
+  name: string;
+  theme: ThemeConfig;
   /** 启用的功能模块（如 sso/audit/rbac） */
-  features: string[]
+  features: string[];
   /** 可选：最大用户数等业务配置 */
   config?: {
-    maxUsers?: number
-    [key: string]: unknown
-  }
+    maxUsers?: number;
+    [key: string]: unknown;
+  };
 }
 
 /** 租户 store 状态 */
 export interface TenantState {
   /** 当前租户 */
-  current: TenantConfig | null
+  current: TenantConfig | null;
   /** 租户列表 */
-  list: TenantConfig[]
-  loading: boolean
-  error: string | null
+  list: TenantConfig[];
+  loading: boolean;
+  error: string | null;
 }
 
 /** 租户创建/更新输入 */
 export interface TenantCreateInput {
-  name: string
-  theme: ThemeConfig
-  config?: { features?: string[]; maxUsers?: number }
+  name: string;
+  theme: ThemeConfig;
+  config?: { features?: string[]; maxUsers?: number };
 }

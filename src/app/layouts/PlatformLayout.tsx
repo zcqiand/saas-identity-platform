@@ -1,17 +1,20 @@
-import { type ReactNode } from 'react'
-import { NavLink } from 'react-router'
+import { type ReactNode } from "react";
+import { NavLink } from "react-router";
 
-interface NavItem { to: string; label: string }
+interface NavItem {
+  to: string;
+  label: string;
+}
 
 const navItems: NavItem[] = [
-  { to: '/platform/tenants', label: '租户管理' },
-  { to: '/platform/apps', label: '应用管理' },
-  { to: '/platform/open-platform', label: '开放平台' },
-  { to: '/platform/config', label: '平台配置' },
-]
+  { to: "/platform/tenants", label: "租户管理" },
+  { to: "/platform/apps", label: "应用管理" },
+  { to: "/platform/open-platform", label: "开放平台" },
+  { to: "/platform/config", label: "平台配置" },
+];
 
 interface PlatformLayoutProps {
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 export function PlatformLayout({ children }: PlatformLayoutProps) {
@@ -30,7 +33,9 @@ export function PlatformLayout({ children }: PlatformLayoutProps) {
               end
               className={({ isActive }) =>
                 `block px-3 py-2 rounded text-sm transition-colors ${
-                  isActive ? 'text-white bg-slate-700' : 'text-white/70 hover:bg-white/10 hover:text-white'
+                  isActive
+                    ? "text-white bg-slate-700"
+                    : "text-white/70 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
@@ -41,5 +46,5 @@ export function PlatformLayout({ children }: PlatformLayoutProps) {
       </aside>
       <main className="flex-1 bg-gray-50 p-6 overflow-auto">{children}</main>
     </div>
-  )
+  );
 }

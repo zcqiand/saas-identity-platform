@@ -1,36 +1,42 @@
-import { type ReactNode, useMemo } from 'react'
-import type { CSSProperties } from 'react'
-import { FixedSizeList as BaseFixedSizeList } from 'react-window'
+import { type ReactNode, useMemo } from "react";
+import type { CSSProperties } from "react";
+import { FixedSizeList as BaseFixedSizeList } from "react-window";
 
 interface VirtualListProps<T> {
-  items: T[]
-  height: number
-  itemSize: number
-  width: number | string
+  items: T[];
+  height: number;
+  itemSize: number;
+  width: number | string;
   /** 额外渲染的可视区外行数（默认 2） */
-  overscanCount?: number
-  renderItem: (props: { item: T; index: number }) => ReactNode
-  className?: string
+  overscanCount?: number;
+  renderItem: (props: { item: T; index: number }) => ReactNode;
+  className?: string;
 }
 
 interface VirtualRowProps<T> {
-  index: number
-  style: CSSProperties
-  data: T[]
-  className?: string
-  renderItem: (props: { item: T; index: number }) => ReactNode
+  index: number;
+  style: CSSProperties;
+  data: T[];
+  className?: string;
+  renderItem: (props: { item: T; index: number }) => ReactNode;
 }
 
 /**
  * 单行渲染器。提到模块顶层以避免 react/no-unstable-nested-components
  * （每次 render 重建 component type 会卸载整棵子树）。
  */
-function VirtualRow<T>({ index, style, data, className, renderItem }: VirtualRowProps<T>) {
+function VirtualRow<T>({
+  index,
+  style,
+  data,
+  className,
+  renderItem,
+}: VirtualRowProps<T>) {
   return (
     <div style={style} data-virtual-item="true" className={className}>
       {renderItem({ item: data[index], index })}
     </div>
-  )
+  );
 }
 
 /**
@@ -46,9 +52,9 @@ export function VirtualList<T>({
   renderItem,
   className,
 }: VirtualListProps<T>) {
-  const itemData = useMemo(() => items, [items])
+  const itemData = useMemo(() => items, [items]);
 
-  if (items.length === 0) return <div style={{ height, width }} />
+  if (items.length === 0) return <div style={{ height, width }} />;
 
   return (
     <BaseFixedSizeList
@@ -69,5 +75,5 @@ export function VirtualList<T>({
         />
       )}
     </BaseFixedSizeList>
-  )
+  );
 }
