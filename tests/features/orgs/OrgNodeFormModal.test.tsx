@@ -1,16 +1,19 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { OrgNodeFormModal } from '../../../src/features/orgs/OrgNodeFormModal'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M02.F01.I08"] as const
 
 describe('OrgNodeFormModal', () => {
-  it('create 模式: 标题"新增组织节点"', () => {
+  fnTest([...FIDS], 'create 模式: 标题"新增组织节点"', () => {
     render(<OrgNodeFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('新增组织节点')).toBeInTheDocument()
     expect((screen.getByLabelText(/节点名称/) as HTMLInputElement).value).toBe('')
   })
 
-  it('edit 模式: 填充 initialName', () => {
+  fnTest([...FIDS], 'edit 模式: 填充 initialName', () => {
     render(
       <OrgNodeFormModal
         open
@@ -25,7 +28,7 @@ describe('OrgNodeFormModal', () => {
     expect((screen.getByLabelText(/节点名称/) as HTMLInputElement).value).toBe('技术部')
   })
 
-  it('create 提交触发 onSubmit(name, parentId)', async () => {
+  fnTest([...FIDS], 'create 提交触发 onSubmit(name, parentId)', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(
@@ -42,7 +45,7 @@ describe('OrgNodeFormModal', () => {
     expect(onSubmit).toHaveBeenCalledWith('新部门XYZ', 'org-acme')
   })
 
-  it('edit 提交触发 onSubmit(name)', async () => {
+  fnTest([...FIDS], 'edit 提交触发 onSubmit(name)', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(
@@ -62,7 +65,7 @@ describe('OrgNodeFormModal', () => {
     expect(onSubmit).toHaveBeenCalledWith('技术研发部', 'org-tech')
   })
 
-  it('空名称校验', async () => {
+  fnTest([...FIDS], '空名称校验', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<OrgNodeFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -71,7 +74,7 @@ describe('OrgNodeFormModal', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('点取消触发 onCancel', async () => {
+  fnTest([...FIDS], '点取消触发 onCancel', async () => {
     const user = userEvent.setup()
     const onCancel = vi.fn()
     render(<OrgNodeFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
@@ -79,7 +82,7 @@ describe('OrgNodeFormModal', () => {
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
-  it('loading 禁用保存', () => {
+  fnTest([...FIDS], 'loading 禁用保存', () => {
     render(<OrgNodeFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByRole('button', { name: /保存中/ })).toBeDisabled()
   })

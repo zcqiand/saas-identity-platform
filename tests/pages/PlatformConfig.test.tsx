@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { resetApiClient } from '../../src/api/client'
 import PlatformConfigPage from '../../src/pages/PlatformConfig'
+import { fnTest } from '../fn'
 
 beforeEach(() => {
   localStorage.clear()
@@ -9,12 +10,12 @@ beforeEach(() => {
 })
 
 describe('PlatformConfigPage', () => {
-  it('mount 后渲染页面标题', () => {
+  fnTest(["M06.F08.I01"], 'mount 后渲染页面标题', () => {
     render(<PlatformConfigPage />)
     expect(screen.getByText('平台配置')).toBeInTheDocument()
   })
 
-  it('渲染平台信息', () => {
+  fnTest(["M06.F08.I01"], '渲染平台信息', () => {
     render(<PlatformConfigPage />)
     expect(screen.getByText('平台名称')).toBeInTheDocument()
     expect(screen.getByText('SaaS IAM 统一身份管理平台')).toBeInTheDocument()
@@ -23,7 +24,7 @@ describe('PlatformConfigPage', () => {
     expect(screen.getByText('功能模块')).toBeInTheDocument()
   })
 
-  it('渲染功能模块列表', () => {
+  fnTest(["M06.F08.I01"], '渲染功能模块列表', () => {
     render(<PlatformConfigPage />)
     expect(screen.getByText(/多租户/)).toBeInTheDocument()
     expect(screen.getByText(/RBAC/)).toBeInTheDocument()

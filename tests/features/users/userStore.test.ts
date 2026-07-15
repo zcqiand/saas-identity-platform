@@ -1,9 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { server } from '../../../msw/server'
 import { resetMockDb } from '../../../msw/db'
 import { useUserStore } from '../../../src/features/users/userStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M02.F02.I02","M02.F02.I03","M02.F02.I04","M02.F02.I05","M02.F02.I06","M02.F02.I07","M02.F02.I08","M02.F02.I09"] as const
 
 const API_BASE = 'http://localhost/api'
 
@@ -32,14 +35,14 @@ beforeEach(() => {
 })
 
 describe('userStore', () => {
-  it('初始状态', () => {
+  fnTest([...FIDS], '初始状态', () => {
     const s = useUserStore.getState()
     expect(s.list).toEqual([])
     expect(s.total).toBe(0)
     expect(s.loading).toBe(false)
   })
 
-  it('fetchUsers 成功填充 list/total', async () => {
+  fnTest([...FIDS], 'fetchUsers 成功填充 list/total', async () => {
     await seed(3)
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10 })
     const s = useUserStore.getState()
@@ -49,7 +52,7 @@ describe('userStore', () => {
     expect(s.loading).toBe(false)
   })
 
-  it('fetchUsers keyword 搜索', async () => {
+  fnTest([...FIDS], 'fetchUsers keyword 搜索', async () => {
     await fetch(`${API_BASE}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -60,14 +63,14 @@ describe('userStore', () => {
     expect(useUserStore.getState().list).toHaveLength(1)
   })
 
-  it('fetchUsers role 筛选', async () => {
+  fnTest([...FIDS], 'fetchUsers role 筛选', async () => {
     await seed(4)
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10, role: 'admin' })
     const s = useUserStore.getState()
     expect(s.list.every((u) => u.roles.includes('admin'))).toBe(true)
   })
 
-  it('fetchUsers orgId 筛选', async () => {
+  fnTest([...FIDS], 'fetchUsers orgId 筛选', async () => {
     await fetch(`${API_BASE}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -78,13 +81,13 @@ describe('userStore', () => {
     expect(useUserStore.getState().list.every((u) => u.orgId === 'org-globex')).toBe(true)
   })
 
-  it('fetchUsers 网络错误后 error 填充', async () => {
+  fnTest([...FIDS], 'fetchUsers 网络错误后 error 填充', async () => {
     server.use(http.get('*/users', () => HttpResponse.error()))
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10 })
     expect(useUserStore.getState().error).toBeTruthy()
   })
 
-  it('createUser 成功追加 list', async () => {
+  fnTest([...FIDS], 'createUser 成功追加 list', async () => {
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10 })
     await useUserStore.getState().createUser({
       username: 'new@acme',
@@ -96,12 +99,12 @@ describe('userStore', () => {
     expect(useUserStore.getState().list.some((u) => u.username === 'new@acme')).toBe(true)
   })
 
-  it('createUser 失败后 error', async () => {
+  fnTest([...FIDS], 'createUser 失败后 error', async () => {
     await useUserStore.getState().createUser({ username: '', displayName: '', email: '', orgId: '', roles: [] })
     expect(useUserStore.getState().error).toBeTruthy()
   })
 
-  it('updateUser 成功同步 list', async () => {
+  fnTest([...FIDS], 'updateUser 成功同步 list', async () => {
     await seed(1)
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10 })
     const target = useUserStore.getState().list[0]
@@ -111,7 +114,7 @@ describe('userStore', () => {
     expect(updated?.status).toBe('disabled')
   })
 
-  it('deleteUser 成功移除', async () => {
+  fnTest([...FIDS], 'deleteUser 成功移除', async () => {
     await seed(2)
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10 })
     const target = useUserStore.getState().list[0]
@@ -121,7 +124,7 @@ describe('userStore', () => {
     expect(useUserStore.getState().total).toBe(totalBefore - 1)
   })
 
-  it('clearError', async () => {
+  fnTest([...FIDS], 'clearError', async () => {
     server.use(http.get('*/users', () => HttpResponse.error()))
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10 })
     expect(useUserStore.getState().error).toBeTruthy()

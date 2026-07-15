@@ -1,8 +1,11 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { UserFormModal } from '../../../src/features/users/UserFormModal'
 import type { User } from '../../../src/types/user'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M02.F02.I05","M02.F02.I06"] as const
 
 const editUser: User = {
   id: 'u-edit',
@@ -17,20 +20,20 @@ const editUser: User = {
 }
 
 describe('UserFormModal', () => {
-  it('create 模式: 标题"新建用户"，表单空', () => {
+  fnTest([...FIDS], 'create 模式: 标题"新建用户"，表单空', () => {
     render(<UserFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('新建用户')).toBeInTheDocument()
     expect((screen.getByLabelText(/用户名/) as HTMLInputElement).value).toBe('')
   })
 
-  it('edit 模式: 填充 initialValues', () => {
+  fnTest([...FIDS], 'edit 模式: 填充 initialValues', () => {
     render(<UserFormModal open mode="edit" initialValues={editUser} onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('编辑用户')).toBeInTheDocument()
     expect((screen.getByLabelText(/用户名/) as HTMLInputElement).value).toBe('edit@acme')
     expect((screen.getByLabelText(/显示名/) as HTMLInputElement).value).toBe('原用户')
   })
 
-  it('create 提交触发 onSubmit（无 orgTree 时 orgId 为文本框）', async () => {
+  fnTest([...FIDS], 'create 提交触发 onSubmit（无 orgTree 时 orgId 为文本框）', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -51,7 +54,7 @@ describe('UserFormModal', () => {
     )
   })
 
-  it('create 提交触发 onSubmit（有 orgTree 时 orgId 为下拉）', async () => {
+  fnTest([...FIDS], 'create 提交触发 onSubmit（有 orgTree 时 orgId 为下拉）', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     const mockOrgTree = {
@@ -77,7 +80,7 @@ describe('UserFormModal', () => {
     )
   })
 
-  it('edit 提交含 id', async () => {
+  fnTest([...FIDS], 'edit 提交含 id', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<UserFormModal open mode="edit" initialValues={editUser} onSubmit={onSubmit} onCancel={() => {}} />)
@@ -90,7 +93,7 @@ describe('UserFormModal', () => {
     )
   })
 
-  it('必填校验', async () => {
+  fnTest([...FIDS], '必填校验', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -101,7 +104,7 @@ describe('UserFormModal', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('点取消触发 onCancel', async () => {
+  fnTest([...FIDS], '点取消触发 onCancel', async () => {
     const user = userEvent.setup()
     const onCancel = vi.fn()
     render(<UserFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
@@ -109,7 +112,7 @@ describe('UserFormModal', () => {
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
-  it('loading 禁用保存', () => {
+  fnTest([...FIDS], 'loading 禁用保存', () => {
     render(<UserFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByRole('button', { name: /保存中/ })).toBeDisabled()
   })

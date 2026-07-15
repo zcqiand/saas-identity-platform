@@ -7,13 +7,9 @@ import { MenuList } from '../../../src/features/apps/MenuList'
 import { useAppStore } from '../../../src/features/apps/appStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
 import { server } from '../../../msw/server'
-import type { MenuItem } from '../../../src/types/app'
+import { fnTest } from '../../fn'
 
-const MOCK_MENUS: MenuItem[] = [
-  { id: 'm-lab-01', name: '仪表盘', path: 'dashboard', appId: 'app-lab', parentId: null, sort: 1, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-02', name: '合同管理', path: 'contracts', appId: 'app-lab', parentId: null, sort: 2, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-21', name: '用户管理', path: 'users', appId: 'app-lab', parentId: 'm-lab-settings', sort: 1, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-]
+const FIDS = ["M04.F01.I07","M04.F01.I08","M04.F01.I09","M04.F01.I10","M04.F01.I11","M04.F01.I12"] as const
 
 function makeRouter(appId = 'app-lab') {
   const router = createMemoryRouter(
@@ -34,27 +30,27 @@ beforeEach(() => {
 })
 
 describe('MenuList', () => {
-  it('mount 后拉取并渲染菜单列表', async () => {
+  fnTest([...FIDS], 'mount 后拉取并渲染菜单列表', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
     expect(screen.getByText('合同管理')).toBeInTheDocument()
   })
 
-  it('渲染菜单名称和路由路径', async () => {
+  fnTest([...FIDS], '渲染菜单名称和路由路径', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
     const row = screen.getByText('仪表盘').closest('tr')!
     expect(within(row).getByText('dashboard')).toBeInTheDocument()
   })
 
-  it('渲染启用/禁用状态', async () => {
+  fnTest([...FIDS], '渲染启用/禁用状态', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
     const row = screen.getByText('仪表盘').closest('tr')!
     expect(within(row).getByText('启用')).toBeInTheDocument()
   })
 
-  it('渲染操作按钮（子菜单、编辑、删除）', async () => {
+  fnTest([...FIDS], '渲染操作按钮（子菜单、编辑、删除）', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
     const row = screen.getByText('仪表盘').closest('tr')!
@@ -63,7 +59,7 @@ describe('MenuList', () => {
     expect(within(row).getByRole('button', { name: '删除' })).toBeInTheDocument()
   })
 
-  it('渲染子菜单（带 └ 前缀）', async () => {
+  fnTest([...FIDS], '渲染子菜单（带 └ 前缀）', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
     expect(screen.getByText('用户管理')).toBeInTheDocument()
@@ -71,7 +67,7 @@ describe('MenuList', () => {
     expect(within(childRow).getByText(/└/)).toBeInTheDocument()
   })
 
-  it('点击新建菜单打开表单', async () => {
+  fnTest([...FIDS], '点击新建菜单打开表单', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
@@ -93,7 +89,7 @@ describe('MenuList', () => {
     await waitFor(() => expect(screen.getByText('新菜单XYZ')).toBeInTheDocument())
   })
 
-  it('点击子菜单按钮设置 parentId', async () => {
+  fnTest([...FIDS], '点击子菜单按钮设置 parentId', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
@@ -112,7 +108,7 @@ describe('MenuList', () => {
     expect(screen.getByText('请从应用管理进入菜单管理')).toBeInTheDocument()
   })
 
-  it('列表为空时渲染"暂无菜单"', async () => {
+  fnTest([...FIDS], '列表为空时渲染"暂无菜单"', async () => {
     server.use(http.get('*/menus', () => HttpResponse.json([])))
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText(/暂无菜单/)).toBeInTheDocument())

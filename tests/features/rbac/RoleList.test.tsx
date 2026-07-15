@@ -1,9 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RoleList } from '../../../src/features/rbac/RoleList'
 import { useRoleStore } from '../../../src/features/rbac/roleStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M03.F01.I01","M03.F01.I03","M03.F01.I04","M03.F01.I05"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -13,18 +16,18 @@ beforeEach(() => {
 })
 
 describe('RoleList', () => {
-  it('mount 后渲染"角色管理"标题', async () => {
+  fnTest([...FIDS], 'mount 后渲染"角色管理"标题', async () => {
     render(<RoleList />)
     await waitFor(() => expect(screen.getByText('角色管理')).toBeInTheDocument())
   })
 
-  it('mount 后拉取角色列表', async () => {
+  fnTest([...FIDS], 'mount 后拉取角色列表', async () => {
     render(<RoleList />)
     await waitFor(() => expect(screen.getByText('admin')).toBeInTheDocument())
     expect(screen.getByText('viewer')).toBeInTheDocument()
   })
 
-  it('新建角色流程', async () => {
+  fnTest([...FIDS], '新建角色流程', async () => {
     const user = userEvent.setup()
     render(<RoleList />)
     await waitFor(() => expect(screen.getByText('admin')).toBeInTheDocument())
@@ -40,7 +43,7 @@ describe('RoleList', () => {
     await waitFor(() => expect(screen.getByText('审计员')).toBeInTheDocument())
   })
 
-  it('编辑角色流程', async () => {
+  fnTest([...FIDS], '编辑角色流程', async () => {
     const user = userEvent.setup()
     render(<RoleList />)
     await waitFor(() => expect(screen.getByText('admin')).toBeInTheDocument())
@@ -57,7 +60,7 @@ describe('RoleList', () => {
     await waitFor(() => expect(screen.getByText('超级管理员')).toBeInTheDocument())
   })
 
-  it('删除角色流程', async () => {
+  fnTest([...FIDS], '删除角色流程', async () => {
     const user = userEvent.setup()
     render(<RoleList />)
     await waitFor(() => expect(screen.getByText('viewer')).toBeInTheDocument())
@@ -72,7 +75,7 @@ describe('RoleList', () => {
     expect(screen.getByText('admin')).toBeInTheDocument()
   })
 
-  it('列表为空时渲染"暂无数据"', async () => {
+  fnTest([...FIDS], '列表为空时渲染"暂无数据"', async () => {
     const { http, HttpResponse } = await import('msw')
     const { server: srv } = await import('../../../msw/server')
     srv.use(http.get('*/roles', () => HttpResponse.json([])))

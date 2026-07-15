@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor, within } from '@testing-library/react'
+import { fnTest } from '../../fn'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { TenantList } from '../../../src/features/tenant/TenantList'
@@ -24,18 +25,18 @@ beforeEach(() => {
 })
 
 describe('TenantList', () => {
-  it('mount 后渲染"平台租户管理"标题', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], 'mount 后渲染"平台租户管理"标题', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('平台租户管理')).toBeInTheDocument())
   })
 
-  it('mount 后拉取租户列表', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], 'mount 后拉取租户列表', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
     expect(screen.getByText('Globex 科技')).toBeInTheDocument()
   })
 
-  it('新建租户流程', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '新建租户流程', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
@@ -50,7 +51,7 @@ describe('TenantList', () => {
     await waitFor(() => expect(screen.getByText('新租户XYZ')).toBeInTheDocument())
   })
 
-  it('详情配置按钮包含正确的导航目标', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '详情配置按钮包含正确的导航目标', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
 
@@ -60,7 +61,7 @@ describe('TenantList', () => {
     expect(btn).toBeInTheDocument()
   })
 
-  it('删除租户流程', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '删除租户流程', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('Globex 科技')).toBeInTheDocument())
@@ -75,7 +76,7 @@ describe('TenantList', () => {
     expect(screen.getByText('ACME 集团')).toBeInTheDocument()
   })
 
-  it('搜索流程', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '搜索流程', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
@@ -87,7 +88,7 @@ describe('TenantList', () => {
     expect(screen.queryByText('Globex 科技')).not.toBeInTheDocument()
   })
 
-  it('列表为空时渲染"暂无数据"', async () => {
+  fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '列表为空时渲染"暂无数据"', async () => {
     const { http, HttpResponse } = await import('msw')
     const { server: srv } = await import('../../../msw/server')
     srv.use(http.get('*/tenants', () => HttpResponse.json([])))

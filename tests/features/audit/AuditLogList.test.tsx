@@ -1,9 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { AuditLogList } from '../../../src/features/audit/AuditLogList'
 import { useAuditStore } from '../../../src/features/audit/auditStore'
 import { resetApiClient } from '../../../src/api/client'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M05.F01.I01","M05.F01.I02","M05.F01.I03","M05.F01.I06","M05.F01.I07"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -12,13 +15,13 @@ beforeEach(() => {
 })
 
 describe('AuditLogList', () => {
-  it('mount 后渲染日志列表', async () => {
+  fnTest([...FIDS], 'mount 后渲染日志列表', async () => {
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByText('审计日志')).toBeInTheDocument())
     await waitFor(() => expect(useAuditStore.getState().list.length).toBeGreaterThan(0))
   })
 
-  it('Tab 切换到登录日志', async () => {
+  fnTest([...FIDS], 'Tab 切换到登录日志', async () => {
     const user = userEvent.setup()
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByText('全部').closest('button')).toBeDefined())
@@ -26,7 +29,7 @@ describe('AuditLogList', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: '登录日志' })).toBeInTheDocument())
   })
 
-  it('操作人筛选', async () => {
+  fnTest([...FIDS], '操作人筛选', async () => {
     const user = userEvent.setup()
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByText(/^共/)).toBeInTheDocument())
@@ -37,7 +40,7 @@ describe('AuditLogList', () => {
     })
   })
 
-  it('IP 筛选', async () => {
+  fnTest([...FIDS], 'IP 筛选', async () => {
     const user = userEvent.setup()
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByPlaceholderText(/IP 地址/)).toBeInTheDocument())
@@ -46,12 +49,12 @@ describe('AuditLogList', () => {
     await waitFor(() => expect(screen.getByPlaceholderText(/IP 地址/)).toBeInTheDocument())
   })
 
-  it('重置按钮存在', async () => {
+  fnTest([...FIDS], '重置按钮存在', async () => {
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByRole('button', { name: '重置' })).toBeInTheDocument())
   })
 
-  it('导出 CSV 按钮存在', async () => {
+  fnTest([...FIDS], '导出 CSV 按钮存在', async () => {
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByRole('button', { name: '导出 CSV' })).toBeInTheDocument())
   })

@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, expect, vi, beforeEach, afterEach } from 'vitest'
 import { buildAuthorizeUrl, redirectToSso } from '../../../src/features/sso/ssoRedirect'
+import { fnTest } from '../../fn'
 
 const originalLocation = window.location
 
@@ -19,7 +20,7 @@ afterEach(() => {
 })
 
 describe('ssoRedirect', () => {
-  it('buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL', () => {
+  fnTest(["M01.F04.I01","M01.F04.I02"], 'buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL', () => {
     const url = buildAuthorizeUrl({
       ssoBaseUrl: 'http://sso.example.com',
       clientId: 'saas-demo-client',
@@ -33,7 +34,7 @@ describe('ssoRedirect', () => {
     expect(url).toContain('response_type=code')
   })
 
-  it('buildAuthorizeUrl 用默认 env 变量', () => {
+  fnTest(["M01.F04.I01","M01.F04.I02"], 'buildAuthorizeUrl 用默认 env 变量', () => {
     const url = buildAuthorizeUrl({
       state: 'state-abc',
     })
@@ -42,7 +43,7 @@ describe('ssoRedirect', () => {
     expect(url).toContain('state=state-abc')
   })
 
-  it('redirectToSso 设置 window.location.href', () => {
+  fnTest(["M01.F04.I01","M01.F04.I02"], 'redirectToSso 设置 window.location.href', () => {
     const assignSpy = vi.fn()
     Object.defineProperty(window, 'location', {
       writable: true,

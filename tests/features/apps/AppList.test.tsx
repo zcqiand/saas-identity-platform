@@ -7,6 +7,9 @@ import { AppList } from '../../../src/features/apps/AppList'
 import { useAppStore } from '../../../src/features/apps/appStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
 import { server } from '../../../msw/server'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M04.F01.I01","M04.F01.I02","M04.F01.I03","M04.F01.I04","M04.F01.I05","M04.F01.I06"] as const
 
 function makeRouter() {
   const router = createMemoryRouter(
@@ -24,14 +27,14 @@ beforeEach(() => {
 })
 
 describe('AppList', () => {
-  it('mount 后拉取并渲染应用列表', async () => {
+  fnTest([...FIDS], 'mount 后拉取并渲染应用列表', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
     expect(screen.getByText('企业资源计划系统')).toBeInTheDocument()
     expect(screen.getByText('客户关系管理系统')).toBeInTheDocument()
   })
 
-  it('渲染应用编码和描述', async () => {
+  fnTest([...FIDS], '渲染应用编码和描述', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
     const row = screen.getByText('建筑工程实验室管理系统').closest('tr')!
@@ -39,7 +42,7 @@ describe('AppList', () => {
     expect(within(row).getByText(/建筑工程质量检测/)).toBeInTheDocument()
   })
 
-  it('渲染主题色', async () => {
+  fnTest([...FIDS], '渲染主题色', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
     const row = screen.getByText('企业资源计划系统').closest('tr')!
@@ -54,7 +57,7 @@ describe('AppList', () => {
     expect(within(screen.getByText('客户关系管理系统', { selector: 'td' }).closest('tr')!).getByText('禁用')).toBeInTheDocument()
   })
 
-  it('渲染操作按钮', async () => {
+  fnTest([...FIDS], '渲染操作按钮', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
     const row = screen.getByText('建筑工程实验室管理系统').closest('tr')!
@@ -63,7 +66,7 @@ describe('AppList', () => {
     expect(within(row).getByRole('button', { name: '删除' })).toBeInTheDocument()
   })
 
-  it('点击新建应用打开表单', async () => {
+  fnTest([...FIDS], '点击新建应用打开表单', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
@@ -71,13 +74,13 @@ describe('AppList', () => {
     expect(screen.getByText('新建应用', { selector: 'h3' })).toBeInTheDocument()
   })
 
-  it('列表为空时渲染暂无数据', async () => {
+  fnTest([...FIDS], '列表为空时渲染暂无数据', async () => {
     server.use(http.get('*/apps', () => HttpResponse.json([])))
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('暂无数据')).toBeInTheDocument())
   })
 
-  it('网络错误时渲染错误提示', async () => {
+  fnTest([...FIDS], '网络错误时渲染错误提示', async () => {
     server.use(http.get('*/apps', () => HttpResponse.json({ message: '网络错误' }, { status: 500 })))
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())

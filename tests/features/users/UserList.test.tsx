@@ -1,10 +1,13 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { UserList } from '../../../src/features/users/UserList'
 import { useUserStore } from '../../../src/features/users/userStore'
 import { usePermissionStore } from '../../../src/features/rbac/permissionStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M02.F02.I01","M02.F02.I02","M02.F02.I03","M02.F02.I04","M02.F02.I05","M02.F02.I06","M02.F02.I07"] as const
 
 const API_BASE = 'http://localhost/api'
 
@@ -33,14 +36,14 @@ beforeEach(() => {
 })
 
 describe('UserList', () => {
-  it('mount 后拉取并渲染列表', async () => {
+  fnTest([...FIDS], 'mount 后拉取并渲染列表', async () => {
     await seed(['张三', '李四'])
     render(<UserList />)
     await waitFor(() => expect(screen.getByText('张三')).toBeInTheDocument())
     expect(screen.getByText('李四')).toBeInTheDocument()
   })
 
-  it('有 user:create 权限时渲染"新增用户"按钮', async () => {
+  fnTest([...FIDS], '有 user:create 权限时渲染"新增用户"按钮', async () => {
     usePermissionStore.setState({ permissions: ['user:create', 'user:read'] })
     await seed(['甲'])
     render(<UserList />)
@@ -48,7 +51,7 @@ describe('UserList', () => {
     expect(screen.getByRole('button', { name: '新增用户' })).toBeInTheDocument()
   })
 
-  it('无 user:create 权限时不渲染"新增用户"按钮', async () => {
+  fnTest([...FIDS], '无 user:create 权限时不渲染"新增用户"按钮', async () => {
     usePermissionStore.setState({ permissions: ['user:read'] })
     await seed(['甲'])
     render(<UserList />)
@@ -56,7 +59,7 @@ describe('UserList', () => {
     expect(screen.queryByRole('button', { name: '新增用户' })).not.toBeInTheDocument()
   })
 
-  it('新增用户流程', async () => {
+  fnTest([...FIDS], '新增用户流程', async () => {
     const user = userEvent.setup()
     usePermissionStore.setState({ permissions: ['user:create', 'user:read'] })
     await seed(['已有'])
@@ -72,7 +75,7 @@ describe('UserList', () => {
     await waitFor(() => expect(screen.getByText('新用户XYZ')).toBeInTheDocument())
   })
 
-  it('编辑用户流程', async () => {
+  fnTest([...FIDS], '编辑用户流程', async () => {
     const user = userEvent.setup()
     usePermissionStore.setState({ permissions: ['user:update', 'user:read'] })
     await seed(['待编辑'])
@@ -88,7 +91,7 @@ describe('UserList', () => {
     await waitFor(() => expect(screen.getByText('已编辑XYZ')).toBeInTheDocument())
   })
 
-  it('删除用户流程', async () => {
+  fnTest([...FIDS], '删除用户流程', async () => {
     const user = userEvent.setup()
     usePermissionStore.setState({ permissions: ['user:delete', 'user:read'] })
     await seed(['待删除', '保留'])
@@ -102,7 +105,7 @@ describe('UserList', () => {
     expect(screen.getByText('保留')).toBeInTheDocument()
   })
 
-  it('无 user:delete 权限时不渲染删除按钮', async () => {
+  fnTest([...FIDS], '无 user:delete 权限时不渲染删除按钮', async () => {
     usePermissionStore.setState({ permissions: ['user:read'] })
     await seed(['甲'])
     render(<UserList />)
@@ -111,7 +114,7 @@ describe('UserList', () => {
     expect(within(row).queryByRole('button', { name: '删除' })).not.toBeInTheDocument()
   })
 
-  it('搜索流程', async () => {
+  fnTest([...FIDS], '搜索流程', async () => {
     const user = userEvent.setup()
     await seed(['匹配XYZ', '不匹配ABC'])
     render(<UserList />)
@@ -122,7 +125,7 @@ describe('UserList', () => {
     expect(screen.getByText('匹配XYZ')).toBeInTheDocument()
   })
 
-  it('角色筛选流程', async () => {
+  fnTest([...FIDS], '角色筛选流程', async () => {
     const user = userEvent.setup()
     await fetch(`${API_BASE}/users`, {
       method: 'POST',

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
@@ -7,6 +7,7 @@ import { TenantSwitcher } from '../../../src/features/tenant/TenantSwitcher'
 import { useTenantStore } from '../../../src/features/tenant/tenantStore'
 import { resetApiClient } from '../../../src/api/client'
 import { clearTheme } from '../../../src/features/tenant/theme'
+import { fnTest } from '../../fn'
 
 function renderAt(path: string) {
   const router = createMemoryRouter(
@@ -33,14 +34,14 @@ beforeEach(() => {
 })
 
 describe('TenantLayout', () => {
-  it('从 useParams 取 tenantId 并拉取租户配置', async () => {
+  fnTest(["M01.F01.I08","M01.F01.I09"], '从 useParams 取 tenantId 并拉取租户配置', async () => {
     renderAt('/acme/dashboard')
     await waitFor(() => {
       expect(useTenantStore.getState().current?.id).toBe('acme')
     })
   })
 
-  it('渲染租户标识（logoText）+ 侧边栏 + Outlet', async () => {
+  fnTest(["M01.F01.I08","M01.F01.I09"], '渲染租户标识（logoText）+ 侧边栏 + Outlet', async () => {
     renderAt('/acme/dashboard')
     expect(await screen.findByText('仪表盘内容')).toBeInTheDocument()
     // 租户标识（logoText=ACME）
@@ -49,14 +50,14 @@ describe('TenantLayout', () => {
     expect(screen.getByText('用户管理')).toBeInTheDocument()
   })
 
-  it('应用租户主题 CSS 变量', async () => {
+  fnTest(["M01.F01.I08","M01.F01.I09"], '应用租户主题 CSS 变量', async () => {
     renderAt('/acme/dashboard')
     await screen.findByText('仪表盘内容')
     expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#2563eb')
     expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('ACME')
   })
 
-  it('切换租户路径时主题变量更新', async () => {
+  fnTest(["M01.F01.I08","M01.F01.I09"], '切换租户路径时主题变量更新', async () => {
     const { unmount } = renderAt('/acme/dashboard')
     await screen.findByText('仪表盘内容')
     expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#2563eb')
@@ -80,7 +81,7 @@ describe('TenantLayout', () => {
     expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('GLOBEX')
   })
 
-  it('租户不存在时显示错误', async () => {
+  fnTest(["M01.F01.I08","M01.F01.I09"], '租户不存在时显示错误', async () => {
     renderAt('/nonexistent/dashboard')
     await waitFor(() => {
       expect(screen.getByText(/租户不存在|错误/)).toBeInTheDocument()

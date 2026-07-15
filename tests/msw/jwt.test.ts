@@ -1,8 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect } from 'vitest'
 import { signJwt, verifyJwt } from '../../msw/jwt'
+import { fnTest } from '../fn'
 
 describe('mock JWT 工具', () => {
-  it('signJwt 生成三段式 token', () => {
+  fnTest(["M01.F04.I05"], 'signJwt 生成三段式 token', () => {
     const token = signJwt({
       sub: 'u-001',
       username: 'admin@acme',
@@ -13,7 +14,7 @@ describe('mock JWT 工具', () => {
     expect(token.split('.')).toHaveLength(3)
   })
 
-  it('verifyJwt 校验有效 token 返回 payload', () => {
+  fnTest(["M01.F04.I05"], 'verifyJwt 校验有效 token 返回 payload', () => {
     const token = signJwt({
       sub: 'u-001',
       username: 'admin@acme',
@@ -29,7 +30,7 @@ describe('mock JWT 工具', () => {
     expect(payload?.permissions).toContain('user:create')
   })
 
-  it('verifyJwt 拒绝篡改 token', () => {
+  fnTest(["M01.F04.I05"], 'verifyJwt 拒绝篡改 token', () => {
     const token = signJwt({
       sub: 'u-001',
       username: 'admin',
@@ -40,7 +41,7 @@ describe('mock JWT 工具', () => {
     expect(verifyJwt(token.slice(0, -4) + 'AAAA')).toBeNull()
   })
 
-  it('verifyJwt 拒绝过期 token', () => {
+  fnTest(["M01.F04.I05"], 'verifyJwt 拒绝过期 token', () => {
     const token = signJwt(
       { sub: 'u-001', username: 'admin', orgId: 'o', roles: [], permissions: [] },
       -10,

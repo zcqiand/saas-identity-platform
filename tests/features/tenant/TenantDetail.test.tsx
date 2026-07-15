@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { useTenantStore } from '../../../src/features/tenant/tenantStore'
 import { resetApiClient } from '../../../src/api/client'
 import TenantDetail from '../../../src/pages/TenantDetail'
+import { fnTest } from '../../fn'
 
 function renderAt(path: string) {
   const router = createMemoryRouter(
@@ -24,13 +25,13 @@ beforeEach(() => {
 })
 
 describe('TenantDetail', () => {
-  it('路由加载后渲染租户配置标题', async () => {
+  fnTest(["M01.F01.I06","M01.F01.I07"], '路由加载后渲染租户配置标题', async () => {
     renderAt('/platform/tenants/acme')
     await waitFor(() => expect(screen.getByText('租户配置')).toBeInTheDocument())
     expect(screen.getByText('acme')).toBeInTheDocument()
   })
 
-  it('渲染表单字段并可编辑', async () => {
+  fnTest(["M01.F01.I06","M01.F01.I07"], '渲染表单字段并可编辑', async () => {
     const user = userEvent.setup()
     renderAt('/platform/tenants/acme')
     await waitFor(() => expect(screen.getByText('租户配置')).toBeInTheDocument())
@@ -43,14 +44,14 @@ describe('TenantDetail', () => {
     expect(nameInput.value).toBe('ACME 已改名')
   })
 
-  it('返回按钮存在', async () => {
+  fnTest(["M01.F01.I06","M01.F01.I07"], '返回按钮存在', async () => {
     renderAt('/platform/tenants/acme')
     await waitFor(() => expect(screen.getByText('租户配置')).toBeInTheDocument())
     // 返回按钮存在即证明 navigate 逻辑已挂载
     expect(screen.getByText('← 返回')).toBeInTheDocument()
   })
 
-  it('保存配置后显示保存成功', async () => {
+  fnTest(["M01.F01.I06","M01.F01.I07"], '保存配置后显示保存成功', async () => {
     const user = userEvent.setup()
     renderAt('/platform/tenants/acme')
     await waitFor(() => expect(screen.getByText('租户配置')).toBeInTheDocument())
@@ -59,13 +60,13 @@ describe('TenantDetail', () => {
     await waitFor(() => expect(screen.getByText('保存成功')).toBeInTheDocument())
   })
 
-  it('加载中状态显示加载提示', async () => {
+  fnTest(["M01.F01.I06","M01.F01.I07"], '加载中状态显示加载提示', async () => {
     useTenantStore.setState({ loading: true, current: null })
     renderAt('/platform/tenants/acme')
     await waitFor(() => expect(screen.getByText('加载中...')).toBeInTheDocument())
   })
 
-  it('功能模块 checkbox 可切换', async () => {
+  fnTest(["M01.F01.I06","M01.F01.I07"], '功能模块 checkbox 可切换', async () => {
     const user = userEvent.setup()
     renderAt('/platform/tenants/acme')
     await waitFor(() => expect(screen.getByText('租户配置')).toBeInTheDocument())

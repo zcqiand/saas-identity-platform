@@ -1,8 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect } from 'vitest'
 import type { TenantConfig, ThemeConfig, TenantState } from '../../src/types/tenant'
+import { fnTest } from '../fn'
 
 describe('types/tenant', () => {
-  it('ThemeConfig 可构造', () => {
+  fnTest(["M01.F01.I11"], 'ThemeConfig 可构造', () => {
     const theme: ThemeConfig = {
       primary: '#2563eb',
       sidebar: '#1e293b',
@@ -12,7 +13,7 @@ describe('types/tenant', () => {
     expect(theme.logoText).toBe('ACME')
   })
 
-  it('TenantConfig 可构造', () => {
+  fnTest(["M01.F01.I11"], 'TenantConfig 可构造', () => {
     const tenant: TenantConfig = {
       id: 'acme',
       name: 'ACME 集团',
@@ -23,7 +24,7 @@ describe('types/tenant', () => {
     expect(tenant.features).toContain('sso')
   })
 
-  it('TenantState 可构造', () => {
+  fnTest(["M01.F01.I11"], 'TenantState 可构造', () => {
     const state: TenantState = {
       current: null,
       list: [],

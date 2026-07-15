@@ -1,7 +1,8 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { TenantProvider, useTenant } from '../../../src/features/tenant/TenantContext'
 import type { TenantConfig } from '../../../src/types/tenant'
+import { fnTest } from '../../fn'
 
 const mockTenant: TenantConfig = {
   id: 'acme',
@@ -26,7 +27,7 @@ function TenantConsumer() {
 }
 
 describe('TenantContext', () => {
-  it('TenantProvider 提供 tenant 给子组件', () => {
+  fnTest(["M01.F01.I08"], 'TenantProvider 提供 tenant 给子组件', () => {
     render(
       <TenantProvider tenant={mockTenant}>
         <TenantConsumer />
@@ -38,7 +39,7 @@ describe('TenantContext', () => {
     expect(screen.getByText('功能：sso,audit')).toBeInTheDocument()
   })
 
-  it('TenantProvider tenant=null 时子组件收到 null', () => {
+  fnTest(["M01.F01.I08"], 'TenantProvider tenant=null 时子组件收到 null', () => {
     render(
       <TenantProvider tenant={null}>
         <TenantConsumer />
@@ -47,7 +48,7 @@ describe('TenantContext', () => {
     expect(screen.getByText('无租户')).toBeInTheDocument()
   })
 
-  it('useTenant 在 Provider 外抛错', () => {
+  fnTest(["M01.F01.I08"], 'useTenant 在 Provider 外抛错', () => {
     // 抑制 console.error
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
     expect(() => render(<TenantConsumer />)).toThrow(/TenantProvider/i)

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
@@ -6,6 +6,9 @@ import { ApiKeyList } from '../../../src/features/apiKeys/ApiKeyList'
 import { useApiKeyStore } from '../../../src/features/apiKeys/apiKeyStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
 import { server } from '../../../msw/server'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M04.F02.I01","M04.F02.I02","M04.F02.I03","M04.F02.I04"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -15,27 +18,27 @@ beforeEach(() => {
 })
 
 describe('ApiKeyList', () => {
-  it('renders API key list on mount', async () => {
+  fnTest([...FIDS], 'renders API key list on mount', async () => {
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
     expect(screen.getByText('合作伙伴 Key')).toBeInTheDocument()
     expect(screen.getByText('测试 Key')).toBeInTheDocument()
   })
 
-  it('renders key prefix', async () => {
+  fnTest([...FIDS], 'renders key prefix', async () => {
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
     expect(screen.getByText(/sk_live_a1b2/)).toBeInTheDocument()
   })
 
-  it('renders enabled/disabled status', async () => {
+  fnTest([...FIDS], 'renders enabled/disabled status', async () => {
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
     expect(within(screen.getByText('内部服务 Key').closest('tr')!).getByText('启用')).toBeInTheDocument()
     expect(within(screen.getByText('测试 Key').closest('tr')!).getByText('禁用')).toBeInTheDocument()
   })
 
-  it('renders scope tags', async () => {
+  fnTest([...FIDS], 'renders scope tags', async () => {
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
     const row = screen.getByText('内部服务 Key').closest('tr')!
@@ -43,7 +46,7 @@ describe('ApiKeyList', () => {
     expect(within(row).getByText('write')).toBeInTheDocument()
   })
 
-  it('renders action buttons', async () => {
+  fnTest([...FIDS], 'renders action buttons', async () => {
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
     const row = screen.getByText('内部服务 Key').closest('tr')!
@@ -51,7 +54,7 @@ describe('ApiKeyList', () => {
     expect(within(row).getByRole('button', { name: '删除' })).toBeInTheDocument()
   })
 
-  it('toggles key enabled/disabled', async () => {
+  fnTest([...FIDS], 'toggles key enabled/disabled', async () => {
     const user = userEvent.setup()
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
@@ -60,7 +63,7 @@ describe('ApiKeyList', () => {
     await waitFor(() => expect(within(screen.getByText('内部服务 Key').closest('tr')!).getByText('启用')).toBeInTheDocument())
   })
 
-  it('opens delete confirmation dialog', async () => {
+  fnTest([...FIDS], 'opens delete confirmation dialog', async () => {
     const user = userEvent.setup()
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
@@ -70,7 +73,7 @@ describe('ApiKeyList', () => {
     expect(screen.getByText(/确定删除 API Key/)).toBeInTheDocument()
   })
 
-  it('deletes key from list', async () => {
+  fnTest([...FIDS], 'deletes key from list', async () => {
     const user = userEvent.setup()
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
@@ -80,7 +83,7 @@ describe('ApiKeyList', () => {
     await waitFor(() => expect(screen.queryByText('内部服务 Key')).not.toBeInTheDocument())
   })
 
-  it('opens create API key modal', async () => {
+  fnTest([...FIDS], 'opens create API key modal', async () => {
     const user = userEvent.setup()
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('内部服务 Key')).toBeInTheDocument())
@@ -88,13 +91,13 @@ describe('ApiKeyList', () => {
     expect(screen.getByText('新建 API Key', { selector: 'h3' })).toBeInTheDocument()
   })
 
-  it('shows empty state', async () => {
+  fnTest([...FIDS], 'shows empty state', async () => {
     server.use(http.get('*/api-keys', () => HttpResponse.json([])))
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText('暂无数据')).toBeInTheDocument())
   })
 
-  it('shows error alert on network failure', async () => {
+  fnTest([...FIDS], 'shows error alert on network failure', async () => {
     server.use(http.get('*/api-keys', () => HttpResponse.json({ message: 'network error' }, { status: 500 })))
     render(<ApiKeyList />)
     await waitFor(() => expect(screen.getByText(/操作失败|network error/i)).toBeInTheDocument())

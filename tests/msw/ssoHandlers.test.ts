@@ -1,10 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect } from 'vitest'
+import { fnTest } from '../fn'
 
 const API_BASE = 'http://localhost/api'
 const SSO_BASE = 'http://localhost/sso'
 
 describe('MSW SSO + auth handlers', () => {
-  it('GET /sso/authorize 返回 302 重定向到 callback 含 code', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /sso/authorize 返回 302 重定向到 callback 含 code', async () => {
     const res = await fetch(
       `${SSO_BASE}/authorize?client_id=saas-demo-client&redirect_uri=http://localhost:5173/sso-callback&response_type=code&state=xyz`,
       { redirect: 'manual' },
@@ -17,12 +18,12 @@ describe('MSW SSO + auth handlers', () => {
     expect(location).toContain('state=xyz')
   })
 
-  it('GET /sso/authorize 缺 client_id 返回 400', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /sso/authorize 缺 client_id 返回 400', async () => {
     const res = await fetch(`${SSO_BASE}/authorize?redirect_uri=x&response_type=code&state=x`)
     expect(res.status).toBe(400)
   })
 
-  it('POST /sso/oauth/callback 返回 token + user', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'POST /sso/oauth/callback 返回 token + user', async () => {
     const res = await fetch(`${API_BASE}/auth/oauth/callback`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,7 +38,7 @@ describe('MSW SSO + auth handlers', () => {
     expect(data.user.orgId).toBeTruthy()
   })
 
-  it('POST /sso/oauth/callback 无效 code 返回 401', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'POST /sso/oauth/callback 无效 code 返回 401', async () => {
     const res = await fetch(`${API_BASE}/auth/oauth/callback`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -46,7 +47,7 @@ describe('MSW SSO + auth handlers', () => {
     expect(res.status).toBe(401)
   })
 
-  it('GET /auth/permissions?orgId=org-acme 返回该组织的权限集', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/permissions?orgId=org-acme 返回该组织的权限集', async () => {
     const res = await fetch(`${API_BASE}/auth/permissions?orgId=org-acme`, {
       headers: { Authorization: 'Bearer valid-token' },
     })
@@ -57,7 +58,7 @@ describe('MSW SSO + auth handlers', () => {
     expect(data.permissions.length).toBeGreaterThan(0)
   })
 
-  it('GET /auth/permissions 不同 orgId 返回不同权限', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/permissions 不同 orgId 返回不同权限', async () => {
     const res1 = await fetch(`${API_BASE}/auth/permissions?orgId=org-acme`, {
       headers: { Authorization: 'Bearer t' },
     })
@@ -70,7 +71,7 @@ describe('MSW SSO + auth handlers', () => {
     expect(data1.permissions).not.toEqual(data2.permissions)
   })
 
-  it('GET /auth/me 携带有效 token 返回 user', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/me 携带有效 token 返回 user', async () => {
     // 先拿 token
     const loginRes = await fetch(`${API_BASE}/auth/oauth/callback`, {
       method: 'POST',
@@ -86,7 +87,7 @@ describe('MSW SSO + auth handlers', () => {
     expect(data.user).toBeTruthy()
   })
 
-  it('GET /auth/me 无 token 返回 401', async () => {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/me 无 token 返回 401', async () => {
     const res = await fetch(`${API_BASE}/auth/me`)
     expect(res.status).toBe(401)
   })

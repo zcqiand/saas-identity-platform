@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import NotificationConfigPage from '../../src/pages/NotificationConfig'
 import { resetApiClient, setToken } from '../../src/api/client'
+import { fnTest } from '../fn'
 
 beforeEach(() => {
   localStorage.clear()
@@ -10,12 +11,12 @@ beforeEach(() => {
 })
 
 describe('NotificationConfigPage', () => {
-  it('mount 后渲染页面标题', async () => {
+  fnTest(["M06.F05.I01","M06.F05.I02","M06.F05.I03","M06.F05.I04","M06.F05.I05","M06.F05.I06","M06.F05.I07","M06.F05.I08"], 'mount 后渲染页面标题', async () => {
     render(<NotificationConfigPage />)
     await waitFor(() => expect(screen.getByText('消息通知')).toBeInTheDocument())
   })
 
-  it('mount 后拉取配置数据并渲染通知渠道', async () => {
+  fnTest(["M06.F05.I01","M06.F05.I02","M06.F05.I03","M06.F05.I04","M06.F05.I05","M06.F05.I06","M06.F05.I07","M06.F05.I08"], 'mount 后拉取配置数据并渲染通知渠道', async () => {
     render(<NotificationConfigPage />)
     await waitFor(() => expect(screen.getByText('消息通知')).toBeInTheDocument())
     expect(screen.getByText('邮件通知')).toBeInTheDocument()
@@ -23,7 +24,7 @@ describe('NotificationConfigPage', () => {
     expect(screen.getByText('站内信')).toBeInTheDocument()
   })
 
-  it('渲染通知触发条件', async () => {
+  fnTest(["M06.F05.I01","M06.F05.I02","M06.F05.I03","M06.F05.I04","M06.F05.I05","M06.F05.I06","M06.F05.I07","M06.F05.I08"], '渲染通知触发条件', async () => {
     render(<NotificationConfigPage />)
     await waitFor(() => expect(screen.getByText('消息通知')).toBeInTheDocument())
     expect(screen.getByText('登录通知')).toBeInTheDocument()

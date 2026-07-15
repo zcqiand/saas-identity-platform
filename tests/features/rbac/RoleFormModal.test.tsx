@@ -1,7 +1,10 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RoleFormModal } from '../../../src/features/rbac/RoleFormModal'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M03.F01.I03","M03.F01.I04","M03.F01.I06"] as const
 
 const editRole = {
   id: 'role-edit',
@@ -10,19 +13,19 @@ const editRole = {
 }
 
 describe('RoleFormModal', () => {
-  it('create 模式: 标题"新建角色"，表单空', () => {
+  fnTest([...FIDS], 'create 模式: 标题"新建角色"，表单空', () => {
     render(<RoleFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('新建角色')).toBeInTheDocument()
     expect((screen.getByLabelText(/角色名称/) as HTMLInputElement).value).toBe('')
   })
 
-  it('edit 模式: 填充 initialValues', () => {
+  fnTest([...FIDS], 'edit 模式: 填充 initialValues', () => {
     render(<RoleFormModal open mode="edit" initialValues={editRole} onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('编辑角色')).toBeInTheDocument()
     expect((screen.getByLabelText(/角色名称/) as HTMLInputElement).value).toBe('原角色')
   })
 
-  it('create 提交触发 onSubmit', async () => {
+  fnTest([...FIDS], 'create 提交触发 onSubmit', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<RoleFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -34,7 +37,7 @@ describe('RoleFormModal', () => {
     )
   })
 
-  it('edit 提交含完整 permissions', async () => {
+  fnTest([...FIDS], 'edit 提交含完整 permissions', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<RoleFormModal open mode="edit" initialValues={editRole} onSubmit={onSubmit} onCancel={() => {}} />)
@@ -44,7 +47,7 @@ describe('RoleFormModal', () => {
     )
   })
 
-  it('必填校验: name 为空', async () => {
+  fnTest([...FIDS], '必填校验: name 为空', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<RoleFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -55,7 +58,7 @@ describe('RoleFormModal', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('必填校验: 未选权限', async () => {
+  fnTest([...FIDS], '必填校验: 未选权限', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<RoleFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -67,7 +70,7 @@ describe('RoleFormModal', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('点取消触发 onCancel', async () => {
+  fnTest([...FIDS], '点取消触发 onCancel', async () => {
     const user = userEvent.setup()
     const onCancel = vi.fn()
     render(<RoleFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
@@ -75,7 +78,7 @@ describe('RoleFormModal', () => {
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
-  it('loading 禁用保存', () => {
+  fnTest([...FIDS], 'loading 禁用保存', () => {
     render(<RoleFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByRole('button', { name: /保存中/ })).toBeDisabled()
   })

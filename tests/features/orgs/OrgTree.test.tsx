@@ -1,9 +1,12 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, expect, beforeEach, vi } from 'vitest'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { OrgTree } from '../../../src/features/orgs/OrgTree'
 import { useOrgStore } from '../../../src/features/orgs/orgStore'
 import { resetApiClient, setToken } from '../../../src/api/client'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M02.F01.I01","M02.F01.I02","M02.F01.I03","M02.F01.I04","M02.F01.I05","M02.F01.I06"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -13,12 +16,12 @@ beforeEach(() => {
 })
 
 describe('OrgTree', () => {
-  it('拉取并渲染根节点', async () => {
+  fnTest([...FIDS], '拉取并渲染根节点', async () => {
     render(<OrgTree />)
     expect(await screen.findByText('ACME 集团')).toBeInTheDocument()
   })
 
-  it('默认展开根节点，显示一级子节点', async () => {
+  fnTest([...FIDS], '默认展开根节点，显示一级子节点', async () => {
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
     // 一级子节点应可见
@@ -26,7 +29,7 @@ describe('OrgTree', () => {
     expect(screen.getByText('Globex 分部')).toBeInTheDocument()
   })
 
-  it('点击节点切换展开/折叠', async () => {
+  fnTest([...FIDS], '点击节点切换展开/折叠', async () => {
     const user = userEvent.setup()
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 总部')).toBeInTheDocument())
@@ -40,7 +43,7 @@ describe('OrgTree', () => {
     await waitFor(() => expect(screen.getByText('技术部')).toBeInTheDocument())
   })
 
-  it('递归渲染深层节点', async () => {
+  fnTest([...FIDS], '递归渲染深层节点', async () => {
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('技术部')).toBeInTheDocument())
     // 技术部的子节点"前端组"——需先展开技术部
@@ -49,7 +52,7 @@ describe('OrgTree', () => {
     await waitFor(() => expect(screen.getByText('前端组')).toBeInTheDocument())
   })
 
-  it('叶子节点（无 children）不显示展开图标', async () => {
+  fnTest([...FIDS], '叶子节点（无 children）不显示展开图标', async () => {
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 总部')).toBeInTheDocument())
     // 销售部是 org-acme 的叶子子节点（默认展开，可见）
@@ -57,7 +60,7 @@ describe('OrgTree', () => {
     expect(sales.closest('[data-org-node]')?.querySelector('[data-expand-icon]')).toBeNull()
   })
 
-  it('支持 onSelect 回调', async () => {
+  fnTest([...FIDS], '支持 onSelect 回调', async () => {
     const user = userEvent.setup()
     const onSelect = vi.fn()
     render(<OrgTree onSelect={onSelect} />)
@@ -67,13 +70,13 @@ describe('OrgTree', () => {
   })
 
   // —— ch43：组织架构维护（只增不改）——
-  it('新增根部门按钮存在', async () => {
+  fnTest([...FIDS], '新增根部门按钮存在', async () => {
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
     expect(screen.getByRole('button', { name: '新增根部门' })).toBeInTheDocument()
   })
 
-  it('hover 节点显示操作按钮', async () => {
+  fnTest([...FIDS], 'hover 节点显示操作按钮', async () => {
     const user = userEvent.setup()
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
@@ -83,7 +86,7 @@ describe('OrgTree', () => {
     expect(within(rootRow).getAllByText('+子部门').length).toBeGreaterThan(0)
   })
 
-  it('新增子部门流程', async () => {
+  fnTest([...FIDS], '新增子部门流程', async () => {
     const user = userEvent.setup()
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
@@ -99,7 +102,7 @@ describe('OrgTree', () => {
     await waitFor(() => expect(screen.getByText('新部门XYZ')).toBeInTheDocument())
   })
 
-  it('编辑节点流程', async () => {
+  fnTest([...FIDS], '编辑节点流程', async () => {
     const user = userEvent.setup()
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('技术部')).toBeInTheDocument())
@@ -117,7 +120,7 @@ describe('OrgTree', () => {
     await waitFor(() => expect(screen.getByText('技术研发部')).toBeInTheDocument())
   })
 
-  it('删除节点流程', async () => {
+  fnTest([...FIDS], '删除节点流程', async () => {
     const user = userEvent.setup()
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('销售部')).toBeInTheDocument())

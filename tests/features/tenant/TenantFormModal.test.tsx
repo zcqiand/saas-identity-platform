@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TenantFormModal } from '../../../src/features/tenant/TenantFormModal'
 import type { TenantConfig } from '../../../src/types/tenant'
+import { fnTest } from '../../fn'
 
 const editTenant: TenantConfig = {
   id: 'tenant-edit',
@@ -13,20 +14,20 @@ const editTenant: TenantConfig = {
 }
 
 describe('TenantFormModal', () => {
-  it('create 模式: 标题"新建租户"，表单空', () => {
+  fnTest(["M01.F01.I03"], 'create 模式: 标题"新建租户"，表单空', () => {
     render(<TenantFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('新建租户')).toBeInTheDocument()
     expect((screen.getByLabelText(/租户名称/) as HTMLInputElement).value).toBe('')
   })
 
-  it('edit 模式: 填充 initialValues', () => {
+  fnTest(["M01.F01.I03"], 'edit 模式: 填充 initialValues', () => {
     render(<TenantFormModal open mode="edit" initialValues={editTenant} onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('编辑租户')).toBeInTheDocument()
     expect((screen.getByLabelText(/租户名称/) as HTMLInputElement).value).toBe('原租户')
     expect((screen.getByLabelText(/Logo 文本/) as HTMLInputElement).value).toBe('OLD')
   })
 
-  it('create 提交触发 onSubmit', async () => {
+  fnTest(["M01.F01.I03"], 'create 提交触发 onSubmit', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<TenantFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -41,7 +42,7 @@ describe('TenantFormModal', () => {
     )
   })
 
-  it('edit 提交含完整 theme 和 config', async () => {
+  fnTest(["M01.F01.I03"], 'edit 提交含完整 theme 和 config', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<TenantFormModal open mode="edit" initialValues={editTenant} onSubmit={onSubmit} onCancel={() => {}} />)
@@ -55,7 +56,7 @@ describe('TenantFormModal', () => {
     )
   })
 
-  it('必填校验: name 为空提示错误', async () => {
+  fnTest(["M01.F01.I03"], '必填校验: name 为空提示错误', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<TenantFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
@@ -67,7 +68,7 @@ describe('TenantFormModal', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('点取消触发 onCancel', async () => {
+  fnTest(["M01.F01.I03"], '点取消触发 onCancel', async () => {
     const user = userEvent.setup()
     const onCancel = vi.fn()
     render(<TenantFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
@@ -75,12 +76,12 @@ describe('TenantFormModal', () => {
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
-  it('loading 禁用保存', () => {
+  fnTest(["M01.F01.I03"], 'loading 禁用保存', () => {
     render(<TenantFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByRole('button', { name: /保存中/ })).toBeDisabled()
   })
 
-  it('功能模块 checkbox 可切换', async () => {
+  fnTest(["M01.F01.I03"], '功能模块 checkbox 可切换', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<TenantFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)

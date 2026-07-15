@@ -1,8 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { server } from '../../../msw/server'
 import { useOrgStore } from '../../../src/features/orgs/orgStore'
 import { resetApiClient } from '../../../src/api/client'
+import { fnTest } from '../../fn'
+
+const FIDS = ["M02.F01.I02","M02.F01.I03","M02.F01.I04","M02.F01.I05","M02.F01.I06","M02.F01.I07","M02.F01.I09"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -11,14 +14,14 @@ beforeEach(() => {
 })
 
 describe('orgStore 状态流转', () => {
-  it('初始状态', () => {
+  fnTest([...FIDS], '初始状态', () => {
     const s = useOrgStore.getState()
     expect(s.tree).toBeNull()
     expect(s.loading).toBe(false)
     expect(s.error).toBeNull()
   })
 
-  it('fetchOrgTree 成功后 tree 填充', async () => {
+  fnTest([...FIDS], 'fetchOrgTree 成功后 tree 填充', async () => {
     await useOrgStore.getState().fetchOrgTree()
     const s = useOrgStore.getState()
     expect(s.tree).not.toBeNull()
@@ -27,7 +30,7 @@ describe('orgStore 状态流转', () => {
     expect(s.error).toBeNull()
   })
 
-  it('fetchOrgTree 网络错误后 error 填充', async () => {
+  fnTest([...FIDS], 'fetchOrgTree 网络错误后 error 填充', async () => {
     server.use(http.get('*/orgs', () => HttpResponse.error()))
     await useOrgStore.getState().fetchOrgTree()
     const s = useOrgStore.getState()
@@ -35,7 +38,7 @@ describe('orgStore 状态流转', () => {
     expect(s.error).toBeTruthy()
   })
 
-  it('createOrgNode 成功后重新拉取树', async () => {
+  fnTest([...FIDS], 'createOrgNode 成功后重新拉取树', async () => {
     await useOrgStore.getState().fetchOrgTree()
     await useOrgStore.getState().createOrgNode('新部门', 'org-root')
     const s = useOrgStore.getState()
@@ -43,42 +46,42 @@ describe('orgStore 状态流转', () => {
     expect(s.error).toBeNull()
   })
 
-  it('createOrgNode 父节点不存在时 error 填充', async () => {
+  fnTest([...FIDS], 'createOrgNode 父节点不存在时 error 填充', async () => {
     server.use(http.post('*/orgs', () => HttpResponse.json({ message: '父节点不存在' }, { status: 404 })))
     await useOrgStore.getState().createOrgNode('新部门', 'nonexistent')
     const s = useOrgStore.getState()
     expect(s.error).toBeTruthy()
   })
 
-  it('updateOrgNode 成功后树更新', async () => {
+  fnTest([...FIDS], 'updateOrgNode 成功后树更新', async () => {
     await useOrgStore.getState().fetchOrgTree()
     await useOrgStore.getState().updateOrgNode('org-tech', '技术研发部')
     const s = useOrgStore.getState()
     expect(s.error).toBeNull()
   })
 
-  it('updateOrgNode 节点不存在时 error 填充', async () => {
+  fnTest([...FIDS], 'updateOrgNode 节点不存在时 error 填充', async () => {
     server.use(http.put('*/orgs/nonexistent', () => HttpResponse.json({ message: '节点不存在' }, { status: 404 })))
     await useOrgStore.getState().updateOrgNode('nonexistent', '改名')
     const s = useOrgStore.getState()
     expect(s.error).toBeTruthy()
   })
 
-  it('deleteOrgNode 成功后树更新', async () => {
+  fnTest([...FIDS], 'deleteOrgNode 成功后树更新', async () => {
     await useOrgStore.getState().fetchOrgTree()
     await useOrgStore.getState().deleteOrgNode('org-sales')
     const s = useOrgStore.getState()
     expect(s.error).toBeNull()
   })
 
-  it('deleteOrgNode 节点不存在时 error 填充', async () => {
+  fnTest([...FIDS], 'deleteOrgNode 节点不存在时 error 填充', async () => {
     server.use(http.delete('*/orgs/nonexistent', () => HttpResponse.json({ message: '节点不存在' }, { status: 404 })))
     await useOrgStore.getState().deleteOrgNode('nonexistent')
     const s = useOrgStore.getState()
     expect(s.error).toBeTruthy()
   })
 
-  it('clearError 清除 error', async () => {
+  fnTest([...FIDS], 'clearError 清除 error', async () => {
     server.use(http.get('*/orgs', () => HttpResponse.error()))
     await useOrgStore.getState().fetchOrgTree()
     expect(useOrgStore.getState().error).toBeTruthy()

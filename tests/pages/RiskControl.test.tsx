@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import { server } from '../../msw/server'
 import RiskControlPage from '../../src/pages/RiskControl'
 import { resetApiClient, setToken } from '../../src/api/client'
 import type { RiskControl } from '../../src/types/security'
+import { fnTest } from '../fn'
 
 const MOCK_CONFIG: RiskControl = {
   id: 'rc-001',
@@ -21,12 +22,12 @@ beforeEach(() => {
 })
 
 describe('RiskControlPage', () => {
-  it('mount 后渲染页面标题', async () => {
+  fnTest(["M06.F06.I01","M06.F06.I02","M06.F06.I03","M06.F06.I04","M06.F06.I05"], 'mount 后渲染页面标题', async () => {
     render(<RiskControlPage />)
     await waitFor(() => expect(screen.getByText('风险控制')).toBeInTheDocument())
   })
 
-  it('mount 后拉取配置数据并渲染风控项', async () => {
+  fnTest(["M06.F06.I01","M06.F06.I02","M06.F06.I03","M06.F06.I04","M06.F06.I05"], 'mount 后拉取配置数据并渲染风控项', async () => {
     render(<RiskControlPage />)
     await waitFor(() => expect(screen.getByText('风险控制')).toBeInTheDocument())
     expect(screen.getByText('异常登录检测')).toBeInTheDocument()
@@ -35,13 +36,13 @@ describe('RiskControlPage', () => {
     expect(screen.getByText('风险评分阈值')).toBeInTheDocument()
   })
 
-  it('渲染风险评分阈值数值', async () => {
+  fnTest(["M06.F06.I01","M06.F06.I02","M06.F06.I03","M06.F06.I04","M06.F06.I05"], '渲染风险评分阈值数值', async () => {
     render(<RiskControlPage />)
     await waitFor(() => expect(screen.getByText('风险控制')).toBeInTheDocument())
     expect(screen.getByText('70')).toBeInTheDocument()
   })
 
-  it('配置加载前显示加载中', async () => {
+  fnTest(["M06.F06.I01","M06.F06.I02","M06.F06.I03","M06.F06.I04","M06.F06.I05"], '配置加载前显示加载中', async () => {
     server.use(http.get('*/risk-control', () => HttpResponse.json(MOCK_CONFIG)))
     render(<RiskControlPage />)
     expect(screen.getByText(/加载中/)).toBeInTheDocument()
