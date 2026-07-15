@@ -113,4 +113,17 @@ describe('MenuList', () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText(/暂无菜单/)).toBeInTheDocument())
   })
+
+  fnTest([...FIDS], '删除菜单流程: 点击删除 → 确认 → 列表移除', async () => {
+    const user = userEvent.setup()
+    render(<RouterProvider router={makeRouter()} />)
+    await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
+    const row = screen.getByText('仪表盘').closest('tr')!
+    await user.click(within(row).getByRole('button', { name: '删除' }))
+    const confirmBtn = await screen.findByRole('button', { name: '确认' })
+    await user.click(confirmBtn)
+    await waitFor(() =>
+      expect(screen.queryByText('仪表盘')).not.toBeInTheDocument(),
+    )
+  })
 })

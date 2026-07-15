@@ -13,7 +13,10 @@ const FIDS = ["M04.F01.I01","M04.F01.I02","M04.F01.I03","M04.F01.I04","M04.F01.I
 
 function makeRouter() {
   const router = createMemoryRouter(
-    [{ path: '/platform/apps', element: <AppList /> }],
+    [
+      { path: '/platform/apps', element: <AppList /> },
+      { path: '/platform/apps/:appId/menus', element: <div>菜单管理占位</div> },
+    ],
     { initialEntries: ['/platform/apps'] },
   )
   return router
@@ -72,6 +75,40 @@ describe('AppList', () => {
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
     await user.click(screen.getByRole('button', { name: '新建应用' }))
     expect(screen.getByText('新建应用', { selector: 'h3' })).toBeInTheDocument()
+  })
+
+  fnTest([...FIDS], '搜索流程: 输入关键词 + 点击搜索', async () => {
+    const user = userEvent.setup()
+    render(<RouterProvider router={makeRouter()} />)
+    await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
+    const input = screen.getByPlaceholderText('搜索应用名称/编码/描述')
+    await user.type(input, '建筑工程')
+    await user.click(screen.getByRole('button', { name: '搜索' }))
+    await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
+  })
+
+  fnTest([...FIDS], '搜索流程: Enter 键触发搜索', async () => {
+    const user = userEvent.setup()
+    render(<RouterProvider router={makeRouter()} />)
+    await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
+    const input = screen.getByPlaceholderText('搜索应用名称/编码/描述')
+    await user.type(input, 'lab{Enter}')
+    await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
+  })
+
+  fnTest([...FIDS], '删除应用流程: 点击删除 → 确认 → 列表移除', async () => {
+    const user = userEvent.setup()
+    render(<RouterProvider router={makeRouter()} />)
+    await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
+    const row = screen.getByText('建筑工程实验室管理系统').closest('tr')!
+    await user.click(within(row).getByRole('button', { name: '删除' }))
+    const confirmBtn = await screen.findByRole('button', { name: '确认' })
+    await user.click(confirmBtn)
+    await waitFor(() =>
+      expect(
+        screen.queryByText('建筑工程实验室管理系统'),
+      ).not.toBeInTheDocument(),
+    )
   })
 
   fnTest([...FIDS], '列表为空时渲染暂无数据', async () => {

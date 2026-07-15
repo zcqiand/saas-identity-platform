@@ -6,7 +6,7 @@ import { useAuditStore } from '../../../src/features/audit/auditStore'
 import { resetApiClient } from '../../../src/api/client'
 import { fnTest } from '../../fn'
 
-const FIDS = ["M05.F01.I01","M05.F01.I02","M05.F01.I03","M05.F01.I06","M05.F01.I07"] as const
+const FIDS = ["M05.F01.I01","M05.F01.I02","M05.F01.I03","M05.F01.I04","M05.F01.I05","M05.F01.I06","M05.F01.I07"] as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -57,5 +57,21 @@ describe('AuditLogList', () => {
   fnTest([...FIDS], '导出 CSV 按钮存在', async () => {
     render(<AuditLogList />)
     await waitFor(() => expect(screen.getByRole('button', { name: '导出 CSV' })).toBeInTheDocument())
+  })
+
+  fnTest([...FIDS], '切换到操作日志 Tab 触发重新拉取', async () => {
+    const user = userEvent.setup()
+    render(<AuditLogList />)
+    await waitFor(() => expect(screen.getByRole('button', { name: '操作日志' })).toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: '操作日志' }))
+    await waitFor(() => expect(screen.getByRole('button', { name: '操作日志' })).toHaveClass('bg-blue-600'))
+  })
+
+  fnTest([...FIDS], '切换到安全日志 Tab 触发重新拉取', async () => {
+    const user = userEvent.setup()
+    render(<AuditLogList />)
+    await waitFor(() => expect(screen.getByRole('button', { name: '安全日志' })).toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: '安全日志' }))
+    await waitFor(() => expect(screen.getByRole('button', { name: '安全日志' })).toHaveClass('bg-blue-600'))
   })
 })
