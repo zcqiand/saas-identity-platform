@@ -11,6 +11,10 @@ dist-ssr/
 .vite/
 coverage/
 *.tsbuildinfo
+.state/
+.pytest_cache/
+.harness/
+.claude/
 
 # 本地环境
 .env

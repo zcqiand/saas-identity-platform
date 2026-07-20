@@ -87,6 +87,31 @@
       "inert": false
     },
     {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::多租户切换：acme → globex 主题变量更新",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::SSO 登录 → 权限加载 → 用户管理操作",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::权限守卫：无 user:create 权限时不渲染新增按钮",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::组织架构树渲染与展开",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::审计日志列表渲染 + 筛选",
+      "fns": [],
+      "inert": false
+    },
+    {
       "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/sentry.test.ts::DSN 为空时 initSentry no-op，isSentryEnabled 返回 false",
       "fns": [],
       "inert": false
@@ -113,31 +138,6 @@
     },
     {
       "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/monitoring/web-vitals.test.ts::reportWebVitals 接收自定义 callback",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::多租户切换：acme → globex 主题变量更新",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::SSO 登录 → 权限加载 → 用户管理操作",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::权限守卫：无 user:create 权限时不渲染新增按钮",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::组织架构树渲染与展开",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/integration/saasFlow.test.tsx::审计日志列表渲染 + 筛选",
       "fns": [],
       "inert": false
     },
