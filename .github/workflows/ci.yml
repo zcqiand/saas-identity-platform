@@ -54,5 +54,10 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          # 密钥路径走法
+          key: ${{ secrets.VPS_SSH_KEY }}
+          # 显式信任的 host key fingerprint：避免 appleboy ssh-action 的
+          # sidecar 容器看不到 runner 端 ~/.ssh/known_hosts 时被 StrictHostKeyChecking 拒
+          # 本地跑一次 ssh-keyscan -t ed25519 <host> 拿到 SHA256:...
+          fingerprint: ${{ secrets.VPS_FINGERPRINT }}
           script: cd /home/deploy/saas-identity-platform && sh saas-identity-platform.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
