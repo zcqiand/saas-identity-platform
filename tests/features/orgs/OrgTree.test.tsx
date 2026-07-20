@@ -33,8 +33,11 @@ describe('OrgTree', () => {
     const user = userEvent.setup()
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 总部')).toBeInTheDocument())
-    // ACME 总部 默认展开，显示"技术部"
-    expect(screen.getByText('技术部')).toBeInTheDocument()
+    // ACME 总部 默认展开，显示"技术部"。
+    // 用 waitFor 而不是同步 getByText：
+    //   tree populated 之后 OrgTree 会在 useEffect 里展开一级子节点，触发额外渲染，
+    //   同步断言可能在二级子节点挂载前就执行，产生 race。
+    await waitFor(() => expect(screen.getByText('技术部')).toBeInTheDocument())
     // 点击 ACME 总部 折叠
     await user.click(screen.getByText('ACME 总部'))
     await waitFor(() => expect(screen.queryByText('技术部')).not.toBeInTheDocument())
