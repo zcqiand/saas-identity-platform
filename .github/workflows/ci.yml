@@ -82,12 +82,15 @@ jobs:
 
       - name: Ensure dist.new/ exists on VPS
         # 第一次部署时 dist.new 不存在；scp 命令不会自动创建远端目录
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ env.VPS_HOST }}
-          username: ${{ env.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: mkdir -p /var/www/saas-identity-platform/dist.new
+        # 用 runner 的 ~/.ssh/known_hosts + ~/.ssh/deploy_key（前面 step 写好的），
+        # 不用第三方 action —— 它们启 docker sidecar 自带 ~/.ssh，看不到 runner 状态。
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+              -o StrictHostKeyChecking=yes \
+              -o UserKnownHostsFile=~/.ssh/known_hosts \
+              -o BatchMode=yes \
+              "$VPS_USER@$VPS_HOST" \
+              "mkdir -p /var/www/saas-identity-platform/dist.new"
 
       - name: Copy dist to VPS (atomic)
         # 用 ubuntu-latest runner 自带的 openssh-client，不再依赖第三方 action
@@ -100,12 +103,12 @@ jobs:
               "$VPS_USER@$VPS_HOST:/var/www/saas-identity-platform/dist.new/"
 
       - name: Atomic swap on VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ env.VPS_HOST }}
-          username: ${{ env.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+              -o StrictHostKeyChecking=yes \
+              -o UserKnownHostsFile=~/.ssh/known_hosts \
+              -o BatchMode=yes \
+              "$VPS_USER@$VPS_HOST" <<'EOF'
             set -e
             cd /var/www/saas-identity-platform
             rm -rf dist.old
@@ -113,3 +116,4 @@ jobs:
             mv dist.new dist
             sudo nginx -s reload
             date -u
+          EOF
