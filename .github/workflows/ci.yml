@@ -1,8 +1,13 @@
 name: ci
 
+# 项目铁律 [CLAUDE.md] 第 2 段：「tag 即放行：全量回归绿后打 v<MAJOR>.<MINOR>-<NNN>」。
+# - branch push（master/main）→ 只跑 test（验证回归）
+# - tag push（v1.2-001 这种）  → test + 部署
 on:
   push:
     branches: [main, master]
+    tags:
+      - 'v*'
   pull_request:
     branches: [main, master]
 
@@ -25,14 +30,16 @@ jobs:
       - name: Run coverage
         run: npm run test:coverage
 
-  # git push 到 master → CI 全绿后 → docker build & push to Docker Hub → VPS pull & restart
-  # 仿 changli-ui 已知能跑的版：docker/build-push-action@v6 → appleboy/ssh-action@master
-  # 之前 docker-build 单独做「构建校验」用的 job 已合并进来（这里直接 push 到真 Docker Hub）
+  # tag 即放行：push v<MAJOR>.<MINOR>-<NNN> → CI 全绿 →
+  #   docker build & push (latest + 版本 tag) → VPS pull & restart
+  # 仿 changli-ui 已知能跑版：docker/build-push-action@v6 → appleboy/ssh-action@master
   deploy:
     runs-on: ubuntu-latest
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    concurrency: deploy-master
+    if: startsWith(github.ref, 'refs/tags/')
+    concurrency:
+      group: deploy-${{ github.ref }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
 
@@ -47,7 +54,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/saas-identity-platform:latest
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/saas-identity-platform:latest
+            ${{ secrets.DOCKER_USERNAME }}/saas-identity-platform:${{ github.ref_name }}
 
       - name: Pull image and restart container on VPS
         uses: appleboy/ssh-action@master
@@ -60,4 +69,4 @@ jobs:
           # sidecar 容器看不到 runner 端 ~/.ssh/known_hosts 时被 StrictHostKeyChecking 拒
           # 本地跑一次 ssh-keyscan -t ed25519 <host> 拿到 SHA256:...
           fingerprint: ${{ secrets.VPS_FINGERPRINT }}
-          script: cd /home/deploy/saas-identity-platform && sh saas-identity-platform.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd /home/deploy/saas-identity-platform && sh saas-identity-platform.sh "${{ secrets.DOCKER_USERNAME }}" "${{ secrets.DOCKER_PASSWORD }}" "${{ github.ref_name }}"
