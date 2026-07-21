@@ -1,0 +1,67 @@
+# VPS nginx vhost — saas-identity-platform
+#
+# 这份是「参考模板」，不在 nginx include 路径里。.example 后缀让 nginx
+# 不会把它当真；要装的时候重命名掉（或拷走）。
+#
+# 用法（manual）：
+#   1. 复制：cp deploy/nginx-vps.conf.example /etc/nginx/sites-available/YOUR_DOMAIN
+#   2. sed 替换 YOUR_DOMAIN → 你的域名、your-cert.crt/key → 实际 cert 路径
+#   3. 启用：ln -sf /etc/nginx/sites-available/YOUR_DOMAIN /etc/nginx/sites-enabled/
+#   4. 删 Ubuntu 默认页：rm /etc/nginx/sites-enabled/default
+#      （避免 default_server on :80 重复）
+#   5. nginx -t && systemctl reload nginx
+#
+# 或者：sh deploy/setup-vps.sh <YOUR_DOMAIN> 一把全跑。
+#
+# 这份配置的目的：
+#   - react-id.YOUR_DOMAIN 的 HTTP 301 到 HTTPS
+#   - 其它域名的 HTTP 直接关连接（return 444）
+#   - HTTPS 终结在 VPS（持 cert）
+#   - proxy_pass 到本机容器端口（默认 8061，由 docker run -p 决定）
+
+server {
+    listen 80;
+    server_name react-id.YOUR_DOMAIN;        # 改：你的 react-id 子域（或主域）
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 80 default_server;
+    server_name _;
+    return 444;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name react-id.YOUR_DOMAIN;        # 改
+
+    # cert / key 在 VPS 本地，**不入仓**
+    ssl_certificate     /etc/nginx/ssl/your-cert.crt;   # 改
+    ssl_certificate_key /etc/nginx/ssl/your-cert.key;  # 改
+
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    # 浏览器一年 HTTPS-only；同时认 Cloudflare origin 证书或自签
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    location / {
+        # VPS 暴露端口（容器内 nginx-alpine 永远 :80）
+        # 改：匹配 docker run -p 127.0.0.1:XXXX:80 中那个 XXXX
+        proxy_pass http://127.0.0.1:8061;
+
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # ⚠️ 不要加 proxy_set_header Upgrade / Connection：
+        #   - 那样要 `map $http_upgrade $connection_upgrade {...}` 块定义变量，
+        #     否则 nginx -t 直接 unknown variable.
+        #   - SPA + vite build 反正没 WebSocket，省事不加。
+    }
+}
