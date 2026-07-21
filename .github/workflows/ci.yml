@@ -65,8 +65,8 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           # 密钥路径走法
           key: ${{ secrets.VPS_SSH_KEY }}
-          # 显式信任的 host key fingerprint：避免 appleboy ssh-action 的
-          # sidecar 容器看不到 runner 端 ~/.ssh/known_hosts 时被 StrictHostKeyChecking 拒
-          # 本地跑一次 ssh-keyscan -t ed25519 <host> 拿到 SHA256:...
-          fingerprint: ${{ secrets.VPS_FINGERPRINT }}
+          # 不传 fingerprint —— VPS 同时有 ed25519/rsa/ecdsa 多把 host key，
+          # drone-ssh 会去比其中一把和你 secret 里那把常常对不上；
+          # 走 TOFU：第一次 ssh handshake 自动 trust + 写 sidecar 的 known_hosts，
+          # 之后 run 默认用同一份
           script: cd /home/deploy/saas-identity-platform && sh saas-identity-platform.sh "${{ secrets.DOCKER_USERNAME }}" "${{ secrets.DOCKER_PASSWORD }}" "${{ github.ref_name }}"
