@@ -38,7 +38,7 @@ echo "→ docker run"
 docker run -d \
   --name saas-identity-platform \
   --restart unless-stopped \
-  -p "127.0.0.1:8080:80" \
+  -p "127.0.0.1:8061:80" \
   "$IMAGE"
 
 echo "→ docker image prune"
