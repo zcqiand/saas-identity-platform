@@ -59,7 +59,10 @@ describe('OrgTree', () => {
     render(<OrgTree />)
     await waitFor(() => expect(screen.getByText('ACME 总部')).toBeInTheDocument())
     // 销售部是 org-acme 的叶子子节点（默认展开，可见）
-    const sales = screen.getByText('销售部')
+    // OrgTree 在 tree 异步到达的下一帧才 useEffect 展开一级子节点
+    // （见 src/features/orgs/OrgTree.tsx L218-224），
+    // 同步断言可能在二级子节点挂载前失败 → 用 waitFor。
+    const sales = await waitFor(() => screen.getByText('销售部'))
     expect(sales.closest('[data-org-node]')?.querySelector('[data-expand-icon]')).toBeNull()
   })
 
@@ -98,7 +101,7 @@ describe('OrgTree', () => {
     await user.hover(within(rootRow).getByText('ACME 集团'))
     await user.click(within(rootRow).getAllByText('+子部门')[0])
 
-    expect(screen.getByText('新增子部门')).toBeInTheDocument()
+    await waitFor(() => expect(screen.getByText('新增子部门')).toBeInTheDocument())
     await user.type(screen.getByRole('textbox'), '新部门XYZ')
     await user.click(screen.getByRole('button', { name: '保存' }))
 
@@ -114,7 +117,7 @@ describe('OrgTree', () => {
     await user.hover(within(techRow).getByText('技术部'))
     await user.click(within(techRow).getByText('编辑'))
 
-    expect(screen.getByText('编辑部门')).toBeInTheDocument()
+    await waitFor(() => expect(screen.getByText('编辑部门')).toBeInTheDocument())
     const nameInput = screen.getByRole('textbox') as HTMLInputElement
     await user.clear(nameInput)
     await user.type(nameInput, '技术研发部')
@@ -132,7 +135,7 @@ describe('OrgTree', () => {
     await user.hover(within(salesRow).getByText('销售部'))
     await user.click(within(salesRow).getByText('删除'))
 
-    expect(screen.getByText('删除确认')).toBeInTheDocument()
+    await waitFor(() => expect(screen.getByText('删除确认')).toBeInTheDocument())
     await user.click(screen.getByRole('button', { name: '确认' }))
 
     await waitFor(() => expect(screen.queryByText('销售部')).not.toBeInTheDocument())
