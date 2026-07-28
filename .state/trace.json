@@ -770,6 +770,206 @@
       "inert": false
     },
     {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::does not render body when open=false",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::renders title and description when open=true",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::omits description node when description not given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::clicking confirm calls onConfirm",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::clicking cancel triggers onOpenChange(false)",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::destructive applies destructive class to confirm button",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::loading disables both buttons",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::custom confirmText and cancelText are rendered",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::renders column headers",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::renders each row from data",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::renders skeleton rows when loading=true (data ignored)",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::shows default EmptyState when data=[] and no custom empty",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::shows custom empty content when provided",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::row click invokes onRowClick with the row data",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::row click is a no-op when onRowClick is not provided",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::passes rowKey function output as React key (no console warnings about keys)",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders title",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders description when given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders icon when given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders action when given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::accepts custom className",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::renders label",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::shows required asterisk when required=true",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::shows error when error is given (priority over hint)",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::shows hint when hint is given and no error",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::renders no help text when neither error nor hint",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::passes htmlFor down to the Label so it associates with control",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::merges custom className",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::renders title in an h1",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::renders description when given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::omits description when not given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::renders actions when given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::omits actions wrapper when actions not given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::merges custom className with the default layout",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::renders page indicator when total is omitted",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::renders total count + page indicator when total is given",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::prev button is disabled at page=1",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::next button is disabled at page=totalPages",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::clicking prev calls onPageChange with page-1",
+      "fns": [],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::clicking next calls onPageChange with page+1",
+      "fns": [],
+      "inert": false
+    },
+    {
       "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/apiKeys/ApiKeyList.test.tsx::renders API key list on mount",
       "fns": [
         "M04.F02.I01",
@@ -876,198 +1076,6 @@
         "M04.F02.I02",
         "M04.F02.I03",
         "M04.F02.I04"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::mount 后渲染日志列表",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::Tab 切换到登录日志",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::操作人筛选",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::IP 筛选",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::重置按钮存在",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::导出 CSV 按钮存在",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::切换到操作日志 Tab 触发重新拉取",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::切换到安全日志 Tab 触发重新拉取",
-      "fns": [
-        "M05.F01.I01",
-        "M05.F01.I02",
-        "M05.F01.I03",
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I07"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::初始状态",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 成功填充 list/total",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 按 timestamp 倒序",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs action 筛选",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs operator 筛选",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs ip 筛选",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 网络错误后 error",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::clearError",
-      "fns": [
-        "M05.F01.I04",
-        "M05.F01.I05",
-        "M05.F01.I06",
-        "M05.F01.I08",
-        "M05.F01.I09"
       ],
       "inert": false
     },
@@ -1388,6 +1396,198 @@
         "M04.F01.I10",
         "M04.F01.I11",
         "M04.F01.I12"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::mount 后渲染日志列表",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::Tab 切换到登录日志",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::操作人筛选",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::IP 筛选",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::重置按钮存在",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::导出 CSV 按钮存在",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::切换到操作日志 Tab 触发重新拉取",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/AuditLogList.test.tsx::切换到安全日志 Tab 触发重新拉取",
+      "fns": [
+        "M05.F01.I01",
+        "M05.F01.I02",
+        "M05.F01.I03",
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I07"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::初始状态",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 成功填充 list/total",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 按 timestamp 倒序",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs action 筛选",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs operator 筛选",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs ip 筛选",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::fetchAuditLogs 网络错误后 error",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/audit/auditStore.test.ts::clearError",
+      "fns": [
+        "M05.F01.I04",
+        "M05.F01.I05",
+        "M05.F01.I06",
+        "M05.F01.I08",
+        "M05.F01.I09"
       ],
       "inert": false
     },
@@ -2055,6 +2255,65 @@
       "inert": false
     },
     {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::从 URLSearchParams 取 code 并调 handleOAuthCallback",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::成功后跳转到 dashboard",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::URL 无 code 时跳登录页",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::回调失败时跳登录页",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::处理中显示加载文案",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 用默认 env 变量",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::redirectToSso 设置 window.location.href",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
       "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/MenuPermissions.test.tsx::mount 后渲染菜单权限页",
       "fns": [
         "M03.F01.I07"
@@ -2391,65 +2650,6 @@
         "M03.F01.I04",
         "M03.F01.I05",
         "M03.F01.I08"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::从 URLSearchParams 取 code 并调 handleOAuthCallback",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::成功后跳转到 dashboard",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::URL 无 code 时跳登录页",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::回调失败时跳登录页",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::处理中显示加载文案",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL",
-      "fns": [
-        "M01.F04.I01",
-        "M01.F04.I02"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 用默认 env 变量",
-      "fns": [
-        "M01.F04.I01",
-        "M01.F04.I02"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::redirectToSso 设置 window.location.href",
-      "fns": [
-        "M01.F04.I01",
-        "M01.F04.I02"
       ],
       "inert": false
     },
@@ -2971,206 +3171,6 @@
       "fns": [
         "M03.F03.I05"
       ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::does not render body when open=false",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::renders title and description when open=true",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::omits description node when description not given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::clicking confirm calls onConfirm",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::clicking cancel triggers onOpenChange(false)",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::destructive applies destructive class to confirm button",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::loading disables both buttons",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/ConfirmDialog.test.tsx::custom confirmText and cancelText are rendered",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::renders column headers",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::renders each row from data",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::renders skeleton rows when loading=true (data ignored)",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::shows default EmptyState when data=[] and no custom empty",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::shows custom empty content when provided",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::row click invokes onRowClick with the row data",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::row click is a no-op when onRowClick is not provided",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/DataTable.test.tsx::passes rowKey function output as React key (no console warnings about keys)",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders title",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders description when given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders icon when given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::renders action when given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/EmptyState.test.tsx::accepts custom className",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::renders label",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::shows required asterisk when required=true",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::shows error when error is given (priority over hint)",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::shows hint when hint is given and no error",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::renders no help text when neither error nor hint",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::passes htmlFor down to the Label so it associates with control",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/Field.test.tsx::merges custom className",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::renders title in an h1",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::renders description when given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::omits description when not given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::renders actions when given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::omits actions wrapper when actions not given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PageHeader.test.tsx::merges custom className with the default layout",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::renders page indicator when total is omitted",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::renders total count + page indicator when total is given",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::prev button is disabled at page=1",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::next button is disabled at page=totalPages",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::clicking prev calls onPageChange with page-1",
-      "fns": [],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/components/app/PaginationBar.test.tsx::clicking next calls onPageChange with page+1",
-      "fns": [],
       "inert": false
     },
     {

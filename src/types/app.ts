@@ -16,6 +16,8 @@ export interface MenuItem {
   parentId: string | null;
   /** 是否启用 */
   enabled: boolean;
+  /** 显隐所需权限码；缺省表示不鉴权（lab 集成用） */
+  permission?: string;
   /** 创建时间 */
   createdAt: string;
   /** 更新时间 */

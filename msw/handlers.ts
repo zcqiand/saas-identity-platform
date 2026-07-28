@@ -65,6 +65,7 @@ import {
   getOpenPlatformConfig,
   updateOpenPlatformConfig,
 } from './db'
+import { rolesByTenant } from './db'
 import { signJwt, verifyJwt } from './jwt'
 import type { Role } from '../src/features/rbac/types'
 import type { UserCreateInput, UserUpdateInput, User } from '../src/types/user'
@@ -102,11 +103,38 @@ export const handlers = [
 
   // —— ch40：OAuth 回调换 token ——
   http.post('*/auth/oauth/callback', async ({ request }) => {
-    const body = (await request.json()) as { code: string; provider?: string }
+    const body = (await request.json()) as {
+      code: string
+      clientId?: string
+      provider?: string
+    }
     if (!body.code || body.code === 'bad-code') {
       return HttpResponse.json({ message: '无效授权码' }, { status: 401 })
     }
-    // mock 用户：固定返回 admin@acme
+    // lab 集成：clientId 命中 lab 应用 → 返回 lab 租户身份（机构=租户，1:1）
+    if (body.clientId === 'lab-management') {
+      const labAdmin = rolesByTenant('tenant-lab').find((r) => r.name === 'labadmin')
+      const labToken = signJwt({
+        sub: 'u-lab-admin',
+        username: 'labadmin',
+        orgId: 'org-lab-root',
+        tenantId: 'tenant-lab',
+        appId: 'app-lab',
+        roles: ['labadmin'],
+        permissions: labAdmin?.permissions ?? [],
+      })
+      return HttpResponse.json({
+        token: labToken,
+        user: {
+          id: 'u-lab-admin',
+          username: 'labadmin',
+          displayName: '实验室管理员',
+          orgId: 'org-lab-root',
+          tenantId: 'tenant-lab',
+        },
+      })
+    }
+    // mock 用户：固定返回 admin@acme（保持 ch40 既有行为）
     const token = signJwt({
       sub: 'u-001',
       username: 'admin@acme',
@@ -133,6 +161,13 @@ export const handlers = [
     }
     const url = new URL(request.url)
     const orgId = url.searchParams.get('orgId') ?? 'org-acme'
+
+    // lab 集成：机构=租户=根组织 org-lab-root，走既有 orgId 机制
+    if (orgId === 'org-lab-root') {
+      const labRoles = rolesByTenant('tenant-lab')
+      const labPerms = Array.from(new Set(labRoles.flatMap((r) => r.permissions)))
+      return HttpResponse.json({ roles: labRoles, permissions: labPerms })
+    }
 
     const acmeRoles: Role[] = [
       { id: 'role-admin', name: 'admin', permissions: ['user:read', 'user:create', 'user:update', 'user:delete', 'org:read', 'org:write'], menuPermissions: [] },

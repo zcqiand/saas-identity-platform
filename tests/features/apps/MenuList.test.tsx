@@ -62,8 +62,8 @@ describe('MenuList', () => {
   fnTest([...FIDS], '渲染子菜单（带 └ 前缀）', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('仪表盘')).toBeInTheDocument())
-    expect(screen.getByText('用户管理')).toBeInTheDocument()
-    const childRow = screen.getByText('用户管理').closest('tr')!
+    expect(screen.getByText('合同管理')).toBeInTheDocument()
+    const childRow = screen.getByText('合同管理').closest('tr')!
     expect(within(childRow).getByText(/└/)).toBeInTheDocument()
   })
 

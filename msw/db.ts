@@ -116,6 +116,13 @@ const DEFAULT_TENANTS: MockTenant[] = [
     theme: { primary: '#2563eb', sidebar: '#1e3a5f', logoText: 'AXIOM' },
     config: { features: ['sso', 'audit', 'rbac'], maxUsers: 250 },
   },
+  // lab 集成：一个建筑工程检测实验室 = 一个租户（1:1）
+  {
+    id: 'tenant-lab',
+    name: '示例建筑工程检测实验室',
+    theme: { primary: '#2563eb', sidebar: '#1e293b', logoText: 'LAB' },
+    config: { features: ['sso', 'rbac', 'audit'], maxUsers: 50 },
+  },
 ]
 
 let tenants: MockTenant[] = [...DEFAULT_TENANTS]
@@ -266,6 +273,8 @@ const DEFAULT_ORG_TREE: OrgNode = {
       name: 'Globex 分部',
       children: [{ id: 'org-globex-tech', name: 'Globex 技术部' }],
     },
+    // lab 集成：lab 机构对应的租户根组织（承载 user.orgId）
+    { id: 'org-lab-root', name: '示例建筑工程检测实验室' },
   ],
 }
 
@@ -853,39 +862,83 @@ export interface MockMenu {
   icon?: string
   sort: number
   enabled: boolean
+  /** 显隐所需权限码；缺省表示不鉴权（lab 集成用） */
+  permission?: string
   createdAt: string
   updatedAt: string
 }
 
-// 建筑工程实验室管理系统菜单（参考 lab-management-system/src/app/router.tsx）
+// 建筑工程实验室管理系统菜单——与 lab 现网 Layout/router 对齐（改 lab 后需同步）
+const LAB_T = '2026-01-01T00:00:00Z'
 const LAB_LAB_MENUS: MockMenu[] = [
-  // 业务管理（流程线）
-  { id: 'm-lab-01', name: '仪表盘', path: 'dashboard', appId: 'app-lab', parentId: null, sort: 1, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-02', name: '合同管理', path: 'contracts', appId: 'app-lab', parentId: null, sort: 2, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-03', name: '收样管理', path: 'receipts', appId: 'app-lab', parentId: null, sort: 3, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-04', name: '任务安排', path: 'task-assignment', appId: 'app-lab', parentId: null, sort: 4, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-05', name: '数据录入', path: 'data-entry', appId: 'app-lab', parentId: null, sort: 5, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-06', name: '报告审核', path: 'report-review', appId: 'app-lab', parentId: null, sort: 6, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-07', name: '报告批准', path: 'report-approve', appId: 'app-lab', parentId: null, sort: 7, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-08', name: '报告发放', path: 'report-issue', appId: 'app-lab', parentId: null, sort: 8, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-09', name: '报告归档', path: 'report-archive', appId: 'app-lab', parentId: null, sort: 9, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-10', name: '统计报表', path: 'summary', appId: 'app-lab', parentId: null, sort: 10, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  // 基础管理
-  { id: 'm-lab-11', name: '机构信息', path: 'org-info', appId: 'app-lab', parentId: null, sort: 11, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-12', name: '报告分类', path: 'report-categories', appId: 'app-lab', parentId: null, sort: 12, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-13', name: '检测参数', path: 'test-parameters', appId: 'app-lab', parentId: null, sort: 13, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-14', name: '检测标准', path: 'test-standards', appId: 'app-lab', parentId: null, sort: 14, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-15', name: '技术要求', path: 'technical-requirements', appId: 'app-lab', parentId: null, sort: 15, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-16', name: '型号管理', path: 'models', appId: 'app-lab', parentId: null, sort: 16, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-17', name: '规格管理', path: 'specifications', appId: 'app-lab', parentId: null, sort: 17, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-18', name: '等级管理', path: 'grades', appId: 'app-lab', parentId: null, sort: 18, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-19', name: '牌号管理', path: 'brands', appId: 'app-lab', parentId: null, sort: 19, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-20', name: '报告模板', path: 'report-templates', appId: 'app-lab', parentId: null, sort: 20, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  // 设置子菜单
-  { id: 'm-lab-21', name: '用户管理', path: 'users', appId: 'app-lab', parentId: 'm-lab-settings', sort: 1, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-22', name: '角色管理', path: 'roles', appId: 'app-lab', parentId: 'm-lab-settings', sort: 2, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
-  { id: 'm-lab-settings', name: '设置', path: 'settings', appId: 'app-lab', parentId: null, sort: 21, enabled: true, createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
+  // 顶级
+  { id: 'm-lab-dash', name: '仪表盘', path: 'dashboard', appId: 'app-lab', parentId: null, sort: 1, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  // 分组父节点（仅作层级容器，path 为空、不导航）
+  { id: 'grp-res', name: '资源管理', path: '', appId: 'app-lab', parentId: null, sort: 15, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'grp-biz', name: '实验过程管理', path: '', appId: 'app-lab', parentId: null, sort: 20, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'grp-stat', name: '统计报表', path: '', appId: 'app-lab', parentId: null, sort: 30, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'grp-insp', name: '检测能力', path: '', appId: 'app-lab', parentId: null, sort: 40, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'grp-master', name: '基础数据', path: '', appId: 'app-lab', parentId: null, sort: 50, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  // 资源管理
+  { id: 'm-contracts', name: '合同管理', path: 'contracts', appId: 'app-lab', parentId: 'grp-res', sort: 1, enabled: true, permission: 'project:read', createdAt: LAB_T, updatedAt: LAB_T },
+  // 实验过程管理
+  { id: 'm-receipts', name: '接样管理', path: 'receipts', appId: 'app-lab', parentId: 'grp-biz', sort: 1, enabled: true, permission: 'sample:read', createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-task', name: '任务安排', path: 'task-assignment', appId: 'app-lab', parentId: 'grp-biz', sort: 2, enabled: true, permission: 'report:write', createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-entry', name: '数据录入', path: 'data-entry', appId: 'app-lab', parentId: 'grp-biz', sort: 3, enabled: true, permission: 'report:write', createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-review', name: '报告审核', path: 'report-review', appId: 'app-lab', parentId: 'grp-biz', sort: 4, enabled: true, permission: 'report:read', createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-approve', name: '报告批准', path: 'report-approve', appId: 'app-lab', parentId: 'grp-biz', sort: 5, enabled: true, permission: 'report:issue', createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-issue', name: '报告发放', path: 'report-issue', appId: 'app-lab', parentId: 'grp-biz', sort: 6, enabled: true, permission: 'report:read', createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-archive', name: '报告归档', path: 'report-archive', appId: 'app-lab', parentId: 'grp-biz', sort: 7, enabled: true, permission: 'report:read', createdAt: LAB_T, updatedAt: LAB_T },
+  // 主数据
+  { id: 'm-report-names', name: '报告名称', path: 'report-names', appId: 'app-lab', parentId: 'grp-master', sort: 1, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-param-ifs', name: '参数界面', path: 'param-interfaces', appId: 'app-lab', parentId: 'grp-master', sort: 2, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-models', name: '型号维护', path: 'models', appId: 'app-lab', parentId: 'grp-master', sort: 3, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-specs', name: '规格维护', path: 'specifications', appId: 'app-lab', parentId: 'grp-master', sort: 4, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-grades', name: '等级维护', path: 'grades', appId: 'app-lab', parentId: 'grp-master', sort: 5, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-brands', name: '牌号维护', path: 'brands', appId: 'app-lab', parentId: 'grp-master', sort: 6, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-calc-rules', name: '计算规则', path: 'inspection-calculation-rules', appId: 'app-lab', parentId: 'grp-master', sort: 7, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-tech-req', name: '技术要求', path: 'inspection-technical-requirements', appId: 'app-lab', parentId: 'grp-master', sort: 8, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  // 检测
+  { id: 'm-insp-spec', name: '检测专项', path: 'inspection-specialties', appId: 'app-lab', parentId: 'grp-insp', sort: 1, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-insp-obj', name: '检测项目', path: 'inspection-objects', appId: 'app-lab', parentId: 'grp-insp', sort: 2, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-insp-param', name: '检测参数', path: 'inspection-parameters', appId: 'app-lab', parentId: 'grp-insp', sort: 3, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  { id: 'm-insp-std', name: '检测标准', path: 'inspection-standards', appId: 'app-lab', parentId: 'grp-insp', sort: 4, enabled: true, createdAt: LAB_T, updatedAt: LAB_T },
+  // 统计
+  { id: 'm-summary', name: '统计汇总', path: 'summary', appId: 'app-lab', parentId: 'grp-stat', sort: 1, enabled: true, permission: 'report:read', createdAt: LAB_T, updatedAt: LAB_T },
 ]
+
+// lab 租户的角色目录（tenant-scoped；使用 lab 业务权限码，非 saas 内置词表）
+export interface LabRole { id: string; name: string; permissions: string[]; menuPermissions: [] }
+const LAB_ROLES: LabRole[] = [
+  {
+    id: 'role-lab-admin',
+    name: 'labadmin',
+    permissions: [
+      'project:read', 'project:write',
+      'sample:read', 'sample:write',
+      'report:read', 'report:write', 'report:issue',
+      'org:read', 'audit:read',
+    ],
+    menuPermissions: [],
+  },
+  {
+    id: 'role-lab-tech',
+    name: 'technician',
+    permissions: [
+      'project:read',
+      'sample:read', 'sample:write',
+      'report:read', 'report:write', 'report:issue',
+    ],
+    menuPermissions: [],
+  },
+]
+
+const TENANT_ROLES: Record<string, LabRole[]> = { 'tenant-lab': LAB_ROLES }
+
+/** 按租户返回角色目录（lab 集成：机构=租户，1:1） */
+export function rolesByTenant(tenantId: string): LabRole[] {
+  return TENANT_ROLES[tenantId] ?? []
+}
 
 // 11 个应用：建筑工程实验室管理 + 10 个补充
 const DEFAULT_APPS: MockApp[] = [
