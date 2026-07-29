@@ -25,8 +25,8 @@ RUN npm run build:api
 FROM alpine:3.20 AS serve
 RUN apk add --no-cache nginx nodejs supervisor
 
-# SPA + 反代 /api/
-COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+# nginx 主配置（events + http + server 整个，覆盖 alpine 默认 /etc/nginx/nginx.conf）
+COPY deploy/nginx.conf /etc/nginx/nginx.conf
 
 # supervisord 拉 nginx + node
 COPY deploy/supervisord.conf /etc/supervisord.conf
