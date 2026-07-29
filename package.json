@@ -9,6 +9,8 @@
     "dev:web": "vite",
     "dev:api": "tsx dev-server/server.ts",
     "build": "tsc -b && vite build",
+    "build:api": "esbuild dev-server/server.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist-server/server.js --external:hono --external:@hono/node-server",
+    "start:api": "node dist-server/server.js",
     "preview": "vite preview",
     "gate": "cd ../.. && python scripts/gate.py -p saas-identity-platform",
     "test": "vitest run",
