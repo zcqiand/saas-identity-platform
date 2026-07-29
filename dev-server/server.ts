@@ -23,8 +23,15 @@ import {
 
 const app = new Hono()
 
-// CORS：lab 5173 + saas 5175（dev 自调用）
-const ALLOWED_ORIGINS = ['http://localhost:5173', 'http://localhost:5175']
+// CORS：默认 dev 自调用（lab 5173 + saas 5175）。
+// 生产端通过 SAAS_ALLOWED_ORIGINS 环境变量追加 react-lab.xiangru.uk；
+// supervisord.conf / Dockerfile 传 env，参考 deploy/supervisord.conf。
+const DEV_ORIGINS = ['http://localhost:5173', 'http://localhost:5175']
+const PROD_ORIGINS = (process.env.SAAS_ALLOWED_ORIGINS ?? '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean)
+const ALLOWED_ORIGINS = [...DEV_ORIGINS, ...PROD_ORIGINS]
 app.use(
   '*',
   cors({
