@@ -1,0 +1,83 @@
+# react-id.xiangru.uk VPS nginx 反代
+# 80 → 301 to 443
+# 443 → SPA (8061 container 80) + /api/* → saas 真后端（需部署）
+#
+# 部署清单：
+#   1. react-id 容器 8061:80 (nginx SPA, serve dist)
+#   2. saas 真后端 Hono（或同等）进程跑独立端口（建议 5176），
+#      实际处理 /api/auth/login + /sso/authorize + /auth/oauth/callback
+#      + /auth/permissions + /menus
+#   3. react-id 容器内 nginx（或 VPS 这层）配 location /api/ → saas 真后端
+
+server {
+    listen 80;
+    server_name react-id.xiangru.uk;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name react-id.xiangru.uk;
+
+    ssl_certificate     /etc/nginx/ssl/xiangru-uk.cert;
+    ssl_certificate_key /etc/nginx/ssl/xiangru-uk.key;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    # ==== CORS 全局（react-lab origin 专用；多 origin 时改 map） ====
+    # OPTIONS 预检响应：直接 return 204 带全部 CORS 头，避免 OPTIONS 转后端
+    if ($request_method = 'OPTIONS') {
+        add_header Access-Control-Allow-Origin  "https://react-lab.xiangru.uk" always;
+        add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+        add_header Access-Control-Allow-Headers "Authorization, Content-Type, Accept, Origin, X-Requested-With" always;
+        add_header Access-Control-Max-Age       "86400" always;
+        add_header Vary "Origin" always;
+        add_header Content-Length 0 always;
+        add_header Content-Type "text/plain" always;
+        return 204;
+    }
+    # 真实响应：让上游后端控制 CORS 头；这里只设 Vary 让 CDN 按 origin 缓存
+    add_header Vary "Origin" always;
+
+    # ==== SPA + 业务反代 ====
+    location / {
+        # SPA 静态资源（react-id 容器的 80 端口，dist/ 已 build）
+        proxy_pass http://127.0.0.1:8061;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        # WebSocket 删除：SPA 不需要
+        # proxy_set_header Upgrade $http_upgrade;
+        # proxy_set_header Connection "upgrade";
+    }
+
+    # ==== /api/* 反代到 saas 真后端 ====
+    # 关键：这台 VPS 必须有 saas 后端端口可达（容器、sidecar、或外部 VPS）
+    location /api/ {
+        # 例 1: 同机 saas 后端容器暴露 5176
+        # proxy_pass http://127.0.0.1:5176;
+        # 例 2: 透过 react-id 容器内 nginx 二次反代
+        # proxy_pass http://127.0.0.1:8061/api/;
+        # 例 3: 外部 VPS（如 saas.example.internal）
+        # proxy_pass https://saas-backend.internal/api/;
+
+        # === 占位：saas 真后端地址 — 部署后改 ===
+        proxy_pass http://127.0.0.1:5176;
+
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # ==== CORS 让后端负责；上游若不返 Access-Control-* 我们兜底补 ====
+        # 简化：信任后端
+    }
+}
