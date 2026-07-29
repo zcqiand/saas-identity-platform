@@ -23,7 +23,7 @@ RUN npm run build:api
 # —— Stage 2: serve ——
 # alpine 体积小，自带 apk；debian-bookworm-slim 没自带 supervisor。
 FROM alpine:3.20 AS serve
-RUN apk add --no-cache nginx nodejs supervisor
+RUN apk add --no-cache nginx nodejs supervisor curl
 
 # nginx 主配置（events + http + server 整个，覆盖 alpine 默认 /etc/nginx/nginx.conf）
 COPY deploy/nginx.conf /etc/nginx/nginx.conf
@@ -42,6 +42,6 @@ COPY --from=build /app/dist-server /app/dist-server
 EXPOSE 80 5176
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD wget -q --spider http://localhost/ || exit 1
+  CMD curl -fsS http://localhost/health || exit 1
 
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
