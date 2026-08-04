@@ -11,9 +11,7 @@ dist-ssr/
 .vite/
 coverage/
 *.tsbuildinfo
-.state/
 .pytest_cache/
-.harness/
 .claude/
 
 # 本地环境
@@ -35,3 +33,9 @@ Thumbs.db
 npm-debug.log*
 dist-server/
 *.tsbuildinfo
+
+# 门禁输出物：gate.py 每次跑都重生成，不入库
+# （trace.json 2854+ 行；gate.json 每次时间戳都变；多分支合必撞车）
+.state/trace.json
+.state/gate.json
+.state/gate.partial.json
