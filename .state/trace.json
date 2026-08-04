@@ -343,6 +343,27 @@
       "inert": false
     },
     {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/Login.test.tsx::挂载后渲染 data-fn=\"M01.F04.I04\" 容器（ch40 SSO 实现前的占位入口）",
+      "fns": [
+        "M01.F04.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/Login.test.tsx::渲染登录标题（\"登录\" 二字）",
+      "fns": [
+        "M01.F04.I04"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/Login.test.tsx::渲染占位文案「SSO 登录待 ch40 实现」（ch39 占位阶段）",
+      "fns": [
+        "M01.F04.I04"
+      ],
+      "inert": false
+    },
+    {
       "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/LoginMethods.test.tsx::mount 后渲染页面标题",
       "fns": [
         "M06.F02.I01",
@@ -2255,65 +2276,6 @@
       "inert": false
     },
     {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::从 URLSearchParams 取 code 并调 handleOAuthCallback",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::成功后跳转到 dashboard",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::URL 无 code 时跳登录页",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::回调失败时跳登录页",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::处理中显示加载文案",
-      "fns": [
-        "M01.F04.I03"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL",
-      "fns": [
-        "M01.F04.I01",
-        "M01.F04.I02"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 用默认 env 变量",
-      "fns": [
-        "M01.F04.I01",
-        "M01.F04.I02"
-      ],
-      "inert": false
-    },
-    {
-      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::redirectToSso 设置 window.location.href",
-      "fns": [
-        "M01.F04.I01",
-        "M01.F04.I02"
-      ],
-      "inert": false
-    },
-    {
       "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/rbac/MenuPermissions.test.tsx::mount 后渲染菜单权限页",
       "fns": [
         "M03.F01.I07"
@@ -2650,6 +2612,65 @@
         "M03.F01.I04",
         "M03.F01.I05",
         "M03.F01.I08"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::从 URLSearchParams 取 code 并调 handleOAuthCallback",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::成功后跳转到 dashboard",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::URL 无 code 时跳登录页",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::回调失败时跳登录页",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/SsoCallback.test.tsx::处理中显示加载文案",
+      "fns": [
+        "M01.F04.I03"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 构造含 client_id/redirect_uri/state 的 authorize URL",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::buildAuthorizeUrl 用默认 env 变量",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
+      ],
+      "inert": false
+    },
+    {
+      "test": "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/features/sso/ssoRedirect.test.ts::redirectToSso 设置 window.location.href",
+      "fns": [
+        "M01.F04.I01",
+        "M01.F04.I02"
       ],
       "inert": false
     },

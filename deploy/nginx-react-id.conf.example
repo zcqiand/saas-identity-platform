@@ -29,55 +29,34 @@ server {
 
     add_header Strict-Transport-Security "max-age=31536000" always;
 
-    # ==== CORS 全局（react-lab origin 专用；多 origin 时改 map） ====
-    # OPTIONS 预检响应：直接 return 204 带全部 CORS 头，避免 OPTIONS 转后端
-    if ($request_method = 'OPTIONS') {
-        add_header Access-Control-Allow-Origin  "https://react-lab.xiangru.uk" always;
-        add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
-        add_header Access-Control-Allow-Headers "Authorization, Content-Type, Accept, Origin, X-Requested-With" always;
-        add_header Access-Control-Max-Age       "86400" always;
-        add_header Vary "Origin" always;
-        add_header Content-Length 0 always;
-        add_header Content-Type "text/plain" always;
-        return 204;
-    }
-    # 真实响应：让上游后端控制 CORS 头；这里只设 Vary 让 CDN 按 origin 缓存
+    # ==== CORS 给上游 Hono 处理 ====
+    # 因为 nginx `if` 块不允许 add_header（CORS 头通常这么写）——
+    # 把 OPTIONS 预检交给容器内 Hono cors() 中间件（dev-server/server.ts），
+    # 它对 OPTIONS 自动回 204 + Allow-Origin/Headers/Methods/Credentials。
+    # 删掉所有 if + add_header，只保留 Vary 让 CDN 按 origin 缓存。
     add_header Vary "Origin" always;
 
-    # ==== SPA + 业务反代 ====
+    # ==== SPA 静态资源（react-id 容器 80 端口）====
     location / {
-        # SPA 静态资源（react-id 容器的 80 端口，dist/ 已 build）
         proxy_pass http://127.0.0.1:8061;
         proxy_http_version 1.1;
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
         proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        # WebSocket 删除：SPA 不需要
-        # proxy_set_header Upgrade $http_upgrade;
-        # proxy_set_header Connection "upgrade";
     }
 
     # ==== /api/* 反代到 saas 真后端 ====
-    # 关键：这台 VPS 必须有 saas 后端端口可达（容器、sidecar、或外部 VPS）
+    # 容器只 expose 127.0.0.1:8061:80；5176 在容器内部（supervisord 启），
+    # 由容器内 nginx 反代。所以这里 proxy_pass 到 8061，让容器内 nginx 处理。
     location /api/ {
-        # 例 1: 同机 saas 后端容器暴露 5176
-        # proxy_pass http://127.0.0.1:5176;
-        # 例 2: 透过 react-id 容器内 nginx 二次反代
-        # proxy_pass http://127.0.0.1:8061/api/;
-        # 例 3: 外部 VPS（如 saas.example.internal）
-        # proxy_pass https://saas-backend.internal/api/;
-
-        # === 占位：saas 真后端地址 — 部署后改 ===
-        proxy_pass http://127.0.0.1:5176;
-
+        proxy_pass http://127.0.0.1:8061;
         proxy_http_version 1.1;
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
         proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-
-        # ==== CORS 让后端负责；上游若不返 Access-Control-* 我们兜底补 ====
-        # 简化：信任后端
+        proxy_set_header X-Forwarded-Host  $host;
+        # OPTIONS 预检：Hono cors() 中间件在容器内自动回 204 + 正确头
     }
 }

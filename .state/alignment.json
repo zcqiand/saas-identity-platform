@@ -6,12 +6,8 @@
     "features": 21,
     "items": 133
   },
-  "warnings_total": 1,
-  "warnings": {
-    "已上线但无测试引用": [
-      "M01.F04.I04"
-    ]
-  },
+  "warnings_total": 0,
+  "warnings": {},
   "unreachable_shipped": [],
   "function_map": {
     "M01.F01.I01": {
@@ -447,7 +443,11 @@
       "designs": [
         "docs\\design\\design-function-map.md"
       ],
-      "tests": [],
+      "tests": [
+        "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/Login.test.tsx::挂载后渲染 data-fn=\"M01.F04.I04\" 容器（ch40 SSO 实现前的占位入口）",
+        "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/Login.test.tsx::渲染占位文案「SSO 登录待 ch40 实现」（ch39 占位阶段）",
+        "D:/zcqiand-life/1-projects/xr-code-suite/output/saas-identity-platform/tests/pages/Login.test.tsx::渲染登录标题（\"登录\" 二字）"
+      ],
       "entry": [
         "src\\pages\\Login.tsx"
       ]
