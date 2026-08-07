@@ -20,7 +20,7 @@ function TenantConsumer() {
     <div>
       <span>租户ID：{tenant.id}</span>
       <span>租户名：{tenant.name}</span>
-      <span>主题色：{tenant.theme.primary}</span>
+      <span>主题色：{(tenant.theme as { primary: string }).primary}</span>
       <span>功能：{tenant.features.join(',')}</span>
     </div>
   )

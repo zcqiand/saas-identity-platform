@@ -102,7 +102,8 @@ function FormModal({ open, mode, initial, onSubmit, onCancel, loading }: FormMod
                 enabled,
                 createdAt: initial?.createdAt ?? "",
                 updatedAt: "",
-              })
+                tenantId: initial?.tenantId ?? "acme",
+              } as Position)
             }
             className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50"
             disabled={loading}

@@ -9,7 +9,7 @@ import { useUserStore } from '../../src/features/users/userStore'
 import { resetApiClient, setToken } from '../../src/api/client'
 import { clearTheme } from '../../src/features/tenant/theme'
 import { useTenantStore } from '../../src/features/tenant/tenantStore'
-import { useOrgStore } from '../../src/features/orgs/orgStore'
+import { useDepartmentStore } from '../../src/features/orgs/departmentStore'
 
 const API_BASE = 'http://localhost/api'
 
@@ -21,7 +21,7 @@ async function seedUser(name: string, roles: string[] = ['member']) {
       username: `${name}@acme`,
       displayName: name,
       email: `${name}@acme.com`,
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
       roles,
     }),
   })
@@ -34,11 +34,11 @@ function renderAt(path: string) {
 
 beforeEach(() => {
   localStorage.clear()
-  useAuthStore.setState({ user: null, token: null, currentOrgId: null, status: 'idle', error: null })
+  useAuthStore.setState({ user: null, token: null, currentTenantId: null, status: 'idle', error: null })
   usePermissionStore.setState({ roles: [], permissions: [], loading: false, error: null })
   useUserStore.setState({ list: [], total: 0, loading: false, error: null })
   useTenantStore.setState({ current: null, list: [], loading: false, error: null })
-  useOrgStore.setState({ tree: null, loading: false, error: null })
+  useDepartmentStore.setState({ tree: null, loading: false, error: null })
   resetApiClient()
   clearTheme()
 })
@@ -48,16 +48,17 @@ afterEach(() => {
 })
 
 describe('SaaS 全链路集成测试', () => {
-  it('多租户切换：acme → globex 主题变量更新', async () => {
+  it('多租户切换：acme → tenant-lab 主题变量更新', async () => {
     renderAt('/acme/dashboard')
     await waitFor(() => {
       expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#2563eb')
     })
-    // 导航到 globex
-    const router = createMemoryRouter(routes, { initialEntries: ['/globex/dashboard'] })
+    // 导航到 tenant-lab
+    const router = createMemoryRouter(routes, { initialEntries: ['/tenant-lab/dashboard'] })
     render(<RouterProvider router={router} />)
     await waitFor(() => {
-      expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#059669')
+      // acme 与 tenant-lab primary 同为 #2563eb，用 logoText 断言主题切换
+      expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('LAB')
     })
   })
 
@@ -65,9 +66,9 @@ describe('SaaS 全链路集成测试', () => {
     const user = userEvent.setup()
     // 模拟已登录 + 有权限
     useAuthStore.setState({
-      user: { id: 'u-001', username: 'admin@acme', displayName: '管理员', orgId: 'org-acme' },
+      user: { id: 'u-001', username: 'admin@acme', displayName: '管理员', departmentId: 'org-acme' },
       token: 'mock-token',
-      currentOrgId: 'org-acme',
+      currentTenantId: 'acme',
       status: 'authenticated',
       error: null,
     })
@@ -88,16 +89,16 @@ describe('SaaS 全链路集成测试', () => {
     await user.type(screen.getByLabelText(/用户名/), 'new@acme')
     await user.type(screen.getByLabelText(/显示名/), '新用户集成')
     await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
-    await user.selectOptions(screen.getByLabelText(/组织/), 'org-acme')
+    await user.selectOptions(screen.getByLabelText(/部门/), 'org-acme')
     await user.click(screen.getByRole('button', { name: '保存' }))
     await waitFor(() => expect(screen.getByText('新用户集成')).toBeInTheDocument())
   })
 
   it('权限守卫：无 user:create 权限时不渲染新增按钮', async () => {
     useAuthStore.setState({
-      user: { id: 'u-002', username: 'viewer', displayName: '查看者', orgId: 'org-acme' },
+      user: { id: 'u-002', username: 'viewer', displayName: '查看者', departmentId: 'org-acme' },
       token: 'mock-token',
-      currentOrgId: 'org-acme',
+      currentTenantId: 'acme',
       status: 'authenticated',
       error: null,
     })
@@ -115,23 +116,19 @@ describe('SaaS 全链路集成测试', () => {
     expect(screen.queryByRole('button', { name: '新增用户' })).not.toBeInTheDocument()
   })
 
-  it('组织架构树渲染与展开', async () => {
-    const user = userEvent.setup()
+  it('组织架构树渲染（扁平 Department[]）', async () => {
     renderAt('/acme/org')
-    // 等根节点 + 一级子节点都渲染
-    await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument(), { timeout: 3000 })
-    await waitFor(() => expect(screen.getByText('ACME 总部')).toBeInTheDocument(), { timeout: 3000 })
-    // 点击技术部展开
-    await user.click(screen.getByText('技术部'))
-    await waitFor(() => expect(screen.getByText('前端组')).toBeInTheDocument(), { timeout: 3000 })
+    // v0.3.0：seeds/departments.json 只有 org-acme / org-lab-root 两个根部门
+    await waitFor(() => expect(screen.getByText('ACME 集团总部')).toBeInTheDocument(), { timeout: 3000 })
+    expect(document.querySelector('[data-org-node="org-acme"]')).toBeInTheDocument()
   })
 
   it('审计日志列表渲染 + 筛选', async () => {
     const user = userEvent.setup()
     useAuthStore.setState({
-      user: { id: 'u-001', username: 'admin', displayName: '管理员', orgId: 'org-acme' },
+      user: { id: 'u-001', username: 'admin', displayName: '管理员', departmentId: 'org-acme' },
       token: 'mock-token',
-      currentOrgId: 'org-acme',
+      currentTenantId: 'acme',
       status: 'authenticated',
       error: null,
     })

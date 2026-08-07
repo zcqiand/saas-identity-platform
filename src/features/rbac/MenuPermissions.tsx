@@ -272,10 +272,10 @@ export function MenuPermissions() {
 }
 
 interface MenuPermRowProps {
-  menu: { id: string; name: string; path: string; parentId: string | null };
+  menu: { id: string; name: string; path: string; parentId?: string | null };
   getChildren: (
     parentId: string,
-  ) => { id: string; name: string; path: string; parentId: string | null }[];
+  ) => { id: string; name: string; path: string; parentId?: string | null }[];
   selectedRoleId: string;
   isActionChecked: (roleId: string, menuId: string, action: string) => boolean;
   isMenuAllChecked: (roleId: string, menuId: string) => boolean;

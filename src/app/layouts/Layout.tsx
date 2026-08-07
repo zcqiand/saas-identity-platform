@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { NavLink } from "react-router";
-import type { TenantConfig } from "../../types/tenant";
+import type { TenantConfig, ThemeConfig } from "../../types/tenant";
 
 interface NavItem {
   to: string;
@@ -39,6 +39,12 @@ interface LayoutProps {
 }
 
 export function Layout({ tenant, children }: LayoutProps) {
+  // Phase 5b：TenantConfig.theme 可能是嵌套对象（React 形态）或字符串（nextjs 简化版）。
+  // 本组件统一用 ThemeConfig 读取 primary/sidebar/logoText。
+  const themeCfg: ThemeConfig =
+    typeof tenant.theme === "object"
+      ? (tenant.theme as ThemeConfig)
+      : { primary: "#2563eb", sidebar: "#1e293b", logoText: tenant.name };
   // Group items
   const groups: Record<string, NavItem[]> = {};
   for (const item of navItems) {
@@ -59,7 +65,7 @@ export function Layout({ tenant, children }: LayoutProps) {
         style={{ background: "var(--tenant-sidebar, #1e293b)" }}
       >
         <div className="p-4 border-b border-white/10">
-          <h1 className="text-base font-bold">{tenant.theme.logoText}</h1>
+          <h1 className="text-base font-bold">{themeCfg.logoText}</h1>
           <p className="text-xs text-white/60">{tenant.name}</p>
         </div>
         <nav className="flex-1 p-2 flex flex-col gap-0.5 overflow-y-auto">

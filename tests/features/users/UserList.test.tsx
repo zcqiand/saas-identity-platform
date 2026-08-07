@@ -1,5 +1,5 @@
-import { describe, expect, beforeEach } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { describe, expect, beforeEach, afterEach } from 'vitest'
+import { render, screen, waitFor, within, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { UserList } from '../../../src/features/users/UserList'
 import { useUserStore } from '../../../src/features/users/userStore'
@@ -20,7 +20,7 @@ async function seed(names: string[]) {
         username: `${name}@acme`,
         displayName: name,
         email: `${name}@acme.com`,
-        orgId: 'org-acme',
+        departmentId: 'org-acme',
         roles: ['member'],
       }),
     })
@@ -33,6 +33,10 @@ beforeEach(() => {
   usePermissionStore.setState({ roles: [], permissions: [], loading: false, error: null })
   resetApiClient()
   setToken('mock-token')
+})
+
+afterEach(() => {
+  cleanup()
 })
 
 describe('UserList', () => {
@@ -55,7 +59,7 @@ describe('UserList', () => {
     usePermissionStore.setState({ permissions: ['user:read'] })
     await seed(['甲'])
     render(<UserList />)
-    await waitFor(() => expect(screen.getByText('甲')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getAllByText('甲')[0]).toBeInTheDocument())
     expect(screen.queryByRole('button', { name: '新增用户' })).not.toBeInTheDocument()
   })
 
@@ -70,7 +74,7 @@ describe('UserList', () => {
     await user.type(screen.getByLabelText(/用户名/), 'new@acme')
     await user.type(screen.getByLabelText(/显示名/), '新用户XYZ')
     await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
-    await user.selectOptions(screen.getByLabelText(/组织/), 'org-acme')
+    await user.selectOptions(screen.getByLabelText(/部门/), 'org-acme')
     await user.click(screen.getByRole('button', { name: '保存' }))
     await waitFor(() => expect(screen.getByText('新用户XYZ')).toBeInTheDocument())
   })
@@ -109,8 +113,8 @@ describe('UserList', () => {
     usePermissionStore.setState({ permissions: ['user:read'] })
     await seed(['甲'])
     render(<UserList />)
-    await waitFor(() => expect(screen.getByText('甲')).toBeInTheDocument())
-    const row = screen.getByText('甲').closest('tr')!
+    await waitFor(() => expect(screen.getAllByText('甲')[0]).toBeInTheDocument())
+    const row = screen.getAllByText('甲')[0].closest('tr')!
     expect(within(row).queryByRole('button', { name: '删除' })).not.toBeInTheDocument()
   })
 
@@ -130,7 +134,7 @@ describe('UserList', () => {
     await fetch(`${API_BASE}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'a@acme', displayName: '管理员', email: 'a@acme.com', orgId: 'org-acme', roles: ['admin'] }),
+      body: JSON.stringify({ username: 'a@acme', displayName: '管理员', email: 'a@acme.com', departmentId: 'org-acme', roles: ['admin'] }),
     })
     await seed(['普通成员'])
     render(<UserList />)

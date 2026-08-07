@@ -1,53 +1,19 @@
-// 应用管理 & 菜单管理类型定义
+// 应用管理 & 菜单管理类型定义 — 单一真理源自 @saas/identity-platform-shared/schemas
 
-export interface MenuItem {
-  id: string;
-  /** 菜单名称 */
-  name: string;
-  /** 路由路径（相对应用） */
-  path: string;
-  /** 菜单图标（可选） */
-  icon?: string;
-  /** 排序序号 */
-  sort: number;
-  /** 所属应用 ID */
-  appId: string;
-  /** 上级菜单 ID（顶级为 null） */
-  parentId: string | null;
-  /** 是否启用 */
-  enabled: boolean;
-  /** 显隐所需权限码；缺省表示不鉴权（lab 集成用） */
-  permission?: string;
-  /** 创建时间 */
-  createdAt: string;
-  /** 更新时间 */
-  updatedAt: string;
-}
+import type { App, Menu } from "@saas/identity-platform-shared/schemas";
 
-export interface App {
-  id: string;
-  /** 应用名称 */
-  name: string;
-  /** 应用编码（唯一） */
-  code: string;
-  /** 应用描述 */
-  description?: string;
-  /** 主题色 */
-  theme: string;
-  /** 排序号 */
-  sort: number;
-  /** 是否启用 */
-  enabled: boolean;
-  /** 创建时间 */
-  createdAt: string;
-  /** 更新时间 */
-  updatedAt: string;
-}
+/** 菜单项（向后兼容别名 = shared Menu） */
+export type MenuItem = Menu;
 
+/** 应用（向后兼容别名 = shared App） */
+export type { App };
+
+/** 应用+菜单组合 */
 export interface AppWithMenus extends App {
   menus: MenuItem[];
 }
 
+/** 应用创建输入 */
 export interface AppCreateInput {
   name: string;
   code: string;
@@ -57,6 +23,7 @@ export interface AppCreateInput {
   enabled?: boolean;
 }
 
+/** 菜单创建输入 */
 export interface MenuCreateInput {
   name: string;
   path: string;
@@ -67,6 +34,7 @@ export interface MenuCreateInput {
   enabled?: boolean;
 }
 
+/** 菜单更新输入 */
 export interface MenuUpdateInput {
   name?: string;
   path?: string;

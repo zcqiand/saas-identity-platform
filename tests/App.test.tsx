@@ -49,13 +49,13 @@ beforeEach(() => {
 })
 
 describe('App · InitPermissions', () => {
-  it('empty permissions → setToken(dev-mock-token) + fetchPermissions(org-acme)', async () => {
+  it('empty permissions → setToken(dev-mock-token) + fetchPermissions(acme)', async () => {
     render(<App />)
     await waitFor(() => {
       expect(setTokenMock).toHaveBeenCalledWith('dev-mock-token')
     })
     expect(usePermissionStore.getState().fetchPermissions).toHaveBeenCalledWith(
-      'org-acme',
+      'acme',
     )
   })
 

@@ -7,7 +7,8 @@ describe('mock JWT 工具', () => {
     const token = signJwt({
       sub: 'u-001',
       username: 'admin@acme',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['admin'],
       permissions: ['user:read'],
     })
@@ -18,14 +19,15 @@ describe('mock JWT 工具', () => {
     const token = signJwt({
       sub: 'u-001',
       username: 'admin@acme',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['admin'],
       permissions: ['user:read', 'user:create'],
     })
     const payload = verifyJwt(token)
     expect(payload).not.toBeNull()
     expect(payload?.sub).toBe('u-001')
-    expect(payload?.orgId).toBe('org-acme')
+    expect(payload?.departmentId).toBe('org-acme')
     expect(payload?.roles).toContain('admin')
     expect(payload?.permissions).toContain('user:create')
   })
@@ -34,7 +36,8 @@ describe('mock JWT 工具', () => {
     const token = signJwt({
       sub: 'u-001',
       username: 'admin',
-      orgId: 'o',
+      departmentId: 'o',
+      tenantId: 'acme',
       roles: [],
       permissions: [],
     })
@@ -43,7 +46,7 @@ describe('mock JWT 工具', () => {
 
   fnTest(["M01.F04.I05"], 'verifyJwt 拒绝过期 token', () => {
     const token = signJwt(
-      { sub: 'u-001', username: 'admin', orgId: 'o', roles: [], permissions: [] },
+      { sub: 'u-001', username: 'admin', departmentId: 'o', tenantId: 'acme', roles: [], permissions: [] },
       -10,
     )
     expect(verifyJwt(token)).toBeNull()

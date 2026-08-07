@@ -35,7 +35,7 @@ describe('MSW SSO + auth handlers', () => {
     expect(data.token.split('.')).toHaveLength(3)
     expect(data.user.id).toBeTruthy()
     expect(data.user.username).toBeTruthy()
-    expect(data.user.orgId).toBeTruthy()
+    expect(data.user.departmentId).toBeTruthy()
   })
 
   fnTest(["M01.F04.I03","M01.F04.I05"], 'POST /sso/oauth/callback 无效 code 返回 401', async () => {
@@ -47,8 +47,8 @@ describe('MSW SSO + auth handlers', () => {
     expect(res.status).toBe(401)
   })
 
-  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/permissions?orgId=org-acme 返回该组织的权限集', async () => {
-    const res = await fetch(`${API_BASE}/auth/permissions?orgId=org-acme`, {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/permissions?tenantId=acme 返回该租户的权限集', async () => {
+    const res = await fetch(`${API_BASE}/auth/permissions?tenantId=acme`, {
       headers: { Authorization: 'Bearer valid-token' },
     })
     expect(res.ok).toBe(true)
@@ -58,16 +58,16 @@ describe('MSW SSO + auth handlers', () => {
     expect(data.permissions.length).toBeGreaterThan(0)
   })
 
-  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/permissions 不同 orgId 返回不同权限', async () => {
-    const res1 = await fetch(`${API_BASE}/auth/permissions?orgId=org-acme`, {
+  fnTest(["M01.F04.I03","M01.F04.I05"], 'GET /auth/permissions 不同 tenantId 返回不同权限', async () => {
+    const res1 = await fetch(`${API_BASE}/auth/permissions?tenantId=acme`, {
       headers: { Authorization: 'Bearer t' },
     })
     const data1 = await res1.json()
-    const res2 = await fetch(`${API_BASE}/auth/permissions?orgId=org-globex`, {
+    const res2 = await fetch(`${API_BASE}/auth/permissions?tenantId=tenant-lab`, {
       headers: { Authorization: 'Bearer t' },
     })
     const data2 = await res2.json()
-    // 两个组织权限集应不同
+    // 两个租户权限集应不同
     expect(data1.permissions).not.toEqual(data2.permissions)
   })
 

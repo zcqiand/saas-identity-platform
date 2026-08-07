@@ -26,7 +26,7 @@ describe('tenantStore 状态流转', () => {
     expect(s.list.length).toBeGreaterThanOrEqual(2)
     const ids = s.list.map((t) => t.id).sort()
     expect(ids).toContain('acme')
-    expect(ids).toContain('globex')
+    expect(ids).toContain('tenant-lab')
     expect(s.loading).toBe(false)
     expect(s.error).toBeNull()
   })
@@ -45,7 +45,7 @@ describe('tenantStore 状态流转', () => {
     const s = useTenantStore.getState()
     expect(s.current).not.toBeNull()
     expect(s.current?.id).toBe('acme')
-    expect(s.current?.theme.primary).toBe('#2563eb')
+    expect((s.current?.theme as { primary: string }).primary).toBe('#2563eb')
     expect(s.loading).toBe(false)
   })
 
@@ -72,7 +72,7 @@ describe('tenantStore 状态流转', () => {
     })
     const s = useTenantStore.getState()
     expect(s.list[0].name).toBe('新租户')
-    expect(s.list[0].theme.primary).toBe('#ff0000')
+    expect((s.list[0].theme as { primary: string }).primary).toBe('#ff0000')
     expect(s.error).toBeNull()
   })
 
@@ -106,9 +106,9 @@ describe('tenantStore 状态流转', () => {
   })
 
   fnTest(["M01.F01.I03","M01.F01.I05","M01.F01.I10"], 'deleteTenant 成功后 list 中对应项移除', async () => {
-    await useTenantStore.getState().deleteTenant('globex')
+    await useTenantStore.getState().deleteTenant('tenant-lab')
     const s = useTenantStore.getState()
-    expect(s.list.find((t) => t.id === 'globex')).toBeUndefined()
+    expect(s.list.find((t) => t.id === 'tenant-lab')).toBeUndefined()
     expect(s.error).toBeNull()
   })
 

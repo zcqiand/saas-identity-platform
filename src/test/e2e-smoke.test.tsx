@@ -22,7 +22,7 @@ beforeEach(() => {
   useAuthStore.setState({
     user: null,
     token: null,
-    currentOrgId: null,
+    currentTenantId: null,
     status: "idle",
     error: null,
   });
@@ -55,9 +55,9 @@ describe("E2E 冒烟测试", () => {
 
   it("登录后访问各业务页面不报错", async () => {
     useAuthStore.setState({
-      user: { id: "u-001", username: "admin", displayName: "管理员", orgId: "org-acme" },
+      user: { id: "u-001", username: "admin", displayName: "管理员", departmentId: "org-acme" },
       token: "mock-token",
-      currentOrgId: "org-acme",
+      currentTenantId: "acme",
       status: "authenticated",
       error: null,
     });
@@ -103,9 +103,9 @@ describe("E2E 冒烟测试", () => {
 
   it("权限验证：viewer 角色无 user:create 权限", async () => {
     useAuthStore.setState({
-      user: { id: "u-002", username: "viewer", displayName: "查看者", orgId: "org-acme" },
+      user: { id: "u-002", username: "viewer", displayName: "查看者", departmentId: "org-acme" },
       token: "mock-token",
-      currentOrgId: "org-acme",
+      currentTenantId: "acme",
       status: "authenticated",
       error: null,
     });
@@ -126,10 +126,10 @@ describe("E2E 冒烟测试", () => {
     expect(screen.queryByRole("button", { name: "新增用户" })).not.toBeInTheDocument();
   });
 
-  it("租户切换：acme → globex 路径均可达", async () => {
-    renderAt("/globex/dashboard");
+  it("租户切换：acme → tenant-lab 路径均可达", async () => {
+    renderAt("/tenant-lab/dashboard");
     await waitFor(() => {
-      expect(screen.getByText("GLOBEX")).toBeInTheDocument();
+      expect(screen.getByText("LAB")).toBeInTheDocument();
     });
   });
 });

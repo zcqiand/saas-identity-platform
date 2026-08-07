@@ -8,14 +8,15 @@ export interface SaaSUser {
   id: string;
   username: string;
   displayName: string;
-  orgId: string;
+  /** 部门 id（v0.3.0 起从 orgId 改名 departmentId） */
+  departmentId: string;
 }
 
 interface AuthState {
   user: SaaSUser | null;
   token: string | null;
-  /** 当前组织 ID（SaaS 多组织，可切换） */
-  currentOrgId: string | null;
+  /** 当前租户 ID（v0.3.0 起多租户切换走 tenantId） */
+  currentTenantId: string | null;
   status: AuthStatus;
   error: string | null;
 }
@@ -23,8 +24,8 @@ interface AuthState {
 interface AuthActions {
   /** OAuth 回调处理：用 code 换 token + user */
   handleOAuthCallback: (code: string, provider: string) => Promise<void>;
-  /** 切换组织：更新 currentOrgId（权限刷新由调用方触发 permissionStore.fetchPermissions） */
-  switchOrg: (orgId: string) => Promise<void>;
+  /** 切换租户：更新 currentTenantId（权限刷新由调用方触发 permissionStore.fetchPermissions） */
+  switchTenant: (tenantId: string) => Promise<void>;
   /** 登出 */
   logout: () => void;
   /** 清除 error */
@@ -48,23 +49,28 @@ export const useAuthStore = create<AuthStore>()(
     (set) => ({
       user: null,
       token: null,
-      currentOrgId: null,
+      currentTenantId: null,
       status: "idle",
       error: null,
 
       handleOAuthCallback: async (code, provider) => {
         set({ status: "loading", error: null });
         try {
-          const res = await apiClient.post<{ token: string; user: SaaSUser }>(
+          const res = await apiClient.post<{ token: string; user: SaaSUser & { tenantId?: string } }>(
             "/auth/oauth/callback",
             { code, provider },
           );
           const { token, user } = res.data;
           setToken(token);
           set({
-            user,
+            user: {
+              id: user.id,
+              username: user.username,
+              displayName: user.displayName,
+              departmentId: user.departmentId ?? "",
+            },
             token,
-            currentOrgId: user.orgId,
+            currentTenantId: user.tenantId ?? null,
             status: "authenticated",
             error: null,
           });
@@ -73,16 +79,16 @@ export const useAuthStore = create<AuthStore>()(
           set({
             user: null,
             token: null,
-            currentOrgId: null,
+            currentTenantId: null,
             status: "error",
             error: extractErrorMessage(err),
           });
         }
       },
 
-      switchOrg: async (orgId) => {
-        set({ currentOrgId: orgId });
-        // 权限刷新由调用方（组件层）触发 permissionStore.fetchPermissions(orgId)
+      switchTenant: async (tenantId) => {
+        set({ currentTenantId: tenantId });
+        // 权限刷新由调用方（组件层）触发 permissionStore.fetchPermissions(tenantId)
       },
 
       logout: () => {
@@ -90,7 +96,7 @@ export const useAuthStore = create<AuthStore>()(
         set({
           user: null,
           token: null,
-          currentOrgId: null,
+          currentTenantId: null,
           status: "idle",
           error: null,
         });
@@ -103,7 +109,7 @@ export const useAuthStore = create<AuthStore>()(
       partialize: (state) => ({
         token: state.token,
         user: state.user,
-        currentOrgId: state.currentOrgId,
+        currentTenantId: state.currentTenantId,
       }),
     },
   ),

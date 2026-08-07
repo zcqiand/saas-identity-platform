@@ -100,7 +100,8 @@ function FormModal({ open, mode, initial, onSubmit, onCancel, loading }: FormMod
                   .filter(Boolean),
                 sort,
                 enabled,
-              })
+                appId: initial?.appId ?? "app-lab",
+              } as Partial<PermissionGroup>)
             }
             className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50"
             disabled={loading}

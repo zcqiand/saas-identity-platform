@@ -1,5 +1,8 @@
 // Mock JWT 工具：仅用于 mock 层签发/校验，非生产凭证。
 // 同案例一模式：三段式 token，固定 signature。
+//
+// Phase 5b：JWT payload 把 orgId 重命名为 departmentId；tenantId 字段保留
+//（v0.3.0 起为必填维度：SaaS 用户 tenantId='acme'，lab 业务用户 tenantId='tenant-lab'）。
 
 const MOCK_SECRET = 'saas-mock-secret-not-for-production'
 
@@ -24,10 +27,10 @@ const MOCK_SIGNATURE = base64url(MOCK_SECRET + '::mock-hs256').slice(0, 32)
 export interface JwtPayload {
   sub: string
   username: string
-  /** 当前组织 ID（SaaS 多组织） */
-  orgId: string
-  /** 当前租户 ID（= lab 机构，1:1；可选，非 lab 来源可缺省） */
-  tenantId?: string
+  /** 当前部门 ID（v0.3.0 起从 orgId 重命名为 departmentId） */
+  departmentId: string
+  /** 当前租户 ID（v0.3.0 起必填：acme / tenant-lab） */
+  tenantId: string
   /** 登录来源应用 ID（可选） */
   appId?: string
   roles: string[]

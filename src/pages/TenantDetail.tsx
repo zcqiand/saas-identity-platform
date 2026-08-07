@@ -30,9 +30,14 @@ export default function TenantDetail() {
   useEffect(() => {
     if (current && current.id === tenantId) {
       setName(current.name);
-      setLogoText(current.theme.logoText);
-      setPrimary(current.theme.primary);
-      setSidebar(current.theme.sidebar);
+      // Phase 5b：tenant.theme 可能是对象或字符串
+      const ttheme =
+        typeof current.theme === "object"
+          ? current.theme
+          : { primary: "#2563eb", sidebar: "#1e293b", logoText: current.name };
+      setLogoText(ttheme.logoText);
+      setPrimary(ttheme.primary);
+      setSidebar(ttheme.sidebar);
       setFeatures(current.features ?? current.config?.features ?? []);
       setMaxUsers(current.config?.maxUsers ?? 100);
     }

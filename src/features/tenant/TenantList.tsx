@@ -115,18 +115,23 @@ export function TenantList() {
                 </td>
               </tr>
             )}
-            {list.map((t) => (
+            {list.map((t) => {
+              const ttheme =
+                typeof t.theme === "object"
+                  ? t.theme
+                  : { primary: "#2563eb", sidebar: "#1e293b", logoText: t.name };
+              return (
               <tr key={t.id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-2 font-medium">{t.name}</td>
-                <td className="px-4 py-2">{t.theme.logoText}</td>
+                <td className="px-4 py-2">{ttheme.logoText}</td>
                 <td className="px-4 py-2">
                   <div className="flex items-center gap-2">
                     <span
                       className="w-4 h-4 rounded border"
-                      style={{ background: t.theme.primary }}
+                      style={{ background: ttheme.primary }}
                     />
                     <span className="text-xs font-mono text-gray-500">
-                      {t.theme.primary}
+                      {ttheme.primary}
                     </span>
                   </div>
                 </td>
@@ -152,7 +157,8 @@ export function TenantList() {
                   </button>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>

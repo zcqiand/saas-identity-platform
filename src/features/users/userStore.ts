@@ -45,7 +45,7 @@ export const useUserStore = create<UserStore>()((set, get) => ({
       if (query.keyword) params.keyword = query.keyword;
       if (query.role) params.role = query.role;
       if (query.status) params.status = query.status;
-      if (query.orgId) params.orgId = query.orgId;
+      if (query.departmentId) params.departmentId = query.departmentId;
       const res = await apiClient.get<{ items: User[]; total: number }>("/users", {
         params,
       });

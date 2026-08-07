@@ -11,7 +11,7 @@ import reactHooks from "eslint-plugin-react-hooks";
  * 它们在 .claude/skills/react-perf/ 与 docs/conventions/react-perf.md。
  */
 export default tseslint.config(
-  { ignores: ["dist", "node_modules", "coverage"] },
+  { ignores: ["dist", "dist-server", "node_modules", "coverage"] },
   ...tseslint.configs.recommended,
   {
     plugins: { react, "react-hooks": reactHooks },

@@ -33,8 +33,9 @@ describe('AppList', () => {
   fnTest([...FIDS], 'mount 后拉取并渲染应用列表', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('建筑工程实验室管理系统')).toBeInTheDocument())
+    // Phase 5b：shared v0.3.0 apps 11→3（app-lab / app-erp / app-finance）
     expect(screen.getByText('企业资源计划系统')).toBeInTheDocument()
-    expect(screen.getByText('客户关系管理系统')).toBeInTheDocument()
+    expect(screen.getByText('财务管理系统')).toBeInTheDocument()
   })
 
   fnTest([...FIDS], '渲染应用编码和描述', async () => {

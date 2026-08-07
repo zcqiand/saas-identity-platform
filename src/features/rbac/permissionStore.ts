@@ -3,11 +3,11 @@ import type { PermissionState, Role } from "./types";
 import { apiClient } from "../../api/client";
 
 interface PermissionActions {
-  /** 拉取指定组织的权限集 */
-  fetchPermissions: (orgId: string) => Promise<void>;
+  /** 拉取指定租户的权限集（v0.3.0 起从 orgId 改名为 tenantId） */
+  fetchPermissions: (tenantId: string) => Promise<void>;
   /** 检查是否拥有指定权限码 */
   checkPermission: (permission: string) => boolean;
-  /** 清空权限（切换组织/登出时调用） */
+  /** 清空权限（切换租户/登出时调用） */
   clearPermissions: () => void;
   /** 清除 error */
   clearError: () => void;
@@ -31,12 +31,12 @@ export const usePermissionStore = create<PermissionStore>()((set, get) => ({
   loading: false,
   error: null,
 
-  fetchPermissions: async (orgId) => {
+  fetchPermissions: async (tenantId) => {
     set({ loading: true, error: null });
     try {
       const res = await apiClient.get<{ roles: Role[]; permissions: string[] }>(
         "/auth/permissions",
-        { params: { orgId } },
+        { params: { tenantId } },
       );
       set({
         roles: res.data.roles,

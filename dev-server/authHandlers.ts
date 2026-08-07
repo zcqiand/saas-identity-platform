@@ -8,10 +8,12 @@
  *       Service Worker MSW（Service Worker 跨 origin 不可见）。
  *
  * 契约不变：M01.F04 SSO 授权码流的 4 端点（ch40）。
+ *
+ * Phase 5b：tenantId 替代 orgId 作为权限路由参数；tenant-lab 走 rolesByTenant。
  */
 
 import { rolesByTenant } from '../msw/db'
-import { signJwt, verifyJwt } from '../msw/jwt'
+import { signJwt } from '../msw/jwt'
 import { queryMenus } from '../msw/db'
 import type { Role } from '../src/features/rbac/types'
 
@@ -45,7 +47,7 @@ export async function handleOAuthCallback(req: Request): Promise<Response> {
     const labToken = signJwt({
       sub: 'u-lab-admin',
       username: 'labadmin',
-      orgId: 'org-lab-root',
+      departmentId: 'org-lab-root',
       tenantId: 'tenant-lab',
       appId: 'app-lab',
       roles: ['labadmin'],
@@ -57,7 +59,7 @@ export async function handleOAuthCallback(req: Request): Promise<Response> {
         id: 'u-lab-admin',
         username: 'labadmin',
         displayName: '实验室管理员',
-        orgId: 'org-lab-root',
+        departmentId: 'org-lab-root',
         tenantId: 'tenant-lab',
       },
     })
@@ -66,7 +68,8 @@ export async function handleOAuthCallback(req: Request): Promise<Response> {
   const token = signJwt({
     sub: 'u-001',
     username: 'admin@acme',
-    orgId: 'org-acme',
+    departmentId: 'org-acme',
+    tenantId: 'acme',
     roles: ['admin'],
     permissions: ['user:read', 'user:create', 'user:delete', 'org:read', 'org:write'],
   })
@@ -76,7 +79,8 @@ export async function handleOAuthCallback(req: Request): Promise<Response> {
       id: 'u-001',
       username: 'admin@acme',
       displayName: 'SaaS 管理员',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
     },
   })
 }
@@ -88,10 +92,10 @@ export function handleAuthPermissions(req: Request): Response {
     return json({ message: '未授权' }, 401)
   }
   const url = new URL(req.url)
-  const orgId = url.searchParams.get('orgId') ?? 'org-acme'
+  const tenantId = url.searchParams.get('tenantId') ?? 'acme'
 
   // lab 集成：机构=租户=根组织 org-lab-root
-  if (orgId === 'org-lab-root') {
+  if (tenantId === 'tenant-lab') {
     const labRoles = rolesByTenant('tenant-lab')
     const labPerms = Array.from(new Set(labRoles.flatMap((r) => r.permissions)))
     return json({ roles: labRoles, permissions: labPerms })
@@ -112,15 +116,7 @@ export function handleAuthPermissions(req: Request): Response {
       menuPermissions: [],
     },
   ]
-  const globexRoles: Role[] = [
-    {
-      id: 'role-viewer',
-      name: 'viewer',
-      permissions: ['user:read', 'org:read'],
-      menuPermissions: [],
-    },
-  ]
-  const roles = orgId === 'org-globex' ? globexRoles : acmeRoles
+  const roles = acmeRoles
   const permissions = roles.flatMap((r) => r.permissions)
   return json({ roles, permissions })
 }

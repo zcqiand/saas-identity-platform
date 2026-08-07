@@ -1,21 +1,21 @@
 import { describe, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { OrgNodeFormModal } from '../../../src/features/orgs/OrgNodeFormModal'
+import { DepartmentNodeFormModal } from '../../../src/features/orgs/DepartmentNodeFormModal'
 import { fnTest } from '../../fn'
 
 const FIDS = ["M02.F01.I08"] as const
 
-describe('OrgNodeFormModal', () => {
-  fnTest([...FIDS], 'create 模式: 标题"新增组织节点"', () => {
-    render(<OrgNodeFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
-    expect(screen.getByText('新增组织节点')).toBeInTheDocument()
+describe('DepartmentNodeFormModal', () => {
+  fnTest([...FIDS], 'create 模式: 标题"新增部门节点"', () => {
+    render(<DepartmentNodeFormModal open mode="create" onSubmit={() => {}} onCancel={() => {}} />)
+    expect(screen.getByText('新增部门节点')).toBeInTheDocument()
     expect((screen.getByLabelText(/节点名称/) as HTMLInputElement).value).toBe('')
   })
 
   fnTest([...FIDS], 'edit 模式: 填充 initialName', () => {
     render(
-      <OrgNodeFormModal
+      <DepartmentNodeFormModal
         open
         mode="edit"
         nodeId="org-tech"
@@ -24,7 +24,7 @@ describe('OrgNodeFormModal', () => {
         onCancel={() => {}}
       />,
     )
-    expect(screen.getByText('编辑组织节点')).toBeInTheDocument()
+    expect(screen.getByText('编辑部门节点')).toBeInTheDocument()
     expect((screen.getByLabelText(/节点名称/) as HTMLInputElement).value).toBe('技术部')
   })
 
@@ -32,7 +32,7 @@ describe('OrgNodeFormModal', () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(
-      <OrgNodeFormModal
+      <DepartmentNodeFormModal
         open
         mode="create"
         nodeId="org-acme"
@@ -49,7 +49,7 @@ describe('OrgNodeFormModal', () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(
-      <OrgNodeFormModal
+      <DepartmentNodeFormModal
         open
         mode="edit"
         nodeId="org-tech"
@@ -68,7 +68,7 @@ describe('OrgNodeFormModal', () => {
   fnTest([...FIDS], '空名称校验', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
-    render(<OrgNodeFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
+    render(<DepartmentNodeFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
     await user.click(screen.getByRole('button', { name: '保存' }))
     await waitFor(() => expect(screen.getByText(/请输入节点名称/)).toBeInTheDocument())
     expect(onSubmit).not.toHaveBeenCalled()
@@ -77,13 +77,13 @@ describe('OrgNodeFormModal', () => {
   fnTest([...FIDS], '点取消触发 onCancel', async () => {
     const user = userEvent.setup()
     const onCancel = vi.fn()
-    render(<OrgNodeFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
+    render(<DepartmentNodeFormModal open mode="create" onSubmit={() => {}} onCancel={onCancel} />)
     await user.click(screen.getByRole('button', { name: '取消' }))
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
   fnTest([...FIDS], 'loading 禁用保存', () => {
-    render(<OrgNodeFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
+    render(<DepartmentNodeFormModal open mode="create" loading onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByRole('button', { name: /保存中/ })).toBeDisabled()
   })
 })

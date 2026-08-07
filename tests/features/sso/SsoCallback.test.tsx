@@ -20,7 +20,7 @@ function renderWithCallbackUrl(search: string) {
 
 beforeEach(() => {
   localStorage.clear()
-  useAuthStore.setState({ user: null, token: null, currentOrgId: null, status: 'idle', error: null })
+  useAuthStore.setState({ user: null, token: null, currentTenantId: null, status: 'idle', error: null })
   resetApiClient()
 })
 

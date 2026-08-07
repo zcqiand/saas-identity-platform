@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 
-interface OrgNodeFormModalProps {
+interface DepartmentNodeFormModalProps {
   open: boolean;
   mode: "create" | "edit";
   /** mode=create 时：新建节点的父节点 id；mode=edit 时：当前节点 id */
@@ -11,7 +11,7 @@ interface OrgNodeFormModalProps {
   loading?: boolean;
 }
 
-export function OrgNodeFormModal({
+export function DepartmentNodeFormModal({
   open,
   mode,
   nodeId,
@@ -19,7 +19,7 @@ export function OrgNodeFormModal({
   onSubmit,
   onCancel,
   loading = false,
-}: OrgNodeFormModalProps) {
+}: DepartmentNodeFormModalProps) {
   const [name, setName] = useState(initialName);
   const [error, setError] = useState("");
 
@@ -32,7 +32,7 @@ export function OrgNodeFormModal({
 
   if (!open) return null;
 
-  const title = mode === "create" ? "新增组织节点" : "编辑组织节点";
+  const title = mode === "create" ? "新增部门节点" : "编辑部门节点";
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -56,11 +56,11 @@ export function OrgNodeFormModal({
           <h3 className="text-lg font-semibold">{title}</h3>
         </div>
         <div className="px-6 py-4">
-          <label htmlFor="org-node-name" className="block text-sm mb-1 font-medium">
+          <label htmlFor="department-node-name" className="block text-sm mb-1 font-medium">
             节点名称
           </label>
           <input
-            id="org-node-name"
+            id="department-node-name"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -93,4 +93,4 @@ export function OrgNodeFormModal({
   );
 }
 
-export default OrgNodeFormModal;
+export default DepartmentNodeFormModal;

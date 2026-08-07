@@ -1,12 +1,14 @@
 import { useEffect, useState, type FormEvent } from "react";
-import type { User, UserRole, UserStatus, OrgNode } from "../../types/user";
+import type { User, UserRole, UserStatus } from "../../types/user";
+import type { Department as SharedDepartment } from "@saas/identity-platform-shared/schemas";
 
 export interface UserFormValues {
   id?: string;
   username: string;
   displayName: string;
   email: string;
-  orgId: string;
+  /** 部门 id（v0.3.0 起从 orgId 改名为 departmentId） */
+  departmentId: string;
   roles: UserRole[];
   status: UserStatus;
 }
@@ -15,33 +17,45 @@ interface UserFormModalProps {
   open: boolean;
   mode: "create" | "edit";
   initialValues?: Partial<User>;
-  /** 组织树数据，用于渲染 orgId 下拉选项；不提供时降级为文本框 */
-  orgTree?: OrgNode;
+  /**
+   * 部门列表（v0.3.0 起为扁平 Department[]，原 OrgNode 单棵树已下线）。
+   * 不提供时降级为文本框。
+   */
+  departmentTree?: SharedDepartment[] | null;
   onSubmit: (values: UserFormValues) => void;
   onCancel: () => void;
   loading?: boolean;
 }
 
-/** 将组织树扁平化为 {id, name, depth} 列表 */
-function flattenTree(
-  node: OrgNode,
-  depth = 0,
-): Array<{ id: string; name: string; depth: number }> {
-  const result = [{ id: node.id, name: node.name, depth }];
-  if (node.children) {
-    for (const child of node.children) {
-      result.push(...flattenTree(child, depth + 1));
-    }
+/** 把 Department[] 排序为根在前、子在后（按 parentId 链 DFS） */
+function flattenDepartments(
+  list: SharedDepartment[],
+): Array<SharedDepartment & { depth: number }> {
+  const result: Array<SharedDepartment & { depth: number }> = [];
+  const byParent = new Map<string | null, SharedDepartment[]>();
+  for (const d of list) {
+    const key = d.parentId ?? null;
+    const arr = byParent.get(key) ?? [];
+    arr.push(d);
+    byParent.set(key, arr);
   }
+  const visit = (parentId: string | null, depth: number) => {
+    const children = byParent.get(parentId) ?? [];
+    for (const c of children.sort((a, b) => a.sort - b.sort)) {
+      result.push({ ...c, depth });
+      visit(c.id, depth + 1);
+    }
+  };
+  visit(null, 0);
   return result;
 }
 
-/** 用户表单弹窗：create/edit 复用，orgId 有下拉（orgTree）和文本（fallback）两种模式 */
+/** 用户表单弹窗：create/edit 复用，departmentId 有下拉（扁平部门列表）和文本（fallback）两种模式 */
 export function UserFormModal({
   open,
   mode,
   initialValues,
-  orgTree,
+  departmentTree,
   onSubmit,
   onCancel,
   loading = false,
@@ -49,7 +63,9 @@ export function UserFormModal({
   const [username, setUsername] = useState(initialValues?.username ?? "");
   const [displayName, setDisplayName] = useState(initialValues?.displayName ?? "");
   const [email, setEmail] = useState(initialValues?.email ?? "");
-  const [orgId, setOrgId] = useState(initialValues?.orgId ?? "");
+  const [departmentId, setDepartmentId] = useState(
+    (initialValues as { departmentId?: string } | undefined)?.departmentId ?? "",
+  );
   const [roles, setRoles] = useState<UserRole[]>(
     (initialValues?.roles as UserRole[]) ?? ["member"],
   );
@@ -61,7 +77,9 @@ export function UserFormModal({
       setUsername(initialValues?.username ?? "");
       setDisplayName(initialValues?.displayName ?? "");
       setEmail(initialValues?.email ?? "");
-      setOrgId(initialValues?.orgId ?? "");
+      setDepartmentId(
+        (initialValues as { departmentId?: string } | undefined)?.departmentId ?? "",
+      );
       setRoles((initialValues?.roles as UserRole[]) ?? ["member"]);
       setStatus(initialValues?.status ?? "active");
       setErrors({});
@@ -77,7 +95,7 @@ export function UserFormModal({
     if (!username.trim()) next.username = "请输入用户名";
     if (!displayName.trim()) next.displayName = "请输入显示名";
     if (!email.trim()) next.email = "请输入邮箱";
-    if (!orgId.trim()) next.orgId = "请选择组织";
+    if (!departmentId.trim()) next.departmentId = "请选择部门";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -90,7 +108,7 @@ export function UserFormModal({
       username: username.trim(),
       displayName: displayName.trim(),
       email: email.trim(),
-      orgId: orgId.trim(),
+      departmentId: departmentId.trim(),
       roles,
       status,
     });
@@ -102,7 +120,7 @@ export function UserFormModal({
     );
   };
 
-  const orgOptions = orgTree ? flattenTree(orgTree) : null;
+  const deptOptions = departmentTree ? flattenDepartments(departmentTree) : null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -156,21 +174,21 @@ export function UserFormModal({
             {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
           </div>
           <div>
-            <label htmlFor="user-org-id" className="block text-sm mb-1 font-medium">
-              组织
+            <label htmlFor="user-department-id" className="block text-sm mb-1 font-medium">
+              部门
             </label>
-            {orgOptions ? (
+            {deptOptions ? (
               <select
-                id="user-org-id"
-                value={orgId}
+                id="user-department-id"
+                value={departmentId}
                 onChange={(e) => {
-                  setOrgId(e.target.value);
-                  if (errors.orgId) setErrors((prev) => ({ ...prev, orgId: "" }));
+                  setDepartmentId(e.target.value);
+                  if (errors.departmentId) setErrors((prev) => ({ ...prev, departmentId: "" }));
                 }}
                 className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">请选择组织</option>
-                {orgOptions.map((opt) => (
+                <option value="">请选择部门</option>
+                {deptOptions.map((opt) => (
                   <option key={opt.id} value={opt.id}>
                     {"　".repeat(opt.depth)}
                     {opt.name}
@@ -179,14 +197,16 @@ export function UserFormModal({
               </select>
             ) : (
               <input
-                id="user-org-id"
-                value={orgId}
-                onChange={(e) => setOrgId(e.target.value)}
-                placeholder="输入组织 ID"
+                id="user-department-id"
+                value={departmentId}
+                onChange={(e) => setDepartmentId(e.target.value)}
+                placeholder="输入部门 ID"
                 className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             )}
-            {errors.orgId && <p className="text-red-600 text-xs mt-1">{errors.orgId}</p>}
+            {errors.departmentId && (
+              <p className="text-red-600 text-xs mt-1">{errors.departmentId}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm mb-1 font-medium">角色</label>

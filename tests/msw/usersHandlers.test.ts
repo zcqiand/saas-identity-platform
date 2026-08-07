@@ -33,7 +33,8 @@ describe('MSW users handlers', () => {
       username: 'seed@acme',
       displayName: '种子',
       email: 's@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })
     const res = await listUsers('page=1&pageSize=10')
@@ -49,7 +50,8 @@ describe('MSW users handlers', () => {
       username: 'new@acme',
       displayName: '新建',
       email: 'n@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })
     expect(res.status).toBe(201)
@@ -68,7 +70,8 @@ describe('MSW users handlers', () => {
       username: 'q@acme',
       displayName: '查询',
       email: 'q@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })).json()
     const res = await getUser(created.id)
@@ -81,7 +84,8 @@ describe('MSW users handlers', () => {
       username: 'u@acme',
       displayName: '原',
       email: 'u@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })).json()
     const res = await updateUser(created.id, { displayName: '改后', status: 'disabled' })
@@ -96,7 +100,8 @@ describe('MSW users handlers', () => {
       username: 'd@acme',
       displayName: '删',
       email: 'd@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })).json()
     const res = await deleteUser(created.id)
@@ -109,14 +114,16 @@ describe('MSW users handlers', () => {
       username: 'kw-admin@acme',
       displayName: '管理员XYZ',
       email: 'a@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['admin'],
     })
     await createUser({
       username: 'kw-other@acme',
       displayName: '普通ABC',
       email: 'o@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })
     const res = await listUsers('page=1&pageSize=50&keyword=XYZ')
@@ -129,14 +136,16 @@ describe('MSW users handlers', () => {
       username: 'r1@acme',
       displayName: '管理员',
       email: 'r1@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['admin'],
     })
     await createUser({
       username: 'r2@acme',
       displayName: '成员',
       email: 'r2@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })
     const res = await listUsers('page=1&pageSize=50&role=admin')
@@ -144,39 +153,42 @@ describe('MSW users handlers', () => {
     expect(data.items.every((u: { roles: string[] }) => u.roles.includes('admin'))).toBe(true)
   })
 
-  it('GET /users 支持 orgId 筛选', async () => {
+  it('GET /users 支持 departmentId 筛选', async () => {
     await createUser({
       username: 'o1@acme',
       displayName: 'A组织',
       email: 'o1@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['member'],
     })
     await createUser({
-      username: 'o2@globex',
-      displayName: 'G组织',
-      email: 'o2@globex.com',
-      orgId: 'org-globex',
+      username: 'o2@lab',
+      displayName: 'Lab组织',
+      email: 'o2@lab.com',
+      departmentId: 'org-lab-root',
+      tenantId: 'tenant-lab',
       roles: ['member'],
     })
-    const res = await listUsers('page=1&pageSize=50&orgId=org-globex')
+    const res = await listUsers('page=1&pageSize=50&departmentId=org-lab-root')
     const data = await res.json()
-    expect(data.items.every((u: { orgId: string }) => u.orgId === 'org-globex')).toBe(true)
+    expect(data.items.every((u: { departmentId: string }) => u.departmentId === 'org-lab-root')).toBe(true)
   })
 })
 
 describe('MSW orgs handlers', () => {
-  it('GET /orgs 返回组织树', async () => {
+  it('GET /orgs 返回扁平部门列表', async () => {
     const res = await fetch(`${API_BASE}/orgs`)
     expect(res.ok).toBe(true)
     const data = await res.json()
-    expect(data.id).toBeTruthy()
-    expect(data.name).toBeTruthy()
-    expect(Array.isArray(data.children)).toBe(true)
+    // v0.3.0：返回扁平 Department[]，不再是 OrgNode 单根树
+    expect(Array.isArray(data)).toBe(true)
+    expect(data.length).toBeGreaterThan(0)
+    expect(data.some((d: { id: string }) => d.id === 'org-acme')).toBe(true)
   })
 
-  it('GET /orgs?orgId=org-acme 返回指定组织子树', async () => {
-    const res = await fetch(`${API_BASE}/orgs?orgId=org-acme`)
+  it('GET /orgs?departmentId=org-acme 返回指定部门', async () => {
+    const res = await fetch(`${API_BASE}/orgs?departmentId=org-acme`)
     expect(res.ok).toBe(true)
     const data = await res.json()
     expect(data.id).toBe('org-acme')

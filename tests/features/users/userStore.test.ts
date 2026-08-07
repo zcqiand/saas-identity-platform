@@ -19,7 +19,7 @@ async function seed(n: number) {
         username: `u${i}@acme`,
         displayName: `用户${i}`,
         email: `u${i}@acme.com`,
-        orgId: 'org-acme',
+        departmentId: 'org-acme',
         roles: i % 2 === 0 ? ['admin'] : ['member'],
       }),
     })
@@ -56,7 +56,7 @@ describe('userStore', () => {
     await fetch(`${API_BASE}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'x@acme', displayName: '特殊XYZ', email: 'x@acme.com', orgId: 'org-acme', roles: ['member'] }),
+      body: JSON.stringify({ username: 'x@acme', displayName: '特殊XYZ', email: 'x@acme.com', departmentId: 'org-acme', roles: ['member'] }),
     })
     await seed(2)
     await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10, keyword: 'XYZ' })
@@ -70,15 +70,15 @@ describe('userStore', () => {
     expect(s.list.every((u) => u.roles.includes('admin'))).toBe(true)
   })
 
-  fnTest([...FIDS], 'fetchUsers orgId 筛选', async () => {
+  fnTest([...FIDS], 'fetchUsers departmentId 筛选', async () => {
     await fetch(`${API_BASE}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'g@g.com', displayName: 'G', email: 'g@g.com', orgId: 'org-globex', roles: ['member'] }),
+      body: JSON.stringify({ username: 'g@g.com', displayName: 'G', email: 'g@g.com', departmentId: 'org-lab-root', roles: ['member'] }),
     })
     await seed(2)
-    await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10, orgId: 'org-globex' })
-    expect(useUserStore.getState().list.every((u) => u.orgId === 'org-globex')).toBe(true)
+    await useUserStore.getState().fetchUsers({ page: 1, pageSize: 10, departmentId: 'org-lab-root' })
+    expect(useUserStore.getState().list.every((u) => u.departmentId === 'org-lab-root')).toBe(true)
   })
 
   fnTest([...FIDS], 'fetchUsers 网络错误后 error 填充', async () => {
@@ -93,14 +93,14 @@ describe('userStore', () => {
       username: 'new@acme',
       displayName: '新建',
       email: 'new@acme.com',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
       roles: ['member'],
     })
     expect(useUserStore.getState().list.some((u) => u.username === 'new@acme')).toBe(true)
   })
 
   fnTest([...FIDS], 'createUser 失败后 error', async () => {
-    await useUserStore.getState().createUser({ username: '', displayName: '', email: '', orgId: '', roles: [] })
+    await useUserStore.getState().createUser({ username: '', displayName: '', email: '', departmentId: '', roles: [] })
     expect(useUserStore.getState().error).toBeTruthy()
   })
 

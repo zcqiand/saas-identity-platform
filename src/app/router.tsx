@@ -5,7 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import SsoCallback from "../pages/SsoCallback";
 import Users from "../pages/Users";
-import Orgs from "../pages/Orgs";
+import Departments from "../pages/Departments";
 import Audit from "../pages/Audit";
 import Roles from "../pages/Roles";
 import PlatformTenants from "../pages/PlatformTenants";
@@ -38,7 +38,7 @@ export const routes: RouteObject[] = [
       { index: true, element: <Navigate to="dashboard" replace /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "users", element: <Users /> },
-      { path: "org", element: <Orgs /> },
+      { path: "org", element: <Departments /> },
       { path: "roles", element: <Roles /> },
       { path: "menu-permissions", element: <MenuPermissions /> },
       { path: "positions", element: <PositionList /> },

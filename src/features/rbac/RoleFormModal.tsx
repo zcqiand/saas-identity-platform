@@ -270,17 +270,17 @@ export function RoleFormModal({
 
 function getAllDescendantIds(
   parentId: string,
-  allMenus: { id: string; parentId: string | null }[],
+  allMenus: { id: string; parentId?: string | null }[],
 ): string[] {
   const children = allMenus.filter((m) => m.parentId === parentId);
   return children.flatMap((c) => [c.id, ...getAllDescendantIds(c.id, allMenus)]);
 }
 
 interface MenuPermEditRowProps {
-  menu: { id: string; name: string; parentId: string | null };
+  menu: { id: string; name: string; parentId?: string | null };
   getChildren: (
     parentId: string,
-  ) => { id: string; name: string; parentId: string | null }[];
+  ) => { id: string; name: string; parentId?: string | null }[];
   isMenuChecked: (menuId: string) => boolean;
   isMenuAllChecked: (menuId: string) => boolean;
   isMenuIndeterminate: (menuId: string) => boolean;

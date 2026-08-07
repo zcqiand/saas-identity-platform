@@ -2,7 +2,7 @@ import { describe, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TenantFormModal } from '../../../src/features/tenant/TenantFormModal'
-import type { TenantConfig } from '../../../src/types/tenant'
+import type { TenantConfig, TenantCreateInput } from '../../../src/types/tenant'
 import { fnTest } from '../../fn'
 
 const editTenant: TenantConfig = {
@@ -21,7 +21,7 @@ describe('TenantFormModal', () => {
   })
 
   fnTest(["M01.F01.I03"], 'edit 模式: 填充 initialValues', () => {
-    render(<TenantFormModal open mode="edit" initialValues={editTenant} onSubmit={() => {}} onCancel={() => {}} />)
+    render(<TenantFormModal open mode="edit" initialValues={editTenant as unknown as TenantCreateInput & { id: string }} onSubmit={() => {}} onCancel={() => {}} />)
     expect(screen.getByText('编辑租户')).toBeInTheDocument()
     expect((screen.getByLabelText(/租户名称/) as HTMLInputElement).value).toBe('原租户')
     expect((screen.getByLabelText(/Logo 文本/) as HTMLInputElement).value).toBe('OLD')
@@ -45,7 +45,7 @@ describe('TenantFormModal', () => {
   fnTest(["M01.F01.I03"], 'edit 提交含完整 theme 和 config', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
-    render(<TenantFormModal open mode="edit" initialValues={editTenant} onSubmit={onSubmit} onCancel={() => {}} />)
+    render(<TenantFormModal open mode="edit" initialValues={editTenant as unknown as TenantCreateInput & { id: string }} onSubmit={onSubmit} onCancel={() => {}} />)
     await user.click(screen.getByRole('button', { name: '保存' }))
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({

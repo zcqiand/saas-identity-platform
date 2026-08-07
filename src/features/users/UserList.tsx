@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "./userStore";
-import { useOrgStore } from "../orgs/orgStore";
+import { useDepartmentStore } from "../orgs/departmentStore";
 import { UserFormModal, type UserFormValues } from "./UserFormModal";
 import { ConfirmModal } from "../../components/ConfirmModal";
 import { PermissionGuard } from "../rbac/PermissionGuard";
@@ -11,7 +11,7 @@ const PAGE_SIZE = 10;
 export function UserList() {
   const { list, total, loading, error, fetchUsers, createUser, updateUser, deleteUser } =
     useUserStore();
-  const { tree: orgTree, fetchOrgTree } = useOrgStore();
+  const { tree: departmentTree, fetchDepartmentTree } = useDepartmentStore();
 
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
@@ -32,7 +32,7 @@ export function UserList() {
 
   useEffect(() => {
     fetchUsers(buildQuery(page));
-    fetchOrgTree();
+    fetchDepartmentTree();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -72,7 +72,7 @@ export function UserList() {
           username: values.username,
           displayName: values.displayName,
           email: values.email,
-          orgId: values.orgId,
+          departmentId: values.departmentId,
           roles: values.roles,
           status: values.status,
         });
@@ -80,7 +80,7 @@ export function UserList() {
         await updateUser(values.id, {
           displayName: values.displayName,
           email: values.email,
-          orgId: values.orgId,
+          departmentId: values.departmentId,
           roles: values.roles,
           status: values.status,
         });
@@ -168,7 +168,7 @@ export function UserList() {
               <th className="px-4 py-2 text-left">用户名</th>
               <th className="px-4 py-2 text-left">显示名</th>
               <th className="px-4 py-2 text-left">邮箱</th>
-              <th className="px-4 py-2 text-left">组织</th>
+              <th className="px-4 py-2 text-left">部门</th>
               <th className="px-4 py-2 text-left">角色</th>
               <th className="px-4 py-2 text-left">状态</th>
               <th className="px-4 py-2 text-right">操作</th>
@@ -194,7 +194,7 @@ export function UserList() {
                 <td className="px-4 py-2">{u.username}</td>
                 <td className="px-4 py-2">{u.displayName}</td>
                 <td className="px-4 py-2">{u.email}</td>
-                <td className="px-4 py-2">{u.orgId}</td>
+                <td className="px-4 py-2">{u.departmentId ?? "-"}</td>
                 <td className="px-4 py-2">{u.roles.join(",")}</td>
                 <td className="px-4 py-2">{u.status}</td>
                 <td className="px-4 py-2 text-right space-x-2">
@@ -250,7 +250,7 @@ export function UserList() {
         open={formOpen}
         mode={formMode}
         initialValues={editing ?? undefined}
-        orgTree={orgTree ?? undefined}
+        departmentTree={departmentTree ?? undefined}
         onSubmit={handleSubmit}
         onCancel={() => setFormOpen(false)}
         loading={submitting}

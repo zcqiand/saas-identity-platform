@@ -15,10 +15,10 @@ function InitPermissions() {
 
   useEffect(() => {
     if (permissions.length > 0) return;
-    // 模拟登录：设置 mock token + 拉取权限
+    // 模拟登录：设置 mock token + 拉取权限（v0.3.0 起按 tenantId 路由）
     const demoToken = "dev-mock-token";
     setToken(demoToken);
-    fetchPermissions("org-acme");
+    fetchPermissions("acme");
   }, [fetchPermissions, permissions]);
 
   return null;

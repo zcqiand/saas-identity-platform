@@ -234,7 +234,7 @@ export function AuditLogList() {
                 className="flex items-center px-3 py-2 text-xs border-b border-gray-50 last:border-0 hover:bg-gray-50"
               >
                 <span className="w-44 text-gray-400 whitespace-nowrap">
-                  {new Date(log.timestamp).toLocaleString("zh-CN")}
+                  {new Date(log.timestamp ?? new Date().toISOString()).toLocaleString("zh-CN")}
                 </span>
                 <span className="w-24">
                   <span

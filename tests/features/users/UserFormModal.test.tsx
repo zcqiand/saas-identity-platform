@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { UserFormModal } from '../../../src/features/users/UserFormModal'
 import type { User } from '../../../src/types/user'
+import type { Department } from '@saas/identity-platform-shared/schemas'
 import { fnTest } from '../../fn'
 
 const FIDS = ["M02.F02.I05","M02.F02.I06"] as const
@@ -12,9 +13,11 @@ const editUser: User = {
   username: 'edit@acme',
   displayName: '原用户',
   email: 'edit@acme.com',
-  orgId: 'org-acme',
+  tenantId: 'acme',
+  departmentId: 'org-acme',
   roles: ['member'],
   status: 'active',
+  enabled: true,
   createdAt: '2026-01-01T00:00:00Z',
   updatedAt: '2026-01-01T00:00:00Z',
 }
@@ -33,48 +36,45 @@ describe('UserFormModal', () => {
     expect((screen.getByLabelText(/显示名/) as HTMLInputElement).value).toBe('原用户')
   })
 
-  fnTest([...FIDS], 'create 提交触发 onSubmit（无 orgTree 时 orgId 为文本框）', async () => {
+  fnTest([...FIDS], 'create 提交触发 onSubmit（无 departmentTree 时 departmentId 为文本框）', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
     render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} />)
     await user.type(screen.getByLabelText(/用户名/), 'new@acme')
     await user.type(screen.getByLabelText(/显示名/), '新建用户')
     await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
-    // 无 orgTree prop 时降级为文本框
-    await user.type(screen.getByLabelText(/组织/), 'org-acme')
+    // 无 departmentTree prop 时降级为文本框
+    await user.type(screen.getByLabelText(/部门/), 'org-acme')
     await user.click(screen.getByRole('button', { name: '保存' }))
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({
         username: 'new@acme',
         displayName: '新建用户',
         email: 'new@acme.com',
-        orgId: 'org-acme',
+        departmentId: 'org-acme',
         roles: ['member'],
       }),
     )
   })
 
-  fnTest([...FIDS], 'create 提交触发 onSubmit（有 orgTree 时 orgId 为下拉）', async () => {
+  fnTest([...FIDS], 'create 提交触发 onSubmit（有 departmentTree 时 departmentId 为下拉）', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
-    const mockOrgTree = {
-      id: 'org-root',
-      name: 'ACME 集团',
-      children: [
-        { id: 'org-acme', name: 'ACME 总部' },
-        { id: 'org-tech', name: '技术部' },
-      ],
-    }
-    render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} orgTree={mockOrgTree} />)
+    const mockDepartmentTree: Department[] = [
+      { id: 'org-root', name: 'ACME 集团', parentId: null, sort: 0, enabled: true, tenantId: 'acme', createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
+      { id: 'org-acme', name: 'ACME 总部', parentId: 'org-root', sort: 1, enabled: true, tenantId: 'acme', createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
+      { id: 'org-tech', name: '技术部', parentId: 'org-root', sort: 2, enabled: true, tenantId: 'acme', createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
+    ]
+    render(<UserFormModal open mode="create" onSubmit={onSubmit} onCancel={() => {}} departmentTree={mockDepartmentTree} />)
     await user.type(screen.getByLabelText(/用户名/), 'new@acme')
     await user.type(screen.getByLabelText(/显示名/), '新建用户')
     await user.type(screen.getByLabelText(/邮箱/), 'new@acme.com')
-    await user.selectOptions(screen.getByLabelText(/组织/), 'org-acme')
+    await user.selectOptions(screen.getByLabelText(/部门/), 'org-acme')
     await user.click(screen.getByRole('button', { name: '保存' }))
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({
         username: 'new@acme',
-        orgId: 'org-acme',
+        departmentId: 'org-acme',
         roles: ['member'],
       }),
     )

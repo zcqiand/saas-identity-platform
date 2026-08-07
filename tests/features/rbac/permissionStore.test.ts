@@ -21,9 +21,9 @@ describe('permissionStore', () => {
     expect(s.loading).toBe(false)
   })
 
-  fnTest([...FIDS], 'fetchPermissions(orgId) 拉取权限集', async () => {
+  fnTest([...FIDS], 'fetchPermissions(tenantId) 拉取权限集', async () => {
     setToken('mock-token')
-    await usePermissionStore.getState().fetchPermissions('org-acme')
+    await usePermissionStore.getState().fetchPermissions('acme')
     const s = usePermissionStore.getState()
     expect(s.roles.length).toBeGreaterThan(0)
     expect(s.permissions.length).toBeGreaterThan(0)
@@ -31,19 +31,19 @@ describe('permissionStore', () => {
     expect(s.error).toBeNull()
   })
 
-  fnTest([...FIDS], 'fetchPermissions 不同 orgId 返回不同权限', async () => {
+  fnTest([...FIDS], 'fetchPermissions 不同 tenantId 返回不同权限', async () => {
     setToken('mock-token')
-    await usePermissionStore.getState().fetchPermissions('org-acme')
+    await usePermissionStore.getState().fetchPermissions('acme')
     const acmePerms = usePermissionStore.getState().permissions
-    await usePermissionStore.getState().fetchPermissions('org-globex')
-    const globexPerms = usePermissionStore.getState().permissions
-    expect(acmePerms).not.toEqual(globexPerms)
+    await usePermissionStore.getState().fetchPermissions('tenant-lab')
+    const labPerms = usePermissionStore.getState().permissions
+    expect(acmePerms).not.toEqual(labPerms)
   })
 
   fnTest([...FIDS], 'fetchPermissions 网络错误后 error 填充', async () => {
     server.use(http.get('*/auth/permissions', () => HttpResponse.error()))
     setToken('mock-token')
-    await usePermissionStore.getState().fetchPermissions('org-acme')
+    await usePermissionStore.getState().fetchPermissions('acme')
     const s = usePermissionStore.getState()
     expect(s.loading).toBe(false)
     expect(s.error).toBeTruthy()
@@ -51,7 +51,7 @@ describe('permissionStore', () => {
 
   fnTest([...FIDS], 'checkPermission 检查权限码', async () => {
     setToken('mock-token')
-    await usePermissionStore.getState().fetchPermissions('org-acme')
+    await usePermissionStore.getState().fetchPermissions('acme')
     const store = usePermissionStore.getState()
     // acme 应有 user:read
     expect(store.checkPermission('user:read')).toBe(true)
@@ -60,7 +60,7 @@ describe('permissionStore', () => {
 
   fnTest([...FIDS], 'clearPermissions 清空权限', async () => {
     setToken('mock-token')
-    await usePermissionStore.getState().fetchPermissions('org-acme')
+    await usePermissionStore.getState().fetchPermissions('acme')
     expect(usePermissionStore.getState().permissions.length).toBeGreaterThan(0)
     usePermissionStore.getState().clearPermissions()
     expect(usePermissionStore.getState().permissions).toEqual([])
@@ -70,7 +70,7 @@ describe('permissionStore', () => {
   fnTest([...FIDS], 'clearError 清除 error', async () => {
     server.use(http.get('*/auth/permissions', () => HttpResponse.error()))
     setToken('mock-token')
-    await usePermissionStore.getState().fetchPermissions('org-acme')
+    await usePermissionStore.getState().fetchPermissions('acme')
     expect(usePermissionStore.getState().error).toBeTruthy()
     usePermissionStore.getState().clearError()
     expect(usePermissionStore.getState().error).toBeNull()

@@ -12,7 +12,7 @@ describe('MSW tenant handlers', () => {
     expect(data.length).toBeGreaterThanOrEqual(2)
     const ids = data.map((t: { id: string }) => t.id).sort()
     expect(ids).toContain('acme')
-    expect(ids).toContain('globex')
+    expect(ids).toContain('tenant-lab')
   })
 
   fnTest(["M01.F01.I01","M01.F01.I08"], 'GET /tenants/:id 返回单个租户含 theme/config', async () => {

@@ -64,7 +64,7 @@ describe('TenantLayout', () => {
     unmount()
     clearTheme()
     useTenantStore.setState({ current: null, list: [], loading: false, error: null })
-    // 重新渲染到 globex
+    // 重新渲染到 tenant-lab
     const router = createMemoryRouter(
       [
         {
@@ -73,12 +73,13 @@ describe('TenantLayout', () => {
           children: [{ path: 'dashboard', element: <div>仪表盘内容</div> }],
         },
       ],
-      { initialEntries: ['/globex/dashboard'] },
+      { initialEntries: ['/tenant-lab/dashboard'] },
     )
     render(<RouterProvider router={router} />)
     await screen.findByText('仪表盘内容')
-    expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#059669')
-    expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('GLOBEX')
+    // acme 与 tenant-lab 的 primary 同为 #2563eb，改以 logoText 断言主题确实换了
+    expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#2563eb')
+    expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('LAB')
   })
 
   fnTest(["M01.F01.I08","M01.F01.I09"], '租户不存在时显示错误', async () => {
@@ -115,10 +116,10 @@ describe('TenantSwitcher', () => {
     )
     render(<RouterProvider router={router} />)
     await screen.findByText('仪表盘内容')
-    // 切换到 globex - 验证路由变化
-    await user.click(screen.getByRole('button', { name: /Globex/ }))
+    // 切换到 tenant-lab - 验证路由变化
+    await user.click(screen.getByRole('button', { name: /检测集团/ }))
     await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/globex/dashboard')
+      expect(router.state.location.pathname).toBe('/tenant-lab/dashboard')
     })
   })
 })

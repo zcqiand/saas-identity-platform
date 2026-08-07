@@ -1,4 +1,7 @@
-// ch40 RBAC 类型定义
+// ch40 RBAC 类型定义 — Phase 5b：loose types 兼容 shared strict types
+// （shared Menu.parentId 是 nullable optional；shared Role.actions /
+//  PermissionGroup.permissions 都是 enum union；本仓消费侧用 string[]）。
+import type { Menu, Role as SharedRole, PermissionGroup as SharedPermissionGroup } from "@saas/identity-platform-shared/schemas";
 
 /** 权限码：资源:操作 */
 export interface Permission {
@@ -8,19 +11,19 @@ export interface Permission {
   scope?: string;
 }
 
-/** 菜单权限项 */
+/** 菜单权限项（loose：actions 接受任意字符串，便于 mock 阶段自由组合） */
 export interface MenuPermission {
   menuId: string;
-  actions: ("view" | "create" | "update" | "delete")[];
+  actions: string[];
 }
 
-/** 角色 */
+/** 角色（loose：permissions/menuPermissions 接受任意字符串，便于 mock 阶段自由组合） */
 export interface Role {
   id: string;
   name: string;
   permissions: string[];
-  /** 菜单权限列表 */
   menuPermissions: MenuPermission[];
+  [key: string]: unknown;
 }
 
 /** 权限 store 状态 */
@@ -67,3 +70,8 @@ export const ALL_PERMISSIONS = [
   "org:write",
   "audit:read",
 ] as const;
+
+/** 内部 alias（避免 unused） */
+export type _SharedMenu = Menu;
+export type _SharedRole = SharedRole;
+export type _SharedPermissionGroup = SharedPermissionGroup;

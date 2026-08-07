@@ -7,27 +7,27 @@ import { fnTest } from '../../fn'
 
 beforeEach(() => {
   localStorage.clear()
-  useAuthStore.setState({ user: null, token: null, currentOrgId: null, status: 'idle', error: null })
+  useAuthStore.setState({ user: null, token: null, currentTenantId: null, status: 'idle', error: null })
   resetApiClient()
 })
 
 describe('authStore (SaaS 版)', () => {
-  fnTest(["M01.F03.I01"], '初始状态: user=null, token=null, currentOrgId=null, status=idle', () => {
+  fnTest(["M01.F03.I01"], '初始状态: user=null, token=null, currentTenantId=null, status=idle', () => {
     const s = useAuthStore.getState()
     expect(s.user).toBeNull()
     expect(s.token).toBeNull()
-    expect(s.currentOrgId).toBeNull()
+    expect(s.currentTenantId).toBeNull()
     expect(s.status).toBe('idle')
     expect(s.error).toBeNull()
   })
 
-  fnTest(["M01.F03.I01"], 'handleOAuthCallback 成功后设置 user/token/currentOrgId', async () => {
+  fnTest(["M01.F03.I01"], 'handleOAuthCallback 成功后设置 user/token/currentTenantId', async () => {
     await useAuthStore.getState().handleOAuthCallback('mock-auth-code', 'sso')
     const s = useAuthStore.getState()
     expect(s.status).toBe('authenticated')
     expect(s.user?.username).toBe('admin@acme')
     expect(s.token).toBeTruthy()
-    expect(s.currentOrgId).toBe('org-acme')
+    expect(s.currentTenantId).toBe('acme')
     expect(s.error).toBeNull()
   })
 
@@ -44,11 +44,11 @@ describe('authStore (SaaS 版)', () => {
     expect(s.user).toBeNull()
   })
 
-  fnTest(["M01.F03.I01"], 'switchOrg 切换组织后 currentOrgId 更新', async () => {
+  fnTest(["M01.F03.I01"], 'switchTenant 切换租户后 currentTenantId 更新', async () => {
     await useAuthStore.getState().handleOAuthCallback('mock-auth-code', 'sso')
-    expect(useAuthStore.getState().currentOrgId).toBe('org-acme')
-    await useAuthStore.getState().switchOrg('org-globex')
-    expect(useAuthStore.getState().currentOrgId).toBe('org-globex')
+    expect(useAuthStore.getState().currentTenantId).toBe('acme')
+    await useAuthStore.getState().switchTenant('tenant-lab')
+    expect(useAuthStore.getState().currentTenantId).toBe('tenant-lab')
   })
 
   fnTest(["M01.F03.I01"], 'logout 清空所有状态', async () => {
@@ -57,7 +57,7 @@ describe('authStore (SaaS 版)', () => {
     const s = useAuthStore.getState()
     expect(s.user).toBeNull()
     expect(s.token).toBeNull()
-    expect(s.currentOrgId).toBeNull()
+    expect(s.currentTenantId).toBeNull()
     expect(s.status).toBe('idle')
     expect(s.error).toBeNull()
   })

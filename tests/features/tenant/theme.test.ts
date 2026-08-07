@@ -18,7 +18,7 @@ describe('theme 主题变量应用', () => {
   })
 
   fnTest(["M01.F02.I01","M01.F02.I02"], 'clearTheme 清除所有租户 CSS 变量', () => {
-    const theme: ThemeConfig = { primary: '#059669', sidebar: '#064e3b', logoText: 'GLOBEX' }
+    const theme: ThemeConfig = { primary: '#059669', sidebar: '#064e3b', logoText: 'LAB' }
     applyTheme(theme)
     expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#059669')
     clearTheme()
@@ -30,8 +30,8 @@ describe('theme 主题变量应用', () => {
   fnTest(["M01.F02.I01","M01.F02.I02"], 'applyTheme 覆盖旧主题（切换租户）', () => {
     applyTheme({ primary: '#2563eb', sidebar: '#1e293b', logoText: 'ACME' })
     expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#2563eb')
-    applyTheme({ primary: '#059669', sidebar: '#064e3b', logoText: 'GLOBEX' })
+    applyTheme({ primary: '#059669', sidebar: '#064e3b', logoText: 'LAB' })
     expect(document.documentElement.style.getPropertyValue('--tenant-primary')).toBe('#059669')
-    expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('GLOBEX')
+    expect(document.documentElement.style.getPropertyValue('--tenant-logo-text')).toBe('LAB')
   })
 })

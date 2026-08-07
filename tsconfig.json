@@ -20,7 +20,8 @@
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@saas/identity-platform-shared/*": ["../saas-identity-platform-shared/*"]
     }
   },
   "include": ["src", "tests", "msw"]

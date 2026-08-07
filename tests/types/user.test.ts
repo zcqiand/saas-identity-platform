@@ -3,7 +3,7 @@ import type {
   User,
   UserRole,
   UserStatus,
-  OrgNode,
+  DepartmentNode,
   AuditLog,
   AuditAction,
   UserQuery,
@@ -24,9 +24,11 @@ describe('types/user', () => {
       username: 'admin@acme',
       displayName: '管理员',
       email: 'admin@acme.com',
-      orgId: 'org-acme',
+      tenantId: 'acme',
+      departmentId: 'org-acme',
       roles: ['admin'],
       status: 'active',
+      enabled: true,
       createdAt: '2026-01-01T00:00:00Z',
       updatedAt: '2026-01-01T00:00:00Z',
     }
@@ -35,8 +37,8 @@ describe('types/user', () => {
     expect(user.status).toBe('active')
   })
 
-  it('OrgNode 树形结构可构造', () => {
-    const org: OrgNode = {
+  it('DepartmentNode 树形结构可构造', () => {
+    const department: DepartmentNode = {
       id: 'org-root',
       name: 'ACME 集团',
       children: [
@@ -48,8 +50,8 @@ describe('types/user', () => {
         { id: 'org-sales', name: '销售部' },
       ],
     }
-    expect(org.children).toHaveLength(2)
-    expect(org.children?.[0].children?.[0].name).toBe('前端组')
+    expect(department.children).toHaveLength(2)
+    expect(department.children?.[0].children?.[0].name).toBe('前端组')
   })
 
   it('AuditAction 联合类型', () => {

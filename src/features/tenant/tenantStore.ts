@@ -1,6 +1,8 @@
 import { create } from "zustand";
-import type { TenantState, TenantConfig, TenantCreateInput } from "../../types/tenant";
+import type { TenantState, TenantCreateInput } from "../../types/tenant";
+import { toTenantConfig } from "../../types/tenant";
 import { apiClient } from "../../api/client";
+import type { Tenant as SharedTenant } from "@saas/identity-platform-shared/schemas";
 
 interface TenantActions {
   fetchTenants: (keyword?: string) => Promise<void>;
@@ -34,8 +36,8 @@ export const useTenantStore = create<TenantStore>()((set, get) => ({
     try {
       const params: Record<string, string> = {};
       if (keyword) params.keyword = keyword;
-      const res = await apiClient.get<TenantConfig[]>("/tenants", { params });
-      set({ list: res.data, loading: false, error: null });
+      const res = await apiClient.get<SharedTenant[]>("/tenants", { params });
+      set({ list: res.data.map(toTenantConfig), loading: false, error: null });
     } catch (err) {
       set({ loading: false, error: extractErrorMessage(err) });
     }
@@ -44,8 +46,8 @@ export const useTenantStore = create<TenantStore>()((set, get) => ({
   fetchTenant: async (id) => {
     set({ loading: true, error: null });
     try {
-      const res = await apiClient.get<TenantConfig>(`/tenants/${id}`);
-      set({ current: res.data, loading: false, error: null });
+      const res = await apiClient.get<SharedTenant>(`/tenants/${id}`);
+      set({ current: toTenantConfig(res.data), loading: false, error: null });
     } catch (err) {
       set({ current: null, loading: false, error: extractErrorMessage(err) });
     }
@@ -54,8 +56,8 @@ export const useTenantStore = create<TenantStore>()((set, get) => ({
   createTenant: async (input) => {
     set({ loading: true, error: null });
     try {
-      const res = await apiClient.post<TenantConfig>("/tenants", input);
-      set({ list: [res.data, ...get().list], loading: false, error: null });
+      const res = await apiClient.post<SharedTenant>("/tenants", input);
+      set({ list: [toTenantConfig(res.data), ...get().list], loading: false, error: null });
     } catch (err) {
       set({ loading: false, error: extractErrorMessage(err) });
     }

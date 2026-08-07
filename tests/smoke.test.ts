@@ -9,13 +9,13 @@ describe('scaffold smoke', () => {
     expect(Array.isArray(handlers)).toBe(true)
   })
 
-  it('mock 租户库默认含 acme 与 globex 两个租户（以及更多）', () => {
+  it('mock 租户库默认含 acme 与 tenant-lab 两个租户', () => {
     resetMockDb()
     const tenants = listTenants()
     expect(tenants.length).toBeGreaterThanOrEqual(2)
     const ids = tenants.map((t) => t.id).sort()
     expect(ids).toContain('acme')
-    expect(ids).toContain('globex')
+    expect(ids).toContain('tenant-lab')
   })
 
   it('findTenant 按 id 查找租户', () => {

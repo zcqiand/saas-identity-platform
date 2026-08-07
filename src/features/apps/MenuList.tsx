@@ -207,7 +207,7 @@ export function MenuList() {
 
   const handleEdit = (menu: MenuItem) => {
     setEditTarget(menu);
-    setParentId(menu.parentId);
+    setParentId(menu.parentId ?? null);
     setFormOpen(true);
   };
 

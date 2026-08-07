@@ -33,7 +33,7 @@ describe('TenantList', () => {
   fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], 'mount 后拉取租户列表', async () => {
     render(<RouterProvider router={makeRouter()} />)
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
-    expect(screen.getByText('Globex 科技')).toBeInTheDocument()
+    expect(screen.getByText('中国建筑工程检测集团')).toBeInTheDocument()
   })
 
   fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '新建租户流程', async () => {
@@ -64,15 +64,15 @@ describe('TenantList', () => {
   fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '删除租户流程', async () => {
     const user = userEvent.setup()
     render(<RouterProvider router={makeRouter()} />)
-    await waitFor(() => expect(screen.getByText('Globex 科技')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText('中国建筑工程检测集团')).toBeInTheDocument())
 
-    const globexRow = screen.getByText('Globex 科技').closest('tr')!
-    await user.click(within(globexRow).getByRole('button', { name: '删除' }))
+    const labRow = screen.getByText('中国建筑工程检测集团').closest('tr')!
+    await user.click(within(labRow).getByRole('button', { name: '删除' }))
 
     expect(screen.getByText('删除确认')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: '确认' }))
 
-    await waitFor(() => expect(screen.queryByText('Globex 科技')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('中国建筑工程检测集团')).not.toBeInTheDocument())
     expect(screen.getByText('ACME 集团')).toBeInTheDocument()
   })
 
@@ -85,7 +85,7 @@ describe('TenantList', () => {
     await user.click(screen.getByRole('button', { name: '搜索' }))
 
     await waitFor(() => expect(screen.getByText('ACME 集团')).toBeInTheDocument())
-    expect(screen.queryByText('Globex 科技')).not.toBeInTheDocument()
+    expect(screen.queryByText('中国建筑工程检测集团')).not.toBeInTheDocument()
   })
 
   fnTest(["M01.F01.I01","M01.F01.I02","M01.F01.I03","M01.F01.I04","M01.F01.I05"], '列表为空时渲染"暂无数据"', async () => {

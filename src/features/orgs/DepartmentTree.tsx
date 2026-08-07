@@ -1,17 +1,27 @@
 import { useEffect, useState } from "react";
-import { useOrgStore } from "./orgStore";
+import { useDepartmentStore } from "./departmentStore";
 import { ConfirmModal } from "../../components/ConfirmModal";
-import type { OrgNode } from "../../types/user";
+import type { DepartmentNode } from "../../types/user";
+import type { Department as SharedDepartment } from "@saas/identity-platform-shared/schemas";
+
+// Phase 5b：扁平 Department[]（parentId 自引用）。
+// 本组件遍历扁平数组，对每个 Department 递归找子节点并就地渲染。
+// 数据层 seeds/departments.json 是扁平 DepartmentSchema；React 仓消费时按需
+// 递归 transform 为 DepartmentNode 树。
 
 interface TreeNodeProps {
-  node: OrgNode;
+  node: SharedDepartment;
   depth: number;
   expandedSet: Set<string>;
   onToggle: (id: string) => void;
   onAddChild: (parentId: string) => void;
-  onEdit: (node: OrgNode) => void;
-  onDelete: (node: OrgNode) => void;
-  onSelect?: (node: OrgNode) => void;
+  onEdit: (node: SharedDepartment) => void;
+  onDelete: (node: SharedDepartment) => void;
+  onSelect?: (node: SharedDepartment) => void;
+  /** 是否根（用于「是否显示删除按钮」） */
+  isRoot: boolean;
+  /** 全部部门（递归找子节点用） */
+  allDepartments: SharedDepartment[];
 }
 
 function TreeNode({
@@ -23,8 +33,11 @@ function TreeNode({
   onEdit,
   onDelete,
   onSelect,
+  isRoot,
+  allDepartments,
 }: TreeNodeProps) {
-  const hasChildren = !!node.children?.length;
+  const children = allDepartments.filter((d) => d.parentId === node.id);
+  const hasChildren = children.length > 0;
   const isExpanded = expandedSet.has(node.id);
 
   const handleClick = () => {
@@ -78,7 +91,7 @@ function TreeNode({
           >
             编辑
           </button>
-          {node.id !== "org-root" && (
+          {!isRoot && (
             <button
               data-fn="M02.F01.I06"
               onClick={(e) => {
@@ -95,7 +108,7 @@ function TreeNode({
       </div>
       {hasChildren && isExpanded && (
         <ul>
-          {node.children!.map((child) => (
+          {children.map((child) => (
             <TreeNode
               key={child.id}
               node={child}
@@ -106,6 +119,8 @@ function TreeNode({
               onEdit={onEdit}
               onDelete={onDelete}
               onSelect={onSelect}
+              isRoot={false}
+              allDepartments={allDepartments}
             />
           ))}
         </ul>
@@ -114,27 +129,27 @@ function TreeNode({
   );
 }
 
-interface OrgFormValues {
+interface DepartmentFormValues {
   name: string;
 }
 
-interface OrgFormModalProps {
+interface DepartmentFormModalProps {
   open: boolean;
   title: string;
   initialName?: string;
-  onSubmit: (values: OrgFormValues) => void;
+  onSubmit: (values: DepartmentFormValues) => void;
   onCancel: () => void;
   loading?: boolean;
 }
 
-function OrgFormModal({
+function DepartmentFormModal({
   open,
   title,
   initialName = "",
   onSubmit,
   onCancel,
   loading,
-}: OrgFormModalProps) {
+}: DepartmentFormModalProps) {
   const [name, setName] = useState(initialName);
 
   useEffect(() => {
@@ -185,22 +200,22 @@ function OrgFormModal({
   );
 }
 
-interface OrgTreeProps {
-  onSelect?: (node: OrgNode) => void;
+interface DepartmentTreeProps {
+  onSelect?: (node: DepartmentNode) => void;
 }
 
-export function OrgTree({ onSelect }: OrgTreeProps = {}) {
+export function DepartmentTree({ onSelect }: DepartmentTreeProps = {}) {
   const {
     tree,
     loading,
     error,
-    fetchOrgTree,
-    createOrgNode,
-    updateOrgNode,
-    deleteOrgNode,
-  } = useOrgStore();
+    fetchDepartmentTree,
+    createDepartmentNode,
+    updateDepartmentNode,
+    deleteDepartmentNode,
+  } = useDepartmentStore();
 
-  const [expandedSet, setExpandedSet] = useState<Set<string>>(new Set(["org-root"]));
+  const [expandedSet, setExpandedSet] = useState<Set<string>>(new Set());
   const [formOpen, setFormOpen] = useState(false);
   const [formTitle, setFormTitle] = useState("新增部门");
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
@@ -208,18 +223,27 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
   const [formNodeId, setFormNodeId] = useState<string | null>(null);
   const [formName, setFormName] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<OrgNode | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<SharedDepartment | null>(null);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    fetchOrgTree();
-  }, [fetchOrgTree]);
+    fetchDepartmentTree();
+  }, [fetchDepartmentTree]);
 
-  // 初始化展开状态（根 + 一级）
+  // 初始化展开（所有根 + 一级子）
   useEffect(() => {
-    if (!tree) return;
-    const initial = new Set<string>(["org-root"]);
-    tree.children?.forEach((c) => initial.add(c.id));
+    if (!tree || tree.length === 0) return;
+    const initial = new Set<string>();
+    for (const d of tree) {
+      if (d.parentId === null) initial.add(d.id);
+    }
+    for (const d of tree) {
+      const parentId = d.parentId;
+      if (parentId !== null && parentId !== undefined) {
+        const root = tree.find((r) => r.id === parentId);
+        if (root && root.parentId === null) initial.add(parentId);
+      }
+    }
     setExpandedSet(initial);
   }, [tree]);
 
@@ -241,7 +265,7 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
     setFormOpen(true);
   };
 
-  const openEdit = (node: OrgNode) => {
+  const openEdit = (node: SharedDepartment) => {
     setFormMode("edit");
     setFormNodeId(node.id);
     setFormParentId(null);
@@ -250,13 +274,13 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
     setFormOpen(true);
   };
 
-  const handleFormSubmit = async (values: OrgFormValues) => {
+  const handleFormSubmit = async (values: DepartmentFormValues) => {
     setSubmitting(true);
     try {
       if (formMode === "create" && formParentId) {
-        await createOrgNode(values.name, formParentId);
+        await createDepartmentNode(values.name, formParentId);
       } else if (formMode === "edit" && formNodeId) {
-        await updateOrgNode(formNodeId, values.name);
+        await updateDepartmentNode(formNodeId, values.name);
       }
       setFormOpen(false);
     } finally {
@@ -268,14 +292,18 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
     if (!deleteTarget) return;
     setDeleting(true);
     try {
-      await deleteOrgNode(deleteTarget.id);
+      await deleteDepartmentNode(deleteTarget.id);
       setDeleteTarget(null);
     } finally {
       setDeleting(false);
     }
   };
 
-  if (loading && !tree) {
+  // 把 tree 通过 props drilling 传给递归组件
+  const allDepartments = tree ?? [];
+  const roots = (tree ?? []).filter((d) => d.parentId === null);
+
+  if (loading && (!tree || tree.length === 0)) {
     return <div className="text-gray-400 text-sm p-4">加载组织架构...</div>;
   }
 
@@ -284,13 +312,15 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
       <span data-fn="M02.F01.I02" style={{ display: "none" }} aria-hidden="true" />
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">组织管理</h2>
-        <button
-          data-fn="M02.F01.I03"
-          onClick={() => openCreate("org-root")}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
-        >
-          新增根部门
-        </button>
+        {roots.length > 0 && (
+          <button
+            data-fn="M02.F01.I03"
+            onClick={() => openCreate(roots[0].id)}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+          >
+            新增根部门
+          </button>
+        )}
       </div>
 
       {error && (
@@ -300,20 +330,25 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
       )}
 
       <div className="bg-white rounded shadow overflow-hidden">
-        {tree ? (
+        {roots.length > 0 ? (
           <div className="p-4">
             <h3 className="text-sm font-medium text-gray-700 mb-2">组织架构</h3>
             <ul>
-              <TreeNode
-                node={tree}
-                depth={0}
-                expandedSet={expandedSet}
-                onToggle={toggleExpand}
-                onAddChild={openCreate}
-                onEdit={openEdit}
-                onDelete={setDeleteTarget}
-                onSelect={onSelect}
-              />
+              {roots.map((root) => (
+                <TreeNode
+                  key={root.id}
+                  node={root}
+                  depth={0}
+                  expandedSet={expandedSet}
+                  onToggle={toggleExpand}
+                  onAddChild={openCreate}
+                  onEdit={openEdit}
+                  onDelete={setDeleteTarget}
+                  onSelect={onSelect as (node: SharedDepartment) => void}
+                  isRoot={true}
+                  allDepartments={allDepartments}
+                />
+              ))}
             </ul>
           </div>
         ) : (
@@ -321,7 +356,7 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
         )}
       </div>
 
-      <OrgFormModal
+      <DepartmentFormModal
         open={formOpen}
         title={formTitle}
         initialName={formName}
@@ -335,7 +370,7 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
         title="删除确认"
         message={
           deleteTarget
-            ? `确定删除部门「${deleteTarget.name}」？${deleteTarget.children?.length ? "该部门有子部门，将一并删除。" : ""}此操作不可撤销。`
+            ? `确定删除部门「${deleteTarget.name}」？该部门的子部门将升级为根部门。此操作不可撤销。`
             : ""
         }
         loading={deleting}
@@ -346,4 +381,4 @@ export function OrgTree({ onSelect }: OrgTreeProps = {}) {
   );
 }
 
-export default OrgTree;
+export default DepartmentTree;

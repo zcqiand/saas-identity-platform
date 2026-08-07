@@ -117,7 +117,7 @@ export const handlers = [
       const labToken = signJwt({
         sub: 'u-lab-admin',
         username: 'labadmin',
-        orgId: 'org-lab-root',
+        departmentId: 'org-lab-root',
         tenantId: 'tenant-lab',
         appId: 'app-lab',
         roles: ['labadmin'],
@@ -129,7 +129,7 @@ export const handlers = [
           id: 'u-lab-admin',
           username: 'labadmin',
           displayName: '实验室管理员',
-          orgId: 'org-lab-root',
+          departmentId: 'org-lab-root',
           tenantId: 'tenant-lab',
         },
       })
@@ -138,7 +138,8 @@ export const handlers = [
     const token = signJwt({
       sub: 'u-001',
       username: 'admin@acme',
-      orgId: 'org-acme',
+      departmentId: 'org-acme',
+      tenantId: 'acme',
       roles: ['admin'],
       permissions: ['user:read', 'user:create', 'user:delete', 'org:read', 'org:write'],
     })
@@ -148,22 +149,23 @@ export const handlers = [
         id: 'u-001',
         username: 'admin@acme',
         displayName: 'SaaS 管理员',
-        orgId: 'org-acme',
+        departmentId: 'org-acme',
+        tenantId: 'acme',
       },
     })
   }),
 
-  // —— ch40：按组织返回权限集 ——
+  // —— ch40：按租户返回权限集（v0.3.0 起从 orgId 改名为 tenantId）——
   http.get('*/auth/permissions', ({ request }) => {
     const auth = request.headers.get('Authorization')
     if (!auth || !auth.startsWith('Bearer ')) {
       return HttpResponse.json({ message: '未授权' }, { status: 401 })
     }
     const url = new URL(request.url)
-    const orgId = url.searchParams.get('orgId') ?? 'org-acme'
+    const tenantId = url.searchParams.get('tenantId') ?? 'acme'
 
-    // lab 集成：机构=租户=根组织 org-lab-root，走既有 orgId 机制
-    if (orgId === 'org-lab-root') {
+    // lab 集成：机构=租户=tenant-lab
+    if (tenantId === 'tenant-lab') {
       const labRoles = rolesByTenant('tenant-lab')
       const labPerms = Array.from(new Set(labRoles.flatMap((r) => r.permissions)))
       return HttpResponse.json({ roles: labRoles, permissions: labPerms })
@@ -172,11 +174,8 @@ export const handlers = [
     const acmeRoles: Role[] = [
       { id: 'role-admin', name: 'admin', permissions: ['user:read', 'user:create', 'user:update', 'user:delete', 'org:read', 'org:write'], menuPermissions: [] },
     ]
-    const globexRoles: Role[] = [
-      { id: 'role-viewer', name: 'viewer', permissions: ['user:read', 'org:read'], menuPermissions: [] },
-    ]
 
-    const roles = orgId === 'org-globex' ? globexRoles : acmeRoles
+    const roles = acmeRoles
     const permissions = roles.flatMap((r) => r.permissions)
     return HttpResponse.json({ roles, permissions })
   }),
@@ -197,12 +196,13 @@ export const handlers = [
         id: payload.sub,
         username: payload.username,
         displayName: 'SaaS 管理员',
-        orgId: payload.orgId,
+        departmentId: payload.departmentId,
+        tenantId: payload.tenantId,
       },
     })
   }),
 
-  // —— ch41：users CRUD ——
+  // —— ch41：users CRUD（v0.3.0 起 orgId 改名为 departmentId）——
   http.get('*/users', ({ request }) => {
     const url = new URL(request.url)
     const result = queryUsers({
@@ -211,23 +211,25 @@ export const handlers = [
       keyword: url.searchParams.get('keyword') ?? undefined,
       role: url.searchParams.get('role') ?? undefined,
       status: url.searchParams.get('status') ?? undefined,
-      orgId: url.searchParams.get('orgId') ?? undefined,
+      departmentId: url.searchParams.get('departmentId') ?? undefined,
     })
     return HttpResponse.json(result)
   }),
 
   http.post('*/users', async ({ request }) => {
     const body = (await request.json()) as Partial<UserCreateInput>
-    if (!body.username || !body.displayName || !body.email || !body.orgId || !body.roles) {
-      return HttpResponse.json({ message: 'username/displayName/email/orgId/roles 必填' }, { status: 400 })
+    if (!body.username || !body.displayName || !body.email || !body.roles) {
+      return HttpResponse.json({ message: 'username/displayName/email/roles 必填' }, { status: 400 })
     }
     const created = insertUser({
       username: body.username,
       displayName: body.displayName,
       email: body.email,
-      orgId: body.orgId,
-      roles: body.roles,
+      departmentId: body.departmentId ?? null,
+      roles: body.roles as ("admin" | "viewer" | "manager" | "auditor" | "operator" | "member" | "helpdesk" | "owner" | "role-lab-admin" | "role-lab-tech")[],
       status: body.status ?? 'active',
+      tenantId: (body as { tenantId?: string }).tenantId ?? "acme",
+      enabled: true,
     })
     return HttpResponse.json(created as User, { status: 201 })
   }),
@@ -252,31 +254,35 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 })
   }),
 
-  // —— ch41：orgs 组织树 ——
+  // —— ch41/ch43：orgs 部门（v0.3.0 起扁平 Department[]）——
   http.get('*/orgs', ({ request }) => {
     const url = new URL(request.url)
-    const orgId = url.searchParams.get('orgId')
-    if (orgId) {
-      const sub = findOrgNode(orgId)
-      if (!sub) return HttpResponse.json({ message: '组织不存在' }, { status: 404 })
+    const departmentId = url.searchParams.get('departmentId')
+    if (departmentId) {
+      const sub = findOrgNode(departmentId)
+      if (!sub) return HttpResponse.json({ message: '部门不存在' }, { status: 404 })
       return HttpResponse.json(sub)
     }
     return HttpResponse.json(getOrgTree())
   }),
 
-  // —— ch43：orgs 组织树 CRUD ——
+  // —— ch43：部门 CRUD ——
   http.post('*/orgs', async ({ request }) => {
-    const body = (await request.json()) as { parentId: string; name: string }
-    if (!body.parentId || !body.name) {
-      return HttpResponse.json({ message: 'parentId 和 name 必填' }, { status: 400 })
+    const body = (await request.json()) as { parentId?: string; name: string }
+    if (!body.name) {
+      return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
     }
-    const created = insertOrgNode(body.parentId, body.name)
+    const parentId = body.parentId ?? 'org-root'
+    const created = insertOrgNode(parentId, body.name)
     if (!created) return HttpResponse.json({ message: '父节点不存在' }, { status: 404 })
     return HttpResponse.json(created, { status: 201 })
   }),
 
   http.put('*/orgs/:id', async ({ params, request }) => {
     const body = (await request.json()) as { name: string }
+    if (!body.name) {
+      return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
+    }
     const updated = updateOrgNodeRecord(String(params.id), body.name)
     if (!updated) return HttpResponse.json({ message: '节点不存在' }, { status: 404 })
     return HttpResponse.json(updated)
@@ -284,7 +290,9 @@ export const handlers = [
 
   http.delete('*/orgs/:id', ({ params }) => {
     const id = String(params.id)
-    if (id === 'org-root') return HttpResponse.json({ message: '根节点不可删除' }, { status: 400 })
+    if (id === 'org-root') {
+      return HttpResponse.json({ message: '根节点不可删除' }, { status: 400 })
+    }
     const ok = deleteOrgNodeRecord(id)
     if (!ok) return HttpResponse.json({ message: '节点不存在' }, { status: 404 })
     return new HttpResponse(null, { status: 204 })
@@ -378,39 +386,6 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 })
   }),
 
-  // —— ch43：组织架构维护——
-  http.post('*/orgs', async ({ request }) => {
-    const body = (await request.json()) as { name: string; parentId?: string }
-    if (!body.name) {
-      return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
-    }
-    const parentId = body.parentId ?? 'org-root'
-    const created = insertOrgNode(parentId, body.name)
-    if (!created) return HttpResponse.json({ message: '父节点不存在' }, { status: 404 })
-    return HttpResponse.json(created, { status: 201 })
-  }),
-
-  http.put('*/orgs/:id', async ({ params, request }) => {
-    const id = String(params.id)
-    const body = (await request.json()) as { name: string }
-    if (!body.name) {
-      return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
-    }
-    const updated = updateOrgNodeRecord(id, body.name)
-    if (!updated) return HttpResponse.json({ message: '节点不存在' }, { status: 404 })
-    return HttpResponse.json(updated)
-  }),
-
-  http.delete('*/orgs/:id', ({ params }) => {
-    const id = String(params.id)
-    if (id === 'org-root') {
-      return HttpResponse.json({ message: '根节点不可删除' }, { status: 400 })
-    }
-    const ok = deleteOrgNodeRecord(id)
-    if (!ok) return HttpResponse.json({ message: '节点不存在' }, { status: 404 })
-    return new HttpResponse(null, { status: 204 })
-  }),
-
   // —— ch44：应用管理 CRUD ——
   http.get('*/apps', ({ request }) => {
     const url = new URL(request.url)
@@ -443,6 +418,7 @@ export const handlers = [
       theme: body.theme ?? '#6366f1',
       sort: body.sort ?? 99,
       enabled: body.enabled ?? true,
+      type: 'web',
     })
     return HttpResponse.json(created, { status: 201 })
   }),
@@ -535,7 +511,7 @@ export const handlers = [
   http.post('*/positions', async ({ request }) => {
     const body = (await request.json()) as { name: string; code: string; description?: string; sort?: number; enabled?: boolean }
     if (!body.name || !body.code) return HttpResponse.json({ message: 'name 和 code 必填' }, { status: 400 })
-    return HttpResponse.json(insertPosition({ name: body.name, code: body.code, description: body.description, sort: body.sort ?? 99, enabled: body.enabled ?? true }), { status: 201 })
+    return HttpResponse.json(insertPosition({ name: body.name, code: body.code, description: body.description, sort: body.sort ?? 99, enabled: body.enabled ?? true, tenantId: 'acme' }), { status: 201 })
   }),
   http.put('*/positions/:id', async ({ params, request }) => {
     const updated = updatePositionRecord(String(params.id), await request.json() as Record<string, unknown>)
@@ -552,7 +528,7 @@ export const handlers = [
   http.post('*/user-groups', async ({ request }) => {
     const body = (await request.json()) as { name: string; description?: string; enabled?: boolean }
     if (!body.name) return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
-    return HttpResponse.json(insertUserGroup({ name: body.name, description: body.description, enabled: body.enabled ?? true }), { status: 201 })
+    return HttpResponse.json(insertUserGroup({ name: body.name, description: body.description, enabled: body.enabled ?? true, tenantId: 'acme' }), { status: 201 })
   }),
   http.put('*/user-groups/:id', async ({ params, request }) => {
     const updated = updateUserGroupRecord(String(params.id), await request.json() as Record<string, unknown>)
@@ -569,7 +545,7 @@ export const handlers = [
   http.post('*/permission-groups', async ({ request }) => {
     const body = (await request.json()) as { name: string; description?: string; permissions?: string[]; menuIds?: string[]; sort?: number; enabled?: boolean }
     if (!body.name) return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
-    return HttpResponse.json(insertPermissionGroup({ name: body.name, description: body.description, permissions: body.permissions ?? [], menuIds: body.menuIds ?? [], sort: body.sort ?? 99, enabled: body.enabled ?? true }), { status: 201 })
+    return HttpResponse.json(insertPermissionGroup({ name: body.name, description: body.description, permissions: (body.permissions ?? []) as never, menuIds: body.menuIds ?? [], sort: body.sort ?? 99, enabled: body.enabled ?? true, appId: 'app-lab' }), { status: 201 })
   }),
   http.put('*/permission-groups/:id', async ({ params, request }) => {
     const updated = updatePermissionGroupRecord(String(params.id), await request.json() as Record<string, unknown>)
@@ -614,7 +590,7 @@ export const handlers = [
   http.post('*/api-keys', async ({ request }) => {
     const body = (await request.json()) as { name: string; scopes?: string[]; expiresAt?: string; enabled?: boolean }
     if (!body.name) return HttpResponse.json({ message: 'name 必填' }, { status: 400 })
-    return HttpResponse.json(createApiKey({ name: body.name, scopes: body.scopes ?? ['read'], expiresAt: body.expiresAt, enabled: body.enabled ?? true }), { status: 201 })
+    return HttpResponse.json(createApiKey({ name: body.name, scopes: (body.scopes ?? ['read']) as ("admin" | "read" | "write")[], expiresAt: body.expiresAt, enabled: body.enabled ?? true, appId: 'app-lab' }), { status: 201 })
   }),
   http.put('*/api-keys/:id', async ({ params, request }) => {
     const updated = updateApiKeyRecord(String(params.id), await request.json() as Record<string, unknown>)

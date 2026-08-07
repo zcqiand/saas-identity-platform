@@ -83,9 +83,10 @@ function FormModal({ open, initial, onSubmit, onCancel, loading }: FormModalProp
                 scopes: scopes
                   .split(",")
                   .map((s) => s.trim())
-                  .filter(Boolean),
+                  .filter(Boolean) as ("admin" | "read" | "write")[],
                 expiresAt: expiresAt || undefined,
                 enabled,
+                appId: "app-lab",
               })
             }
             className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50"
